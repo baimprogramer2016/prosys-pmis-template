@@ -1,0 +1,47 @@
+1. Add Setting Master Schedule ->Done
+2. Edit Setting Master Schedule ->Done
+3. Delete Setting Master Schedule ->Done
+4. Table Master Schedule -> Done
+5. Gantt Chart Schedule -> Done
+6. Upload Surat -> Done
+7. Daftar Surat -> Done
+8. Update Status Surat -> Done
+9. Download Surat ->Download
+10. Delete Surat  -> Done
+11. Dashboard menampilkan Pie Surat -> Done
+12 Filter pada Pie Chart -> Done
+13. File Management -> Done
+14. Document Engineering Upload -> Done
+15. Document Engineering Check (Check,Download, Edit, History Revisi, Delete, Share) ->done
+16. Document Engineering Review (Review,Download, Edit, History Revisi, Delete, Share) ->done
+17. Document Engineering Approve (Review,Download, Edit, History Revisi, Delete, Share) ->done
+18. Document Engineering Basic Design (Download, Edit, History Revisi, Delete, Share)  ->done
+19. Document Engineering DED (Download, Edit, History Revisi, Delete, Share)  ->done
+20. Document Engineering MDR (Download, Edit, History Revisi, Delete, Share)  ->done
+21. Document Engineering Extension dan size berdarkan filenya ->Done
+21  Chart Document Engineering di Dashboard
+22. Schedule Management hanya Upload Document Schedule (Download, Edit, Delete, Share)  ->done
+
+23. Schedule Management input planned dan actual ->Done
+24  Schedule Management Progress menampilkan  barchart dari inputan sumber scurve , ada filter tanggal dan total masing2 plane dan actual ->Done
+25. Schedule Management S-curve + Filter ->Done
+26. Report Daily -> Done
+27. Report Weekly -> Done
+28. Report Monthly -> Done
+29. S-Curve di dahsboard -> Done
+30. SOP - > Document Number, Description, tanggal upload, author  (Download, Edit, History Revisi, Delete, Share) ->Done
+31. Construction Upload ikutin enginer
+32. Construction Document ikutin enginer
+33. Construction Field instruction ikutin enginer
+34. Koresponden Upload, Parameternya lihat excel, category (Site Instruction, Daily, Weekly dan Monthly report) ->Done
+35. Koresponden Surat masuk (description, doc_no,typeofdocument, date,from) ->Done
+36. Koresponden Surat Keluar (description,doc_no,date,recipient,attn,hardcopy, email) -> Done
+37. Notif Email
+38. Role Persmission
+
+
+
+Tampilan hanya  2 Bar 
+Size 
+
+Global = Doc no, title, description
