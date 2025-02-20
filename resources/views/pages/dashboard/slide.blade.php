@@ -273,6 +273,7 @@
     <!-- Swiper JS -->
   
     <script>
+      window.addEventListener("load", function () {
         var swiper = new Swiper('.swiper-container', {
             effect: 'coverflow',
             grabCursor: true,
@@ -298,6 +299,7 @@
                 prevEl: '.swiper-button-prev',
             },
         });
+      })
     </script>
 
 @endpush

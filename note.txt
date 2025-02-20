@@ -19,7 +19,7 @@
 19. Document Engineering DED (Download, Edit, History Revisi, Delete, Share)  ->done
 20. Document Engineering MDR (Download, Edit, History Revisi, Delete, Share)  ->done
 21. Document Engineering Extension dan size berdarkan filenya ->Done
-21  Chart Document Engineering di Dashboard
+21  Buat Dashboard yang banyak
 22. Schedule Management hanya Upload Document Schedule (Download, Edit, Delete, Share)  ->done
 
 23. Schedule Management input planned dan actual ->Done
@@ -50,11 +50,9 @@
 48. Title di Engineering ->Done
 49. Buat Custom Report
 
-Nama Tools PMIS Prosys
 
-
-pmispros_pmis
-aGfZg2Z27P[1b!
+ssh pmispros@36.50.77.55 -p 64000
+baGfZg2Z27P[1b!x
 
 
 Tampilan hanya  2 Bar 
