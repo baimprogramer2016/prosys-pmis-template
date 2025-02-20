@@ -101,7 +101,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-secondary me-3">
-              <i class="fa fa-dollar-sign"></i>
+              <i class="fas fa-calendar-alt"></i>
             </span>
             <div>
               <h5 class="mb-1">
@@ -122,7 +122,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-success me-3">
-              <i class="fa fa-shopping-cart"></i>
+              <i class="fas fa-chalkboard-teacher"></i>
             </span>
             <div>
               <h5 class="mb-1">
@@ -143,7 +143,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-danger me-3">
-              <i class="fa fa-users"></i>
+              <i class="fas fa-chart-bar"></i>
             </span>
             <div>
               <h5 class="mb-1">
@@ -164,7 +164,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-warning me-3">
-              <i class="fa fa-comment-alt"></i>
+              <i class="fas fa-chart-line"></i>
             </span>
             <div>
               <h5 class="mb-1">
@@ -185,7 +185,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-danger me-3">
-              <i class="fa fa-comment-alt"></i>
+              <i class="fas fa-pen-square"></i>
             </span>
             <div>
               <h5 class="mb-1">
@@ -206,7 +206,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-info me-3">
-              <i class="fa fa-comment-alt"></i>
+              <i class="fas fa-tachometer-alt"></i>
             </span>
             <div>
               <h5 class="mb-1">
@@ -227,7 +227,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-primary me-3">
-              <i class="fa fa-comment-alt"></i>
+              <i class="fas fa-hotel"></i>
             </span>
             <div>
               <h5 class="mb-1">
@@ -248,7 +248,7 @@
         <div class="card p-2">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-secondary me-3">
-              <i class="fa fa-comment-alt"></i>
+              <i class="fas fas fa-chess-rook"></i>
             </span>
             <div>
               <h5 class="mb-1">

@@ -229,7 +229,7 @@
           </li>
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#fieldinstruction">
-              <i class="fas fas fa-chess-rook"></i>
+              <i class="fas fa-chess-rook"></i>
 
               <p>Field Instructions</p>
               <span class="caret"></span>
