@@ -74,20 +74,24 @@
           <div class="align-items-center mb-3 mt-3   p-3 row">
             <input type="hidden" class="form-control" id="id_edit" name="id_edit" value="{{$document->id}}">
             <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">Document Number</label>
+              <label for="document_number" class="form-label strong">Document Number</label>
               <input type="text" class="form-control" id="document_number" name="document_number" value="{{$document->document_number}}">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">Description</label>
+              <label for="description" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description" value="{{$document->description}}">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">Type</label>
+              <label for="typeofincomingdocument" class="form-label strong">Type</label>
               <input type="text" class="form-control" id="typeofincomingdocument" name="typeofincomingdocument" value="{{$document->typeofincomingdocument}}">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">From</label>
+              <label for="from" class="form-label strong">From</label>
               <input type="text" class="form-control" id="from" name="from" value="{{$document->from_}}">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="version" class="form-label strong">Version</label>
+              <input type="text" class="form-control" id="version" name="version" value="{{$document->version}}">
             </div>
            
             <div class="col-md-6 mb-3">
@@ -100,15 +104,22 @@
                   @endforeach
               </select>
             </div>
+            <div class="col-md-6 mb-3">
+              <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
+              <input type="checkbox" id="hardcopy" name="hardcopy" {{ $document->hardcopy == "1" ? 'checked' : ''}}>
+              <label for="hardcopy">Hardcopy</label>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label strong">Email</label><br>
+              <input type="checkbox" id="email" name="email"  {{ $document->email == "1" ? 'checked' : ''}} >
+              <label for="email">Email</label>
+            </div>
            
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
             </div>
 
-          </div>
-        
-        
-         
+          </div> 
         </div>
         
       </div> 
@@ -170,7 +181,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let from = $("#from").val();
         let typeofincomingdocument = $("#typeofincomingdocument").val();
         let category = $("#category").val();
-    
+        let version = $("#version").val();
+        let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
+        let email = $("input[name='email']").is(":checked") ? '1' : '0';
+
         let id_edit = $("#id_edit").val()
   
         // Validasi Activity
@@ -192,8 +206,20 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           $("#from").addClass("is-invalid");
           valid = false;
         }
+        if (version === "") {
+          $("#version").addClass("is-invalid");
+          valid = false;
+        }
         if (category === "") {
           $("#category").addClass("is-invalid");
+          valid = false;
+        }
+        if (hardcopy === "") {
+          $("#hardcopy").addClass("is-invalid");
+          valid = false;
+        }
+        if (email === "") {
+          $("#email").addClass("is-invalid");
           valid = false;
         }
   
@@ -212,7 +238,9 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         from : from,
         typeofincomingdocument : typeofincomingdocument,
         category : category,
-     
+        version : version,
+        hardcopy : hardcopy,
+        email : email,
       },
       success: function (response,color) {
         if (response.status == 'ok'){

@@ -24,8 +24,9 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
+        'name'
     ];
-
+    protected $guard_name = 'web'; 
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
@@ -37,7 +38,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        // 'password',
         'remember_token',
     ];
 
@@ -50,4 +51,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    
 }

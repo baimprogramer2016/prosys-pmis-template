@@ -78,7 +78,7 @@
               <input type="text" class="form-control" id="document_number" name="document_number" value="{{$document->document_number}}">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">Description</label>
+              <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description" value="{{$document->description}}">
             </div>
             <div class="col-md-6 mb-3">
@@ -90,14 +90,8 @@
               <input type="text" class="form-control" id="attn" name="attn" value="{{$document->attn}}">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
-              <input type="checkbox" id="hardcopy" name="hardcopy" {{ $document->hardcopy == "1" ? 'checked' : ''}}>
-              <label for="hardcopy">Hardcopy</label>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="email" class="form-label strong">Email</label><br>
-              <input type="checkbox" id="email" name="email"  {{ $document->email == "1" ? 'checked' : ''}} >
-              <label for="email">Email</label>
+              <label for="version" class="form-label strong">Version</label>
+              <input type="text" class="form-control" id="version" name="version" value="{{$document->version}}">
             </div>
             <div class="col-md-6 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
@@ -109,7 +103,16 @@
                   @endforeach
               </select>
             </div>
-            
+            <div class="col-md-6 mb-3">
+              <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
+              <input type="checkbox" id="hardcopy" name="hardcopy" {{ $document->hardcopy == "1" ? 'checked' : ''}}>
+              <label for="hardcopy">Hardcopy</label>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label strong">Email</label><br>
+              <input type="checkbox" id="email" name="email"  {{ $document->email == "1" ? 'checked' : ''}} >
+              <label for="email">Email</label>
+            </div>
            
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
@@ -180,6 +183,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let recipient = $("#recipient").val();
         let attn = $("#attn").val();        
         let category = $("#category").val();        
+        let version = $("#version").val();        
         let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
         let email = $("input[name='email']").is(":checked") ? '1' : '0';
     
@@ -232,6 +236,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         description : description,
         recipient : recipient,
         attn : attn,
+        version : version,
         hardcopy : hardcopy,
         email : email,
         category : category,

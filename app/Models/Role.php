@@ -9,6 +9,7 @@ class Role extends SpatieRole
     use HasFactory;
 
     protected $table = 'roles';
+    
 
 
 }

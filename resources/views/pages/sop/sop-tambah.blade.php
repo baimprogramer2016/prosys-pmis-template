@@ -71,13 +71,18 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
           <div class="align-items-center mb-3 mt-3   p-3 row">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Document Number</label>
               <input type="text" class="form-control" id="document_number" name="document_number">
             </div>
-            <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">Description</label>
+            <div class="col-md-4 mb-3">
+              <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description">
+            </div>
+          
+            <div class="col-md-4 mb-3">
+              <label for="start_date" class="form-label strong">Version</label>
+              <input type="text" class="form-control" id="version" name="version">
             </div>
           
             <div class="col-md-12 mb-3">
@@ -146,6 +151,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
   
         let document_number = $("#document_number").val().trim();
         let description = $("#description").val();
+        let version = $("#version").val();
      
   
         // Validasi Activity
@@ -157,6 +163,12 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         // Validasi Start Date
         if (description === "") {
           $("#description").addClass("is-invalid");
+          valid = false;
+        }
+      
+        // Validasi Start Date
+        if (version === "") {
+          $("#version").addClass("is-invalid");
           valid = false;
         }
       
@@ -176,6 +188,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         uploaded_files: uploadedFiles,
         document_number : document_number,
         description : description,
+        version : version,
     
       },
       success: function (response,color) {

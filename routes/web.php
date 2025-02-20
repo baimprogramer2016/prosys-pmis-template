@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AssignController;
 use App\Http\Controllers\ConstructionDocumentController;
 use App\Http\Controllers\CorSuratKeluarController;
 use App\Http\Controllers\CorSuratMasukController;
+use App\Http\Controllers\CustomReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -14,13 +16,21 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentEngineeringController;
 use App\Http\Controllers\FieldInstructionController;
 use App\Http\Controllers\MomController;
+use App\Http\Controllers\MrrController;
+use App\Http\Controllers\MvrController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ReportDailyController;
 use App\Http\Controllers\ReportMonthlyController;
 use App\Http\Controllers\ReportWeeklyController;
+use App\Http\Controllers\RfiController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleManagementController;
 use App\Http\Controllers\SCurveController;
 use App\Http\Controllers\SopController;
 use App\Http\Controllers\UserController;
+use App\Models\ReportMonthlyHistory;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +53,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('/slide', [DashboardController::class,'slide'])->name('slide');
 
 
     Route::get('/master-schedule', [ScheduleController::class, 'index'])->name('master-schedule');
@@ -145,6 +156,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/report-daily-pdf/{id}', [ReportDailyController::class, 'pdf'])->name('report-daily-pdf');
     Route::get('/report-daily-delete/{id}', [ReportDailyController::class, 'viewDelete'])->name('report-daily-delete');
     Route::post('/report-daily-deleted/{id}', [ReportDailyController::class, 'deleted'])->name('report-daily-deleted');
+    Route::get('/report-daily-history/{id}', [ReportDailyController::class, 'history'])->name('report-daily-history');
   
     Route::get('/report-weekly', [ReportWeeklyController::class, 'index'])->name('report-weekly');
     Route::get('/get-report-weekly', [ReportWeeklyController::class, 'getReport'])->name('get-report-weekly');
@@ -158,6 +170,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/report-weekly-pdf/{id}', [ReportWeeklyController::class, 'pdf'])->name('report-weekly-pdf');
     Route::get('/report-weekly-delete/{id}', [ReportWeeklyController::class, 'viewDelete'])->name('report-weekly-delete');
     Route::post('/report-weekly-deleted/{id}', [ReportWeeklyController::class, 'deleted'])->name('report-weekly-deleted');
+    Route::get('/report-weekly-history/{id}', [ReportWeeklyController::class, 'history'])->name('report-weekly-history');
   
     Route::get('/report-monthly', [ReportMonthlyController::class, 'index'])->name('report-monthly');
     Route::get('/get-report-monthly', [ReportMonthlyController::class, 'getReport'])->name('get-report-monthly');
@@ -171,7 +184,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/report-monthly-pdf/{id}', [ReportMonthlyController::class, 'pdf'])->name('report-monthly-pdf');
     Route::get('/report-monthly-delete/{id}', [ReportMonthlyController::class, 'viewDelete'])->name('report-monthly-delete');
     Route::post('/report-monthly-deleted/{id}', [ReportMonthlyController::class, 'deleted'])->name('report-monthly-deleted');
-  
+    Route::get('/report-monthly-history/{id}', [ReportMonthlyController::class, 'history'])->name('report-monthly-history');
+
     Route::get('/mom', [MomController::class, 'index'])->name('mom');
     Route::get('/get-mom', [MomController::class, 'getReport'])->name('get-mom');
     Route::get('/mom-tambah', [MomController::class, 'tambah'])->name('mom-tambah');
@@ -197,7 +211,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/sop-pdf/{id}', [SopController::class, 'pdf'])->name('sop-pdf');
     Route::get('/sop-delete/{id}', [SopController::class, 'viewDelete'])->name('sop-delete');
     Route::post('/sop-deleted/{id}', [SopController::class, 'deleted'])->name('sop-deleted');
-
+    Route::get('/sop-history/{id}', [SopController::class, 'history'])->name('sop-history');
     
     Route::get('/surat-masuk', [CorSuratMasukController::class, 'index'])->name('surat-masuk');
     Route::get('/get-surat-masuk', [CorSuratMasukController::class, 'getSuratMasuk'])->name('get-surat-masuk');
@@ -211,7 +225,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/surat-masuk-pdf/{id}', [CorSuratMasukController::class, 'pdf'])->name('surat-masuk-pdf');
     Route::get('/surat-masuk-delete/{id}', [CorSuratMasukController::class, 'viewDelete'])->name('surat-masuk-delete');
     Route::post('/surat-masuk-deleted/{id}', [CorSuratMasukController::class, 'deleted'])->name('surat-masuk-deleted');
-    
+    Route::get('/surat-masuk-history/{id}', [CorSuratMasukController::class, 'history'])->name('surat-masuk-history');
+
     Route::get('/surat-keluar', [CorSuratKeluarController::class, 'index'])->name('surat-keluar');
     Route::get('/get-surat-keluar', [CorSuratKeluarController::class, 'getSuratKeluar'])->name('get-surat-keluar');
     Route::get('/surat-keluar-tambah', [CorSuratKeluarController::class, 'tambah'])->name('surat-keluar-tambah');
@@ -224,7 +239,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/surat-keluar-pdf/{id}', [CorSuratKeluarController::class, 'pdf'])->name('surat-keluar-pdf');
     Route::get('/surat-keluar-delete/{id}', [CorSuratKeluarController::class, 'viewDelete'])->name('surat-keluar-delete');
     Route::post('/surat-keluar-deleted/{id}', [CorSuratKeluarController::class, 'deleted'])->name('surat-keluar-deleted');
-
+    Route::get('/surat-keluar-history/{id}', [CorSuratKeluarController::class, 'history'])->name('surat-keluar-history');
 
     Route::get('/construction-document', [ConstructionDocumentController::class, 'cdr'])->name('construction-document');
     Route::get('/get-construction-document/{field}/{status}', [ConstructionDocumentController::class, 'getConstructionDocument'])->name('get-construction-document');
@@ -280,9 +295,94 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/field-instruction-approve-update/{id}', [FieldInstructionController::class, 'updateApprove'])->name('field-instruction-approve-update');
 
     
+    Route::get('/rfi', [RfiController::class, 'index'])->name('rfi');
+    Route::get('/get-rfi', [RfiController::class, 'getRfi'])->name('get-rfi');
+    Route::get('/rfi-tambah', [RfiController::class, 'tambah'])->name('rfi-tambah');
+    Route::post('/rfi-upload-temp', [RfiController::class, 'uploadTemp'])->name('rfi-upload-temp');
+    Route::post('/rfi-save-uploads', [RfiController::class, 'saveUploads'])->name('rfi-save-uploads');
+   
+    Route::get('/rfi-edit/{id}', [RfiController::class, 'viewEdit'])->name('rfi-edit');
+    Route::post('/rfi-update/{id}', [RfiController::class, 'update'])->name('rfi-update');
+    Route::get('/rfi-share/{id}', [RfiController::class, 'share'])->name('rfi-share');
+    Route::get('/rfi-pdf/{id}', [RfiController::class, 'pdf'])->name('rfi-pdf');
+    Route::get('/rfi-delete/{id}', [RfiController::class, 'viewDelete'])->name('rfi-delete');
+    Route::post('/rfi-deleted/{id}', [RfiController::class, 'deleted'])->name('rfi-deleted');
+    Route::get('/rfi-history/{id}', [RfiController::class, 'history'])->name('rfi-history');
+
+    
+    Route::get('/mvr', [MvrController::class, 'index'])->name('mvr');
+    Route::get('/get-mvr', [MvrController::class, 'getMvr'])->name('get-mvr');
+    Route::get('/mvr-tambah', [MvrController::class, 'tambah'])->name('mvr-tambah');
+    Route::post('/mvr-upload-temp', [MvrController::class, 'uploadTemp'])->name('mvr-upload-temp');
+    Route::post('/mvr-save-uploads', [MvrController::class, 'saveUploads'])->name('mvr-save-uploads');
+   
+    Route::get('/mvr-edit/{id}', [MvrController::class, 'viewEdit'])->name('mvr-edit');
+    Route::post('/mvr-update/{id}', [MvrController::class, 'update'])->name('mvr-update');
+    Route::get('/mvr-share/{id}', [MvrController::class, 'share'])->name('mvr-share');
+    Route::get('/mvr-pdf/{id}', [MvrController::class, 'pdf'])->name('mvr-pdf');
+    Route::get('/mvr-delete/{id}', [MvrController::class, 'viewDelete'])->name('mvr-delete');
+    Route::post('/mvr-deleted/{id}', [MvrController::class, 'deleted'])->name('mvr-deleted');
+    Route::get('/mvr-history/{id}', [MvrController::class, 'history'])->name('mvr-history');
+  
+  
+    Route::get('/mrr', [MrrController::class, 'index'])->name('mrr');
+    Route::get('/get-mrr', [MrrController::class, 'getMrr'])->name('get-mrr');
+    Route::get('/mrr-tambah', [MrrController::class, 'tambah'])->name('mrr-tambah');
+    Route::post('/mrr-upload-temp', [MrrController::class, 'uploadTemp'])->name('mrr-upload-temp');
+    Route::post('/mrr-save-uploads', [MrrController::class, 'saveUploads'])->name('mrr-save-uploads');
+   
+    Route::get('/mrr-edit/{id}', [MrrController::class, 'viewEdit'])->name('mrr-edit');
+    Route::post('/mrr-update/{id}', [MrrController::class, 'update'])->name('mrr-update');
+    Route::get('/mrr-share/{id}', [MrrController::class, 'share'])->name('mrr-share');
+    Route::get('/mrr-pdf/{id}', [MrrController::class, 'pdf'])->name('mrr-pdf');
+    Route::get('/mrr-delete/{id}', [MrrController::class, 'viewDelete'])->name('mrr-delete');
+    Route::post('/mrr-deleted/{id}', [MrrController::class, 'deleted'])->name('mrr-deleted');
+    Route::get('/mrr-history/{id}', [MrrController::class, 'history'])->name('mrr-history');
+  
+
     
     
     
-    
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::get('/get-user', [UserController::class, 'getUser'])->name('get-user');
+    Route::post('/user-save', [UserController::class, 'save'])->name('user-save');
+    Route::get('/user-delete/{id}', [UserController::class, 'viewDelete'])->name('user-delete');
+    Route::post('/user-deleted/{id}', [UserController::class, 'deleted'])->name('user-deleted');
+
+    Route::get('/permission', [PermissionController::class, 'index'])->name('permission');
+    Route::get('/get-permission', [PermissionController::class, 'getPermission'])->name('get-permission');
+    Route::get('/permission-delete/{id}', [PermissionController::class, 'viewDelete'])->name('role-delete');
+    Route::post('/permission-deleted/{id}', [PermissionController::class, 'deleted'])->name('role-deleted');
+
+    Route::get('/role', [RoleController::class, 'index'])->name('role');
+    Route::get('/get-role', [RoleController::class, 'getRole'])->name('get-role');   
+    Route::get('/role-delete/{id}', [RoleController::class, 'viewDelete'])->name('role-delete');
+    Route::post('/role-deleted/{id}', [RoleController::class, 'deleted'])->name('role-deleted');
+    Route::get('/role-tambah', [RoleController::class, 'viewAdd'])->name('role-tambah');
+    Route::post('/role-save', [RoleController::class, 'save'])->name('role-save');
+    Route::get('/role-edit/{id}', [RoleController::class, 'viewEdit'])->name('role-edit');
+    Route::post('/role-update/{id}', [RoleController::class, 'update'])->name('role-update');
+    Route::get('/role-permission/{id}', [RoleController::class, 'viewPermission'])->name('role-permission');
+    Route::post('/role-permission-update', [RoleController::class, 'updatePermission'])->name('role-permission-update');
+
+    Route::post('/assign', [AssignController::class, 'index'])->name('assign');
+
+
+    Route::get('/custom-report', [CustomReportController::class, 'index'])->name('custom-report');
+    // Route::get('/report-daily', [ReportDailyController::class, 'index'])->name('report-daily');
+    // Route::get('/get-report-daily', [ReportDailyController::class, 'getReport'])->name('get-report-daily');
+    // Route::get('/report-daily-tambah', [ReportDailyController::class, 'tambah'])->name('report-daily-tambah');
+    // Route::post('/report-daily-upload-temp', [ReportDailyController::class, 'uploadTemp'])->name('report-daily-upload-temp');
+    // Route::post('/report-daily-save-uploads', [ReportDailyController::class, 'saveUploads'])->name('report-daily-save-uploads');
+   
+    // Route::get('/report-daily-edit/{id}', [ReportDailyController::class, 'viewEdit'])->name('report-daily-edit');
+    // Route::post('/report-daily-update/{id}', [ReportDailyController::class, 'update'])->name('report-daily-update');
+    // Route::get('/report-daily-share/{id}', [ReportDailyController::class, 'share'])->name('report-daily-share');
+    // Route::get('/report-daily-pdf/{id}', [ReportDailyController::class, 'pdf'])->name('report-daily-pdf');
+    // Route::get('/report-daily-delete/{id}', [ReportDailyController::class, 'viewDelete'])->name('report-daily-delete');
+    // Route::post('/report-daily-deleted/{id}', [ReportDailyController::class, 'deleted'])->name('report-daily-deleted');
+    // Route::get('/report-daily-history/{id}', [ReportDailyController::class, 'history'])->name('report-daily-history');
+  
+  
   
 });

@@ -76,7 +76,7 @@
               <input type="text" class="form-control" id="document_number" name="document_number">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">Description</label>
+              <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description">
             </div>
           
@@ -89,6 +89,10 @@
               <input type="text" class="form-control" id="from" name="from">
             </div>
             <div class="col-md-6 mb-3">
+              <label for="version" class="form-label strong">Version</label>
+              <input type="text" class="form-control" id="version" name="version">
+            </div>
+            <div class="col-md-6 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
                 <select class="form-select" id="category" name="category">
                   <option value="">---Pilih---</option>
@@ -97,6 +101,17 @@
                   @endforeach
                 </select>
             </div>
+            <div class="col-md-6 mb-3">
+              <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
+              <input type="checkbox" id="hardcopy" name="hardcopy">
+              <label for="hardcopy">Hardcopy</label>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label strong">Email</label><br>
+              <input type="checkbox" id="email" name="email" >
+              <label for="email">Email</label>
+            </div>
+          
           
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
@@ -166,7 +181,11 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let description = $("#description").val();
         let from = $("#from").val();
         let category = $("#category").val();
+        let version = $("#version").val();
         let typeofincomingdocument = $("#typeofincomingdocument").val();
+        let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
+        let email = $("input[name='email']").is(":checked") ? '1' : '0';
+        
      
         // Validasi Activity
         if (document_number === "") {
@@ -191,6 +210,18 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           $("#category").addClass("is-invalid");
           valid = false;
         }
+        if (version === "") {
+          $("#version").addClass("is-invalid");
+          valid = false;
+        }
+        if (hardcopy === "") {
+          $("#hardcopy").addClass("is-invalid");
+          valid = false;
+        }
+        if (email === "") {
+          $("#email").addClass("is-invalid");
+          valid = false;
+        }
       
 
   if (uploadedFiles.length === 0) {
@@ -210,10 +241,14 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         description : description,
         typeofincomingdocument : typeofincomingdocument,
         from : from,
+        version : version,
+        hardcopy : hardcopy,
+        email : email,
         category : category,
     
       },
       success: function (response,color) {
+        
         if (response.status == 'ok'){
           msg_swal = "File Successfully Saved";
           color = "btn btn-success";

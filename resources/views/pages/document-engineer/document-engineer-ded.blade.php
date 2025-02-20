@@ -113,7 +113,7 @@ table.dataTable {
                   <th  class="bg-th">Action</th>
                   <th  class="bg-th">Status</th>
                   <th  class="bg-th">Document Number</th>
-                  <th  class="bg-th">Description</th>
+                  <th  class="bg-th">Title</th>
                   <th  class="bg-th">Category</th>
                   <th  class="bg-th">Discipline</th>                
                   <th  class="bg-th">Version</th>

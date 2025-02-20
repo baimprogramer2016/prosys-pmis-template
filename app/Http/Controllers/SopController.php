@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mom;
 use App\Models\ReportDaily;
 use App\Models\Sop;
+use App\Models\SopHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,7 @@ class SopController extends Controller
                 'document_number',
                 'description', 
                 'author',
+                'version',
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at_format"), 
                 'path',
                 'ext',
@@ -67,7 +69,16 @@ class SopController extends Controller
                 </div>';
                 return $btn;
             }) 
-                ->rawColumns(['action']) // Agar HTML di kolom 'action' dirender
+            ->addColumn('version_link', function($row) {
+                if($row->r_history->count() >0){
+                    $version_link = $row->version.'<br> <a href="" data-bs-toggle="modal" data-bs-target="#modal-large" onClick="return viewHistory(' . $row->id . ')" class="text-center">(Check_History)</a>';
+                }else{
+                    $version_link =$row->version;
+                }
+                            
+                return $version_link;
+            })
+                ->rawColumns(['action','version_link']) // Agar HTML di kolom 'action' dirender
                 ->make(true);
         }
     }
@@ -100,6 +111,7 @@ class SopController extends Controller
         $uploadedFiles = $request->input('uploaded_files');
         $document_number = $request->input('document_number');
         $description = $request->input('description');
+        $version = $request->input('version');
 
         $savedFiles = [];
         foreach ($uploadedFiles as $file) {
@@ -117,6 +129,7 @@ class SopController extends Controller
             $doc->description = trim($description);
             $doc->path = str_replace('public/', '', $newPath);
             $doc->ext = $file_ext;
+            $doc->version = $version;
             $doc->author =Auth::User()->name;
             $doc->save();
 
@@ -151,8 +164,22 @@ class SopController extends Controller
         $uploadedFiles = $request->input('uploaded_files');
         $document_number = $request->input('document_number');
         $description = $request->input('description');
+        $version = $request->input('version');
       
         $doc = Sop::find($id);
+
+         //insert ke history
+         $docHistory = new SopHistory();
+         $docHistory->sop_id = $doc->id;
+         $docHistory->document_number = $doc->document_number;
+         $docHistory->description = $doc->description;
+         $docHistory->version = $doc->version;
+         $docHistory->author = $doc->author;
+         $docHistory->tanggal = $doc->created_at;
+         $docHistory->path = $doc->path;
+         $docHistory->ext = $doc->ext;
+         $docHistory->save();        
+
 
         $path = $doc->path;
         $file_ext = $doc->ext;
@@ -171,6 +198,7 @@ class SopController extends Controller
             $doc->description = trim($description);
             $doc->author = Auth::User()->name;
             $doc->path = $path;
+            $doc->version = $version;
             $doc->ext = $file_ext;
           
             $doc->save();
@@ -236,4 +264,19 @@ class SopController extends Controller
             "action"=> "deleted"
         ]);
     }
+    public function history(Request $request, $id){ 
+        try{
+            $document = SopHistory::where('sop_id', $id)->get();
+            return view('pages.sop.sop-history', [
+                "documents" => $document,
+            ]);
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
+
 }

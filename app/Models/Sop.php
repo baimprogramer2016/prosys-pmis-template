@@ -10,4 +10,10 @@ class Sop extends Model
     use HasFactory;
 
     protected $table = 'sop';
+
+    public function r_history()
+    {
+        return $this->hasMany(SopHistory::class, 'sop_id', 'id');
+    }
+
 }

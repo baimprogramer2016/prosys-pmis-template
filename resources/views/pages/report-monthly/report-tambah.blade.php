@@ -83,6 +83,11 @@
               <label for="start_date" class="form-label strong">Type Of Report</label>
               <input type="text" class="form-control" id="typeofreport" name="typeofreport">
             </div>
+            
+            <div class="col-md-6 mb-3">
+              <label for="start_date" class="form-label strong">Version</label>
+              <input type="text" class="form-control" id="version" name="version">
+            </div>
           
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
@@ -151,6 +156,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let document_number = $("#document_number").val().trim();
         let description = $("#description").val();
         let typeofreport = $("#typeofreport").val();
+        let version = $("#version").val();
   
         // Validasi Activity
         if (document_number === "") {
@@ -166,6 +172,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         // Validasi Start Date
         if (typeofreport === "") {
           $("#typeofreport").addClass("is-invalid");
+          valid = false;
+        }
+        if (version === "") {
+          $("#version").addClass("is-invalid");
           valid = false;
         }
   
@@ -186,6 +196,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         document_number : document_number,
         description : description,
         typeofreport : typeofreport,
+        version : version,
       },
       success: function (response,color) {
         if (response.status == 'ok'){

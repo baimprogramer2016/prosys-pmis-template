@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CorSuratKeluar;
+use App\Models\CorSuratKeluarHistory;
 use App\Models\MasterCategory;
 use App\Models\Mom;
 use App\Models\ReportDaily;
@@ -39,6 +40,7 @@ class CorSuratKeluarController extends Controller
                 'recipient', 
                 'author',
                 'attn',
+                'version',
                 'hardcopy',
                 'email',
                 'category',
@@ -99,7 +101,16 @@ class CorSuratKeluarController extends Controller
                 
                 return optional($row->r_category)->description;
             }) 
-                ->rawColumns(['action','isHardCopy','isEmail']) // Agar HTML di kolom 'action' dirender
+            ->addColumn('version_link', function($row) {
+                if($row->r_history->count() >0){
+                    $version_link = $row->version.'<br> <a href="" data-bs-toggle="modal" data-bs-target="#modal-large" onClick="return viewHistory(' . $row->id . ')" class="text-center">(Check_History)</a>';
+                }else{
+                    $version_link =$row->version;
+                }
+                            
+                return $version_link;
+            })
+                ->rawColumns(['action','isHardCopy','isEmail','version_link']) // Agar HTML di kolom 'action' dirender
                 ->make(true);
         }
     }
@@ -136,6 +147,7 @@ class CorSuratKeluarController extends Controller
         $description = $request->input('description');
         $recipient = $request->input('recipient');
         $attn = $request->input('attn');
+        $version = $request->input('version');
         $hardcopy = $request->input('hardcopy');
         $email = $request->input('email');
         $category = $request->input('category');
@@ -156,6 +168,7 @@ class CorSuratKeluarController extends Controller
             $doc->description = trim($description);
             $doc->recipient = trim($recipient);
             $doc->attn = trim($attn);
+            $doc->version = trim($version);
             $doc->hardcopy = trim($hardcopy);
             $doc->email = trim($email);
             $doc->category = trim($category);
@@ -199,11 +212,29 @@ class CorSuratKeluarController extends Controller
         $description = $request->input('description');
         $recipient = $request->input('recipient');
         $attn = $request->input('attn');
+        $version = $request->input('version');
         $hardcopy = $request->input('hardcopy');
         $email = $request->input('email');
         $category = $request->input('category');
       
         $doc = CorSuratKeluar::find($id);
+          //insert ke history
+          $docHistory = new CorSuratKeluarHistory();
+          $docHistory->cor_surat_keluar_id = $doc->id;
+          $docHistory->document_number = $doc->document_number;
+          $docHistory->description = $doc->description;
+          $docHistory->recipient = $doc->recipient;
+          $docHistory->attn = $doc->attn;
+          $docHistory->hardcopy = $doc->hardcopy;
+          $docHistory->email = $doc->email;
+          $docHistory->category = $doc->category;
+          $docHistory->version = $doc->version;
+          $docHistory->author = $doc->author;
+          $docHistory->tanggal = $doc->created_at;
+          $docHistory->path = $doc->path;
+          $docHistory->ext = $doc->ext;
+          $docHistory->save();        
+ 
 
         $path = $doc->path;
         $file_ext = $doc->ext;
@@ -224,6 +255,7 @@ class CorSuratKeluarController extends Controller
             $doc->path = $path;
             $doc->recipient = $recipient;
             $doc->attn = $attn;
+            $doc->version = $version;
             $doc->hardcopy = $hardcopy;
             $doc->email = $email;
             $doc->category = $category;
@@ -292,4 +324,18 @@ class CorSuratKeluarController extends Controller
             "action"=> "deleted"
         ]);
     }
+    public function history(Request $request, $id){ 
+        try{
+            $document = CorSuratKeluarHistory::where('cor_surat_keluar_id', $id)->get();
+            return view('pages.surat-keluar.surat-keluar-history', [
+                "documents" => $document,
+            ]);
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
 }

@@ -25,7 +25,10 @@ class DocumentEngineering extends Model
         'checker',
         'reviewer',
         'approver',
-        'uploader'
+        'uploader',
+        'email_check',
+        'email_review',
+        'email_approve',
     ];
 
     public function r_discipline()

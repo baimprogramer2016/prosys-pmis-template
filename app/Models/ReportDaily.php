@@ -9,4 +9,9 @@ class ReportDaily extends Model
 {
     use HasFactory;
     protected $table = 'report_daily';
+
+    public function r_history()
+    {
+        return $this->hasMany(ReportDailyHistory::class, 'report_daily_id', 'id');
+    }
 }

@@ -9,4 +9,9 @@ class ReportWeekly extends Model
 {
     use HasFactory;
     protected $table = 'report_weekly';
+
+    public function r_history()
+    {
+        return $this->hasMany(ReportWeeklyHistory::class, 'report_weekly_id', 'id');
+    }
 }

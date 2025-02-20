@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScheduleController;
@@ -23,3 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/data', [GanttController::class,'data'])->name('api-gantt-data');
 Route::post("/dashboard-pie-surat",[DashboardController::class,'dashboardPieSurat'])->name('dashboard-pie-surat');
+Route::post("/send-mail", [EmailController::class,'index'])->name('send-mail');

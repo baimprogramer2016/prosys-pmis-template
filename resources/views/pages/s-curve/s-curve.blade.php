@@ -88,7 +88,8 @@ table.dataTable td {
             <div class="card card-stats card-round">
               <div class="card-body">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                  Jika parameter Kategori dan tanggal sama, maka akan Replace data sebelumnya
+                  *Jika parameter Kategori dan tanggal sama, maka akan Replace data sebelumnya <br>
+                  *Jika ingin merubah tanggal, lebih baik di hapus dan input ulang
                 </div>
               
                   <div class="form-row d-flex align-items-center">

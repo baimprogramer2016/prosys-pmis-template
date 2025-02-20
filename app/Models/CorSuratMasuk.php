@@ -15,4 +15,8 @@ class CorSuratMasuk extends Model
     {
         return $this->hasOne(MasterCategory::class, 'id', 'category');
     }
+    public function r_history()
+    {
+        return $this->hasMany(CorSuratMasukHistory::class, 'cor_surat_masuk_id', 'id');
+    }
 }

@@ -78,7 +78,7 @@
               <input type="text" class="form-control" id="document_number" name="document_number" value="{{$document->document_number}}">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Description</label>
+              <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description" value="{{$document->description}}">
             </div>
             <div class="col-md-4 mb-3">

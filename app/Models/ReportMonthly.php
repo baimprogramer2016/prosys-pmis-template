@@ -9,4 +9,8 @@ class ReportMonthly extends Model
 {
     use HasFactory;
     protected $table = 'report_monthly';
+    public function r_history()
+    {
+        return $this->hasMany(ReportMonthlyHistory::class, 'report_monthly_id', 'id');
+    }
 }

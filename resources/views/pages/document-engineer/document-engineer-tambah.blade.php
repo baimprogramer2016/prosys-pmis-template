@@ -77,7 +77,7 @@
               <input type="text" class="form-control" id="document_number" name="document_number">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Description</label>
+              <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description">
             </div>
           
@@ -117,14 +117,16 @@
                   @endforeach
               </select>
             </div>
+            <div class="col mb-3 to">
+              <label for="start_date" class="form-label strong">To</label>
+              <select class="form-select"  id="email" name="email">
+                 
+              </select>
+            </div>
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
             </div>
-
-          </div>
-        
-        
-         
+          </div>  
         </div>
         
       </div> 
@@ -188,6 +190,8 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let discipline = $("#discipline").val()
         let category = $("#category").val()
         let status = $("#status").val()
+        let email = $("#email").val()
+        // let email = $("#email").val()
   
         // Validasi Activity
         if (document_number === "") {
@@ -230,6 +234,11 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           $("#status").addClass("is-invalid");
           valid = false;
         } 
+  
+        // if (email === "") {
+        //   $("#email").addClass("is-invalid");
+        //   valid = false;
+        // } 
 
 
   if (uploadedFiles.length === 0) {
@@ -251,7 +260,8 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         tanggal : tanggal,
         discipline : discipline,
         category : category,
-        status:status  
+        status:status,  
+        email:email  
       },
       success: function (response,color) {
         if (response.status == 'ok'){
@@ -268,7 +278,8 @@ document.getElementById('saveUploads').addEventListener('click', function () {
                   },
                 },
               });
-            
+        //kirim email
+        sendEmail(email,status,description)    
         
         location.reload();
       },
@@ -280,5 +291,56 @@ document.getElementById('saveUploads').addEventListener('click', function () {
 
 });
 
+function sendEmail(email,status, description){
+  $.ajax({
+      url: "{{ route('send-mail') }}",
+      type: "POST",
+      data: {
+        _token: "{{ csrf_token() }}",
+        status:status,  
+        email:email,
+        description:description
+      },
+      success: function (response,color) {
+      }
+    });
+  }
+
+
+document.getElementById('status').addEventListener('change', function () {
+  $("#email").prop("disabled", true);
+  if($("#status").val() == 'approve' || $("#status").val() == 'notapprove'){
+    $("#email").prop("disabled", true);
+    $("#email").html("")
+  }else{
+    $("#email").prop("disabled", false);
+    $.ajax({
+      url: "{{ route('assign') }}",
+      type: "POST",
+      data: {
+         status : $("#status").val(),
+        _token: "{{ csrf_token() }}",
+      },
+      success: function (response) {
+      
+        let options ='';
+        if(response.length > 0){
+        
+          response.forEach((item) =>{
+            options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
+          })
+        }
+
+     
+        $("#email").html(options);
+      
+      },
+      error: function (xhr) {
+        alert('An error occurred: ' + xhr.responseText);
+      }
+    });
+  }
+
+})
 </script>
 @endpush

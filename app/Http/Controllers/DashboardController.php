@@ -27,6 +27,21 @@ class DashboardController extends Controller
             ], 500);
         }
     }
+    public function slide (Request $request){
+        
+
+        try{
+            return view('pages.dashboard.slide');
+        }catch (Throwable $e) {
+            // Tangani error
+           
+    
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function dashboardPieSurat(Request $request){
 

@@ -30,15 +30,31 @@
 28. Report Monthly -> Done
 29. S-Curve di dahsboard -> Done
 30. SOP - > Document Number, Description, tanggal upload, author  (Download, Edit, History Revisi, Delete, Share) ->Done
-31. Construction Upload ikutin enginer
-32. Construction Document ikutin enginer
-33. Construction Field instruction ikutin enginer
+31. Construction Upload ikutin enginer ->Done
+32. Construction Document ikutin enginer ->Done
+33. Construction Field instruction ikutin enginer ->Done
 34. Koresponden Upload, Parameternya lihat excel, category (Site Instruction, Daily, Weekly dan Monthly report) ->Done
 35. Koresponden Surat masuk (description, doc_no,typeofdocument, date,from) ->Done
 36. Koresponden Surat Keluar (description,doc_no,date,recipient,attn,hardcopy, email) -> Done
-37. Notif Email
-38. Role Persmission
+37. Notif Email Enginering (new,check,Review) -> Done
+38. Notif Email Construction (new,check,Review) -> Done
+39. Notif Email Instruction (new,check,Review) -> Done
+40. Role Persmission -> Done
+41. Report Correspondence masuk dan keluar tambahkan title dan version dan -> Done
+42. hardcopy dan email di correspondence masuk ->Done
+43. Request for Inspection (RFI) di Report -> Done
+44. Material Verification Report di Report -> Done
+45. Material Receiving Report di Report -> Done
+46. Background ganti2 di halaman login ->Done
+47. kumpulan foto slide2 bergerak... ->Done
+48. Title di Engineering ->Done
+49. Buat Custom Report
 
+Nama Tools PMIS Prosys
+
+
+pmispros_pmis
+aGfZg2Z27P[1b!
 
 
 Tampilan hanya  2 Bar 

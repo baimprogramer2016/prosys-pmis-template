@@ -179,6 +179,7 @@ class FieldInstructionController extends Controller
         $discipline = $request->input('discipline');
         $category = $request->input('category');
         $status = $request->input('status');
+        $email = $request->input('email');
 
         $savedFiles = [];
         foreach ($uploadedFiles as $file) {
@@ -205,6 +206,15 @@ class FieldInstructionController extends Controller
             $doc->ext = $file_ext;
             $doc->size = $fileSize;
             $doc->uploader =Auth::User()->name;
+            if($status == 'new'){
+                $doc->email_check = $email;
+            }
+            if($status == 'check'){
+                $doc->email_review =$email;
+            }
+            if($status == 'review'){
+                $doc->email_approve = $email;
+            }
             $doc->save();
 
             $savedFiles[] = $doc;
@@ -235,6 +245,7 @@ class FieldInstructionController extends Controller
     public function updateCheck($id, Request $request){
         $task = FieldInstruction::find($id);
         $task->status = 'check';
+        $task->email_review = $request->input('email');
         $task->checker = Auth::User()->name;
         
         $task->save();
@@ -445,6 +456,7 @@ class FieldInstructionController extends Controller
     public function updateReview($id, Request $request){
         $task = FieldInstruction::find($id);
         $task->status = 'review';
+        $task->email_approve = $request->input('email');
         $task->reviewer = Auth::User()->name;
         
         $task->save();

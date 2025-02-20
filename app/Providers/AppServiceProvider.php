@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Permission;
+use App\Models\Role;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Role::updated(fn() => Artisan::call('permission:cache-reset'));
+        Permission::updated(fn() => Artisan::call('permission:cache-reset'));
     }
 }

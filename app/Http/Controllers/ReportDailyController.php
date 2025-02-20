@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportDaily;
+use App\Models\ReportDailyHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +34,7 @@ class ReportDailyController extends Controller
                 'description', 
                 'author',
                 'typeofreport',
+                'version',
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at_format"), 
                 'path',
                 'ext',
@@ -66,7 +68,16 @@ class ReportDailyController extends Controller
                 </div>';
                 return $btn;
             }) 
-                ->rawColumns(['action']) // Agar HTML di kolom 'action' dirender
+            ->addColumn('version_link', function($row) {
+                if($row->r_history->count() >0){
+                    $version_link = $row->version.'<br> <a href="" data-bs-toggle="modal" data-bs-target="#modal-large" onClick="return viewHistory(' . $row->id . ')" class="text-center">(Check_History)</a>';
+                }else{
+                    $version_link =$row->version;
+                }
+                            
+                return $version_link;
+            })
+                ->rawColumns(['action','version_link']) // Agar HTML di kolom 'action' dirender
                 ->make(true);
         }
     }
@@ -100,6 +111,7 @@ class ReportDailyController extends Controller
         $document_number = $request->input('document_number');
         $description = $request->input('description');
         $typeofreport = $request->input('typeofreport');
+        $version = $request->input('version');
 
         $savedFiles = [];
         foreach ($uploadedFiles as $file) {
@@ -118,6 +130,7 @@ class ReportDailyController extends Controller
             $doc->path = str_replace('public/', '', $newPath);
             $doc->ext = $file_ext;
             $doc->typeofreport = $typeofreport;
+            $doc->version = $version;
             $doc->author =Auth::User()->name;
             $doc->save();
 
@@ -153,8 +166,21 @@ class ReportDailyController extends Controller
         $document_number = $request->input('document_number');
         $description = $request->input('description');
         $typeofreport = $request->input('typeofreport');
+        $version = $request->input('version');
        
         $doc = ReportDaily::find($id);
+
+            //insert ke history
+            $docHistory = new ReportDailyHistory();
+            $docHistory->report_daily_id = $doc->id;
+            $docHistory->document_number = $doc->document_number;
+            $docHistory->description = $doc->description;
+            $docHistory->version = $doc->version;
+            $docHistory->author = $doc->author;
+            $docHistory->typeofreport = $doc->typeofreport;
+            $docHistory->path = $doc->path;
+            $docHistory->ext = $doc->ext;
+            $docHistory->save();        
 
         $path = $doc->path;
         $file_ext = $doc->ext;
@@ -172,6 +198,7 @@ class ReportDailyController extends Controller
             $doc->document_number = trim($document_number);
             $doc->description = trim($description);
             $doc->typeofreport = trim($typeofreport);
+            $doc->version = trim($version);
             $doc->author = Auth::User()->name;
             $doc->path = $path;
             $doc->ext = $file_ext;
@@ -239,4 +266,19 @@ class ReportDailyController extends Controller
             "action"=> "deleted"
         ]);
     }
+    
+    public function history(Request $request, $id){ 
+        try{
+            $document = ReportDailyHistory::where('report_daily_id', $id)->get();
+            return view('pages.report-daily.report-history', [
+                "documents" => $document,
+            ]);
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
 }

@@ -76,7 +76,7 @@ table.dataTable td {
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Schedule Management / Input S-Curve</h6>
+        <h6 class="op-7 mb-2">Users </h6>
        
         </div> 
      
@@ -88,48 +88,49 @@ table.dataTable td {
             <div class="card card-stats card-round">
               <div class="card-body">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                  Jika parameter Kategori dan tanggal sama, maka akan Replace data sebelumnya
+                  Jika parameter Username sama, maka akan Replace data sebelumnya
                 </div>
               
-                  <div class="form-row d-flex align-items-center">
-                    
-                    <!-- Dropdown -->
-                  
-                    <div class="form-group col-md-3">
-                      <label for="optionSelect">Pilih Category</label>
-                      <select class="form-control form-control-sm" id="description" name="description">
-                        <option value="">Pilih Category</option>
-                        @foreach ($data_category as $item_category)
-                        <option value="{{ $item_category->description}}">{{ $item_category->description}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="optionSelect">Pilih Sub Category</label>
-                      <select class="form-control form-control-sm" id="category" name="category">
-                        <option value="">Pilih Sub Category</option>
-                        @foreach ($data_sub_category as $item_sub_category)
-                        <option value="{{ $item_sub_category->description}}">{{ $item_sub_category->description}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-      
+                  <div class="form-row d-flex align-items-center row">
                     <!-- Input Tanggal -->
                     <div class="form-group col-md-3">
-                      <label for="dateInput">Tanggal</label>
-                      <input type="date" class="form-control form-control-sm" id="tanggal" name="tanggal">
+                      <label for="dateInput">Username</label>
+                      <input type="text" class="form-control form-control-sm" id="username" name="username">
+                      <input type="hidden" class="form-control form-control-sm" id="model_id" name="model_id">
                     </div>
-      
-                    <!-- Input Persentase -->
                     <div class="form-group col-md-3">
-                      <label for="percentInput">Persentase (%)</label>
-                      <input type="number" class="form-control form-control-sm" id="percent" name="percent" min="0" max="100" step="0.01" placeholder="0-100">
+                      <label for="dateInput">Name</label>
+                      <input type="text" class="form-control form-control-sm" id="name" name="name">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="dateInput">Email</label>
+                      <input type="email" class="form-control form-control-sm" id="email" name="email">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="dateInput">Password</label>
+                      {{-- <input type="hidden" class="form-control form-control-sm" id="password_check" name="password_check"> --}}
+                      <input type="password" class="form-control form-control-sm" id="password" name="password">
+                    </div>
+                    <div class="row">
+                      <!-- Select Role -->
+                      <div class="form-group col-md-3">
+                        <label for="role">Role</label>
+                        <select class="form-control form-control-sm" id="role" name="role">
+                          <option value="">Pilih Role</option>
+                          @foreach ($data_role as $item_role)
+                            <option value="{{ $item_role->id}}">{{ $item_role->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    
+                      <!-- Tombol -->
+                      <div class="col-md-3 d-flex align-items-end mb-2 justify-content-start">
+                        <button type="submit" id="save" name="save" class="btn btn-sm btn-primary">Update & Insert</button>
+                      </div>
                     </div>
                     
-                  </div>
       
                   <!-- Tombol Submit -->
-                  <button type="submit" id="save" name="save" class="btn btn-sm btn-primary ms-2">Update & Insert</button>
                 
               </div>
             </div>
@@ -145,10 +146,10 @@ table.dataTable td {
             <table class="table table-bordered" id="myTable">
               <thead>
                 <tr>  
-                  <th  class="bg-th">Category</th>
-                  <th  class="bg-th">Sub Category</th>
-                  <th  class="bg-th">Tanggal</th>
-                  <th  class="bg-th">Percent</th>
+                  <th  class="bg-th">Name</th>
+                  <th  class="bg-th">Username</th>
+                  <th  class="bg-th">Email</th>
+                  <th  class="bg-th">Role</th>                  
                   <th  class="bg-th">Action</th>
                 </tr>
               </thead>
@@ -193,47 +194,56 @@ document.getElementById('save').addEventListener('click', function () {
 // Reset error messages
 $(".is-invalid").removeClass("is-invalid");
       let valid = true;
-      let description = $("#description").val();
-      let tanggal = $("#tanggal").val()
-      let percent = $("#percent").val()
-      let category = $("#category").val()
+      let name = $("#name").val();
+      let username = $("#username").val()
+      let email = $("#email").val()
+      let password = $("#password").val()
+      let password_check = $("#password_check").val()
+      let role = $("#role").val()
+      let model_id = $("#model_id").val()
       // Validasi Activity
    
-      // Validasi Start Date
-      if (description === "") {
-        $("#description").addClass("is-invalid");
-        valid = false;
-      }
 
    
  // Validasi End Date
-      if (tanggal === "") {
-        $("#tanggal").addClass("is-invalid");
+      if (name === "") {
+        $("#name").addClass("is-invalid");
         valid = false;
       } 
        // Validasi End Date
-       if (percent === "") {
-        $("#percent").addClass("is-invalid");
+       if (username === "") {
+        $("#username").addClass("is-invalid");
         valid = false;
       } 
-       if (category === "") {
-        $("#category").addClass("is-invalid");
+       if (email === "") {
+        $("#email").addClass("is-invalid");
+        valid = false;
+      } 
+       if (password === "") {
+        $("#password").addClass("is-invalid");
+        valid = false;
+      } 
+       if (role === "") {
+        $("#role").addClass("is-invalid");
         valid = false;
       } 
 
 if(valid == true){
-  console.log("masuk")
+  
   $.ajax({
-    url: "{{ route('s-curve-save') }}",
+    url: "{{ route('user-save') }}",
     type: "POST",
     data: {
       _token: "{{ csrf_token() }}",
-      description : description,
-      percent : percent,
-      tanggal : tanggal,
-      category : category,
+      name : name,
+      username : username,
+      email : email,
+      password : password,
+      model_id : model_id,
+      role : role ,
     },
     success: function (response,color) {
+      console.log(response ,'xxxx')
       if (response.status == 'ok'){
         msg_swal = "File Successfully Saved";
         color = "btn btn-success";
@@ -262,7 +272,7 @@ if(valid == true){
 function viewDelete(param){
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('s-curve-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('user-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -280,10 +290,13 @@ $.ajax({
 }
 
 function viewEdit(param){
-  $("#description").val(param["description"])
-  $("#tanggal").val(param["tanggal"])
-  $("#percent").val(param["percent"])
-  $("#category").val(param["category"])
+  console.log(param)
+  $("#name").val(param["name"])
+  $("#model_id").val(param["id"])
+  $("#username").val(param["username"])
+  $("#email").val(param["email"])
+  $("#password").val(param["password"])
+  $("#role").val(param["role_id"])
 }
  $(document).ready(function() {
   var table = $('.table').DataTable({
@@ -298,7 +311,7 @@ function viewEdit(param){
       
           ajax: {
             //mdr tidak ada kondisi
-            url : "{{ route('get-s-curve') }}",
+            url : "{{ route('get-user') }}",
           },
           dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
           buttons: [
@@ -307,10 +320,10 @@ function viewEdit(param){
             { extend: 'print', text: 'Print', className: 'btn btn-primary btn-sm' }
           ],
           columns: [
-              { data: 'description', name: 'description' },
-              { data: 'category', name: 'category' },
-              { data: 'tanggal', name: 'tanggal' },
-              { data: 'percent', name: 'percent' },
+              { data: 'name', name: 'name' },
+              { data: 'username', name: 'username' },
+              { data: 'email', name: 'email' },
+              { data: 'role', name: 'role' },
               { data: 'action', name: 'action', orderable: false, searchable: false } ,
              ],
             

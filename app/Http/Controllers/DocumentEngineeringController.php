@@ -7,6 +7,7 @@ use App\Models\DocumentEngineeringHistory;
 use App\Models\MasterCategory;
 use App\Models\MasterDiscipline;
 use App\Models\MasterStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,17 +28,7 @@ class DocumentEngineeringController extends Controller
             ], 500);
         }
     }   
-    public function check(Request $request){
-        try{
-            return view('pages.document-engineer.document-engineer-check');
-        }catch (Throwable $e) {
-            // Tangani error
-            return response()->json([
-                'message' => 'Terjadi kesalahan saat menyimpan data.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }   
+  
     public function getDocumentEngineer(Request $request,$field, $status)
     {
       
@@ -179,6 +170,7 @@ class DocumentEngineeringController extends Controller
         $discipline = $request->input('discipline');
         $category = $request->input('category');
         $status = $request->input('status');
+        $email = $request->input('email');
 
         $savedFiles = [];
         foreach ($uploadedFiles as $file) {
@@ -205,6 +197,15 @@ class DocumentEngineeringController extends Controller
             $doc->ext = $file_ext;
             $doc->size = $fileSize;
             $doc->uploader =Auth::User()->name;
+            if($status == 'new'){
+                $doc->email_check = $email;
+            }
+            if($status == 'check'){
+                $doc->email_review =$email;
+            }
+            if($status == 'review'){
+                $doc->email_approve = $email;
+            }
             $doc->save();
 
             $savedFiles[] = $doc;
@@ -215,36 +216,6 @@ class DocumentEngineeringController extends Controller
         'data' => $savedFiles
     ]);
     }
-
-    public function viewCheckModal(Request $request, $id){
-      
-        try{
-            $document = DocumentEngineering::find($id);
-            return view('pages.document-engineer.document-engineer-check-modal', [
-                "document" => $document,
-            ]);
-        }catch (Throwable $e) {
-            // Tangani error
-            return response()->json([
-                'message' => 'Terjadi kesalahan saat menyimpan data.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    } 
-    
-    public function updateCheck($id, Request $request){
-        $task = DocumentEngineering::find($id);
-        $task->status = 'check';
-        $task->checker = Auth::User()->name;
-        
-        $task->save();
- 
-        return response()->json([
-            "message"=> "updated"
-        ]);
-    }
-    
-    
 
     public function viewEdit(Request $request, $id){
         
@@ -413,6 +384,49 @@ class DocumentEngineeringController extends Controller
         ]);
     }
 
+    //Checker
+    public function check(Request $request){
+        try{
+            return view('pages.document-engineer.document-engineer-check');
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }   
+    public function viewCheckModal(Request $request, $id){
+      
+        try{
+            $document = DocumentEngineering::find($id);
+         
+            return view('pages.document-engineer.document-engineer-check-modal', [
+                "document" => $document,
+            ]);
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
+    
+    public function updateCheck($id, Request $request){
+        $task = DocumentEngineering::find($id);
+        $task->status = 'check';
+        $task->email_review = $request->input('email');
+        $task->checker = Auth::User()->name;
+        
+        $task->save();
+ 
+        return response()->json([
+            "message"=> "updated"
+        ]);
+    }
+    
+
    //REVIEWER
    public function review(Request $request){
     try{
@@ -445,6 +459,7 @@ class DocumentEngineeringController extends Controller
     public function updateReview($id, Request $request){
         $task = DocumentEngineering::find($id);
         $task->status = 'review';
+        $task->email_approve = $request->input('email');
         $task->reviewer = Auth::User()->name;
         
         $task->save();
@@ -551,5 +566,5 @@ class DocumentEngineeringController extends Controller
             ], 500);
         }
     }
-        
+
 }

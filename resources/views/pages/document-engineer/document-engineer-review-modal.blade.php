@@ -8,7 +8,15 @@
       <div class="mb-3">
         <label for="start_date" class="form-label">Document Number</label>
         <input type="hidden" id="data_id" name="data_id" value="{{ $document->id }}"> <!-- Hidden input for ID -->
+        <input type="hidden" id="description" name="description" value="{{ $document->description }}"> <!-- Hidden input for ID -->
         <input type="text" readonly class="form-control" value="{{ $document->document_number }}">
+      </div>
+      <div class="col mb-3 to">
+        <label for="start_date" class="form-label strong">To</label>
+   
+        <select class="form-select"  id="email" name="email">
+        
+        </select>
       </div>
     </form>
   </div>
@@ -17,15 +25,45 @@
   </div>
   
   <script>
+    emailApproval();
+    function emailApproval(){
+      $.ajax({
+      url: "{{ route('assign') }}",
+      type: "POST",
+      data: {
+         status : 'review',
+        _token: "{{ csrf_token() }}",
+      },
+      success: function (response) {
+      
+        let options ='';
+        if(response.length > 0){
+        
+          response.forEach((item) =>{
+            options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
+          })
+        }
+
+        $("#email").html(options);
+      
+      },
+      error: function (xhr) {
+        alert('An error occurred: ' + xhr.responseText);
+      }
+    });
+    }
   
     // Update data
     $("#reviewData").on("click", function() {
       $(".is-invalid").removeClass("is-invalid");
    
       let dataId = $("#data_id").val();
+      let email = $("#email").val();
+      let description = $("#description").val();
   
         let formData = {
           id: dataId,
+          email:email,
           _token: "{{ csrf_token() }}",
         };
   
@@ -42,6 +80,7 @@
                 },
               },
             });
+            sendEmail(email,'review',description)   
             $("#modal").modal('hide');
             setTimeout(function() {
                 window.location.reload();
@@ -53,5 +92,23 @@
         });
       
     });
+
+    
+function sendEmail(email,status, description){
+  console.log(email, status, description)
+  $.ajax({
+      url: "{{ route('send-mail') }}",
+      type: "POST",
+      data: {
+        _token: "{{ csrf_token() }}",
+        status:status,  
+        email:email,
+        description:description
+      },
+      success: function (response,color) {
+      }
+    });
+  }
+
   </script>
   

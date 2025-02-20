@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CorSuratMasuk;
+use App\Models\CorSuratMasukHistory;
 use App\Models\MasterCategory;
 use App\Models\Mom;
 use App\Models\ReportDaily;
@@ -39,6 +40,9 @@ class CorSuratMasukController extends Controller
                 'typeofincomingdocument', 
                 'author',
                 'from_',
+                'version',
+                'hardcopy',
+                'email',
                 DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal_masuk"), 
                 'path',
                 'ext',
@@ -73,11 +77,40 @@ class CorSuratMasukController extends Controller
                 </div>';
                 return $btn;
             }) 
+            ->addColumn('isHardCopy', function($row) {
+                if($row->hardcopy == '1'){
+                    $hardcopycheck = '<i class="fas fa-check-circle text-success text-center"> Done</i>';
+                    
+                }else{
+                    $hardcopycheck = '';
+                }
+                
+                return $hardcopycheck;
+            }) 
+            ->addColumn('isEmail', function($row) {
+                if($row->email == '1'){
+                    $emailcheck = '<i class="fas fa-check-circle text-success text-center"> Done</i>';
+                    
+                }else{
+                    $emailcheck = '';
+                }
+                
+                return $emailcheck;
+            }) 
             ->addColumn('category_desc', function($row) {
                 
                 return optional($row->r_category)->description;
             }) 
-                ->rawColumns(['action']) // Agar HTML di kolom 'action' dirender
+            ->addColumn('version_link', function($row) {
+                if($row->r_history->count() >0){
+                    $version_link = $row->version.'<br> <a href="" data-bs-toggle="modal" data-bs-target="#modal-large" onClick="return viewHistory(' . $row->id . ')" class="text-center">(Check_History)</a>';
+                }else{
+                    $version_link =$row->version;
+                }
+                            
+                return $version_link;
+            })
+                ->rawColumns(['action','isHardCopy','isEmail','version_link']) // Agar HTML di kolom 'action' dirender
                 ->make(true);
         }
     }
@@ -109,12 +142,16 @@ class CorSuratMasukController extends Controller
 
     public function saveUploads(Request $request)
     {
+        return $request->all();
         $uploadedFiles = $request->input('uploaded_files');
         $document_number = $request->input('document_number');
         $description = $request->input('description');
         $category = $request->input('category');
         $typeofincomingdocument = $request->input('typeofincomingdocument');
         $from = $request->input('from');
+        $version = $request->input('version');
+        $hardcopy = $request->input('hardcopy');
+        $email = $request->input('email');
       
 
         $savedFiles = [];
@@ -138,6 +175,9 @@ class CorSuratMasukController extends Controller
             $doc->ext = $file_ext;
             $doc->author =Auth::User()->name;
             $doc->tanggal = Carbon::now()->format('Y-m-d');
+            $doc->version = trim($version);
+            $doc->hardcopy = trim($hardcopy);
+            $doc->email = trim($email);
             $doc->save();
 
             $savedFiles[] = $doc;
@@ -175,8 +215,28 @@ class CorSuratMasukController extends Controller
         $category = $request->input('category');
         $typeofincomingdocument = $request->input('typeofincomingdocument');
         $from = $request->input('from');
+        $version = $request->input('version');
+        $hardcopy = $request->input('hardcopy');
+        $email = $request->input('email');
       
         $doc = CorSuratMasuk::find($id);
+          //insert ke history
+          $docHistory = new CorSuratMasukHistory();
+          $docHistory->cor_surat_masuk_id = $doc->id;
+          $docHistory->document_number = $doc->document_number;
+          $docHistory->description = $doc->description;
+          $docHistory->version =$doc->version;
+          $docHistory->category = $doc->category;
+          $docHistory->typeofincomingdocument = $doc->typeofincomingdocument;
+          $docHistory->from_ = $doc->from_;
+          $docHistory->hardcopy = $doc->hardcopy;
+          $docHistory->email = $doc->email;
+          $docHistory->author = $doc->author;
+          $docHistory->tanggal = $doc->created_at;
+          $docHistory->path = $doc->path;
+          $docHistory->ext = $doc->ext;
+          $docHistory->save();        
+ 
 
         $path = $doc->path;
         $file_ext = $doc->ext;
@@ -199,6 +259,9 @@ class CorSuratMasukController extends Controller
             $doc->typeofincomingdocument = $typeofincomingdocument;
             $doc->from_ = $from;
             $doc->ext = $file_ext;
+            $doc->version = $version;
+            $doc->hardcopy = $hardcopy;
+            $doc->email = $email;
           
             $doc->save();
 
@@ -263,4 +326,18 @@ class CorSuratMasukController extends Controller
             "action"=> "deleted"
         ]);
     }
+    public function history(Request $request, $id){ 
+        try{
+            $document = CorSuratMasukHistory::where('cor_surat_masuk_id', $id)->get();
+            return view('pages.surat-masuk.surat-masuk-history', [
+                "documents" => $document,
+            ]);
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
 }

@@ -76,7 +76,7 @@
               <input type="text" class="form-control" id="document_number" name="document_number">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="start_date" class="form-label strong">Description</label>
+              <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description">
             </div>
           
@@ -89,14 +89,8 @@
               <input type="text" class="form-control" id="attn" name="attn">
             </div>
             <div class="col-md-6 mb-3">
-              <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
-              <input type="checkbox" id="hardcopy" name="hardcopy">
-              <label for="hardcopy">Hardcopy</label>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="email" class="form-label strong">Email</label><br>
-              <input type="checkbox" id="email" name="email" >
-              <label for="email">Email</label>
+              <label for="version" class="form-label strong">Version</label>
+              <input type="text" class="form-control" id="version" name="version">
             </div>
             <div class="col-md-6 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
@@ -108,6 +102,17 @@
                 </select>
             </div>
           
+            <div class="col-md-6 mb-3">
+              <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
+              <input type="checkbox" id="hardcopy" name="hardcopy">
+              <label for="hardcopy">Hardcopy</label>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label strong">Email</label><br>
+              <input type="checkbox" id="email" name="email" >
+              <label for="email">Email</label>
+            </div>
+         
             
           
             <div class="col-md-12 mb-3">
@@ -179,6 +184,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let recipient = $("#recipient").val();
         let attn = $("#attn").val();        
         let category = $("#category").val();        
+        let version = $("#version").val();        
         let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
         let email = $("input[name='email']").is(":checked") ? '1' : '0';
         // Validasi Activity
@@ -198,6 +204,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         }
         if (attn === "") {
           $("#attn").addClass("is-invalid");
+          valid = false;
+        }
+        if (version === "") {
+          $("#version").addClass("is-invalid");
           valid = false;
         }
         if (hardcopy === "") {
@@ -232,6 +242,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         description : description,
         recipient : recipient,
         attn : attn,
+        version : version,
         hardcopy : hardcopy,
         email : email,
         category : category,

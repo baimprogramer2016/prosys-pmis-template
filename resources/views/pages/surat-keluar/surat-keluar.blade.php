@@ -111,9 +111,10 @@
               <thead>
                 <tr>  
                   <th  class="bg-th">Document Number</th>
-                  <th  class="bg-th">Description</th>
+                  <th  class="bg-th">Title</th>
                   <th  class="bg-th">Recipient</th>
                   <th  class="bg-th">Attn</th>
+                  <th  class="bg-th">Version</th>
                   <th  class="bg-th">Category</th>
                   <th  class="bg-th">Hardcopy</th>
                   <th  class="bg-th">Email</th>
@@ -257,6 +258,7 @@ function viewPdf(param){
               { data: 'description', name: 'description' },
               { data: 'recipient', name: 'recipient' },
               { data: 'attn', name: 'attn' },
+              { data: 'version_link', name: 'version_link' },
               { data: 'category_desc', name: 'category_desc' },
               { data: 'isHardCopy', name: 'isHardCopy' },
               { data: 'isEmail', name: 'isEmail' },
@@ -266,6 +268,28 @@ function viewPdf(param){
             
       });
     });
+
+    
+    
+function viewHistory(param){
+  $(".modal-content").html("");
+$.ajax({
+  url: "{{ route('surat-keluar-history', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+    type: "GET",
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(response) {
+    
+      $(".modal-content").html("");
+      $(".modal-content").html(response);
+      
+    },
+    error: function(xhr) {
+        alert('An error occurred: ' + xhr.responseText);
+    }
+});
+}
     </script>
 
   
