@@ -46,6 +46,9 @@
     />
 
     <!-- Fonts and icons -->
+    <script src="{{ asset('assets/js/swiper-bundle.min.js')}}"></script>
+
+    <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css')}}" />
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
     <script>
       WebFont.load({

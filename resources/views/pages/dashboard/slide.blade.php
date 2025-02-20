@@ -3,9 +3,7 @@
 @push('top')
   
     <!-- Swiper CSS -->
-    <script src="{{ asset('assets/js/swiper-bundle.min.js')}}"></script>
-
-    <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css')}}" />
+ 
     
     <style>
      
@@ -38,7 +36,14 @@
         .con{
           border-radius: 20px;
           box-shadow: 0px 8px 12px rgba(239, 236, 236, 0.1); /* Efek shadow */
-          background-color: #b5f1b8;
+          /* background-color:blue; */
+          background-image: url('/assets//img/slide/bg_box.jpg');
+          background-size: cover;
+          background-position: center; 
+        
+          /* width: 100%;
+          height: 400px;  */
+           background-repeat: no-repeat ;
           /* border:4px solid #fff; */
         }
 
@@ -69,18 +74,9 @@
   <div class=" d-flex justify-content-center con ">
     <div class="swiper-container ">
       <div class="swiper-wrapper">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg1.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg2.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg3.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg4.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg5.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg6.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg7.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg8.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg9.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg10.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg11.jpg')}}" alt="">
-        <img class="swiper-slide" src="{{asset('assets/img/login/bg12.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide2.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide1.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide3.jpg')}}" alt="">
        
           {{-- <div class="swiper-slide" style="background: #3498db;">Slide 2</div>
           <div class="swiper-slide" style="background: #e74c3c;">Slide 3</div>
