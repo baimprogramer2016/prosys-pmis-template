@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 /storage/public
 /storage/temp
+.htaccess
