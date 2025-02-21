@@ -126,7 +126,7 @@
               <p>Engineering</p>
               <span class="caret"></span>
             </a>
-            <div class="collapse {{ Request::is('document-engineer*') || Request::is('document-engineer') ? 'show' : '' }}"" id="engineering">
+            <div class="collapse {{ Request::is('document-engineer*') || Request::is('document-engineer')  ? 'show' : '' }}"" id="engineering">
               <ul class="nav nav-collapse">
                 @can('view_doc_engineering_upload')
                 <li class="{{ Request::is('document-engineer-tambah') ? 'active' : '' }}">
@@ -271,32 +271,12 @@
                   </a>
                 </li>
                 @endcan
+              
                          
               </ul>
             </div>
           </li>
-          {{-- <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#construction">
-              <i class="fas fa-hotel"></i>
 
-              <p>Construction</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse {{ Request::is('document') || Request::is('gantt-chart') ? '' : '' }}"" id="construction">
-              <ul class="nav nav-collapse">
-                <li class="{{ Request::is('document') ? 'active' : '' }}">
-                  <a href="{{ route('document') }}">
-                    <span class="sub-item">Construction Document</span>
-                  </a>
-                </li>
-                <li class="{{ Request::is('gantt-chart') ? 'active' : '' }}">
-                  <a href="{{ route('gantt-chart') }}">
-                    <span class="sub-item">Field Instructions</span>
-                  </a>
-                </li>               
-              </ul>
-            </div>
-          </li> --}}
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#correspondence">
               <i class="fas fa-folder-open"></i>
@@ -323,6 +303,14 @@
               </ul>
             </div>
           </li>
+          {{-- @can('view_file_manager')
+          <li class="nav-item {{ Request::is('file-manager*') ? 'active' : '' }}">
+            <a href="{{ route('file-manager') }}">
+              <i class="fas fa-folder"></i>
+              <p>File Manager</p>
+            </a>
+          </li>
+          @endcan --}}
           <li class="nav-item">
             <a href="#">
               <p>Report</p>
@@ -400,17 +388,12 @@
             </a>
           </li>
           @endcan --}}
-          {{-- <li class="nav-item {{ Request::is('file-manager*') ? 'active' : '' }}">
-            <a href="{{ route('file-manager') }}">
-              <i class="fas fa-folder"></i>
-              <p>File Manager</p>
-            </a>
-          </li> --}}
+        
 
           <li class="nav-item {{ Request::is('gantt-chart*') ? 'active' : '' }}">
             <a href="#">
              
-              <p>Role & Permission</p>
+              <p>Settings</p>
             </a>
           </li>
           @if(Auth::user()->hasAnyRole(['superadmin']))
@@ -437,6 +420,14 @@
             </a>
           </li>
           @endif
+          {{-- @can('view_custom')
+          <li class="nav-item {{ Request::is('custom*') ? 'active' : '' }}">
+            <a href="{{ route('custom') }}">
+              <i class="fab fa-whmcs"></i>
+              <p>Custom</p>
+            </a>
+          </li>
+          @endif --}}
       
 
         </ul>

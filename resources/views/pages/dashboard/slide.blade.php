@@ -77,6 +77,12 @@
         <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide2.jpg')}}" alt="">
         <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide1.jpg')}}" alt="">
         <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide3.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide4.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide5.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide6.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide7.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide8.jpg')}}" alt="">
+        <img class="swiper-slide" src="{{asset('assets/img/slide/bg_slide9.jpg')}}" alt="">
        
           {{-- <div class="swiper-slide" style="background: #3498db;">Slide 2</div>
           <div class="swiper-slide" style="background: #e74c3c;">Slide 3</div>

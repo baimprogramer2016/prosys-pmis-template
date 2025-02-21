@@ -46,9 +46,9 @@
 44. Material Verification Report di Report -> Done
 45. Material Receiving Report di Report -> Done
 46. Background ganti2 di halaman login ->Done
-47. kumpulan foto slide2 bergerak... ->Done
+47. kumpulan foto slide2 bergerak ->Done
 48. Title di Engineering ->Done
-49. Buat Custom Report
+49. Buat Custom Report 
 
 
 ssh pmispros@36.50.77.55 -p 64000
@@ -58,4 +58,35 @@ baGfZg2Z27P[1b!x
 Tampilan hanya  2 Bar 
 Size 
 
-Global = Doc no, title, description
+
+CREATE TABLE master_custom(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    type VARCHAR(30),
+    icon VARCHAR(50),
+    tab VARCHAR(50),
+    tab_history VARCHAR(50),
+    parent VARCHAR(10),
+    template varchar(50),
+    created_at DATETIME,
+    updated_at datetime
+)
+
+CREATE TABLE param_table (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`document_number` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`discipline` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`version` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`author` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`tanggal` DATETIME NULL DEFAULT NULL,
+	`size` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`created_at` DATETIME NULL DEFAULT NULL,
+	`updated_at` DATETIME NULL DEFAULT NULL,
+	`ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci'
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;

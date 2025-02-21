@@ -4,7 +4,7 @@ use App\Http\Controllers\AssignController;
 use App\Http\Controllers\ConstructionDocumentController;
 use App\Http\Controllers\CorSuratKeluarController;
 use App\Http\Controllers\CorSuratMasukController;
-use App\Http\Controllers\CustomReportController;
+use App\Http\Controllers\CustomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -368,7 +368,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/assign', [AssignController::class, 'index'])->name('assign');
 
 
-    Route::get('/custom-report', [CustomReportController::class, 'index'])->name('custom-report');
+    Route::get('/custom', [CustomController::class, 'index'])->name('custom');
     // Route::get('/report-daily', [ReportDailyController::class, 'index'])->name('report-daily');
     // Route::get('/get-report-daily', [ReportDailyController::class, 'getReport'])->name('get-report-daily');
     // Route::get('/report-daily-tambah', [ReportDailyController::class, 'tambah'])->name('report-daily-tambah');
