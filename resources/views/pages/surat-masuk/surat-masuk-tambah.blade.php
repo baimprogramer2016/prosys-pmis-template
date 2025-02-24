@@ -264,10 +264,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
                 },
               });
             
-        // setTimeout(function() {
-        //      window.location.reload();
-        //  }, 1000);
-        // location.reload();
+        setTimeout(function() {
+             window.location.reload();
+         }, 1000);
+        location.reload();
       },
       error: function (xhr) {
         alert('An error occurred: ' + xhr.responseText);
