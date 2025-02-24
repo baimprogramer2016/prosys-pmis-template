@@ -157,7 +157,7 @@
 
 Dropzone.options.myDropzone = {
   paramName: "file",
-  maxFilesize: 10, // 5MB per file
+  maxFilesize: 100, 
   maxFiles: 1,
   acceptedFiles: ".pdf,.jpg,.jpeg,.png,.ppt",
   addRemoveLinks: true,

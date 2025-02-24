@@ -67,12 +67,12 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Report / Daily Report</h6>
+        <h6 class="op-7 mb-2">Document Management / {{ Ucwords(request('tab')) }} </h6>
        
         </div> 
      
       <div class="ms-md-auto py-2 py-md-0">
-        <a href="{{ route('report-daily-tambah') }}"  class="btn btn-primary btn-round">Tambah</a>
+        <a href="{{ route('custom-document-management-tambah',["tab" => request('tab')]) }}"  class="btn btn-primary btn-round">Tambah</a>
        </div>
     </div>
     <div class="row">
@@ -86,12 +86,12 @@
                     <div
                       class="icon-big text-center icon-primary bubble-shadow-small"
                     >
-                    <i class="fas fa-calendar-alt"></i>
+                    <i class="{{ request('icon') }}"></i>
                     </div>
                   </div>
                   <div class="col col-stats ms-3 ms-sm-0 d-flex">
                     <div class="numbers">
-                      <h4 class="card-title">Daily Report</h4>
+                      <h4 class="card-title"> {{ Ucwords(request('tab')) }}</h4>
                     </div>
                     
                   </div>
@@ -112,9 +112,11 @@
                 <tr>  
                   <th  class="bg-th">Document Number</th>
                   <th  class="bg-th">Title</th>
-                  <th  class="bg-th">Type</th>
+                  <th  class="bg-th">Discipline</th>                
                   <th  class="bg-th">Version</th>
+                  <th  class="bg-th">Author</th>
                   <th  class="bg-th">Date</th>
+                  <th  class="bg-th">Extension</th>
                   <th  class="bg-th">Action</th>
                 </tr>
               </thead>
@@ -171,10 +173,15 @@
   
 
 function viewDelete(param){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('report-daily-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('custom-document-management-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
+    data: {
+        tab:tab 
+      },
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
@@ -190,10 +197,15 @@ $.ajax({
 });
 }
 function viewShare(param){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('report-daily-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('custom-document-management-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
+    data: {
+        tab:tab 
+      },
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
@@ -209,10 +221,15 @@ $.ajax({
   });
 }
 function viewPdf(param){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
   $.ajax({
-    url: "{{ route('report-daily-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+    url: "{{ route('custom-document-management-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
       type: "GET",
+      data: {
+        tab:tab 
+      },
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
@@ -228,6 +245,7 @@ function viewPdf(param){
   });
 }
 
+
  $(document).ready(function() {
   var table = $('.table').DataTable({
           processing: true,
@@ -239,10 +257,9 @@ function viewPdf(param){
                 sLengthMenu: "Show _MENU_"
             },
       
-          ajax: {
-            //mdr tidak ada kondisi
-            url : "{{ route('get-report-daily') }}",
-          },
+            ajax: {
+                url: "{{ route('get-custom-document-management', ['tab' => request('tab')]) }}",
+            },
           dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
           buttons: [
             { extend: 'excelHtml5', text: 'Export Excel', className: 'btn btn-success btn-sm' },
@@ -252,22 +269,29 @@ function viewPdf(param){
           columns: [
               { data: 'document_number', name: 'document_number' },
               { data: 'description', name: 'description' },
-              { data: 'typeofreport', name: 'typeofreport' },
+              { data: 'discipline', name: 'discipline' },
               { data: 'version_link', name: 'version_link' },
-              { data: 'created_at_format', name: 'created_at_format' },
+              { data: 'author', name: 'author' },
+              { data: 'tanggal', name: 'tanggal' },
+              { data: 'ext', name: 'ext' },
               { data: 'action', name: 'action', orderable: false, searchable: false } ,
              ],
             
       });
     });
-
+          
 
     
 function viewHistory(param){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
-$.ajax({
-  url: "{{ route('report-daily-history', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  $.ajax({
+  url: "{{ route('custom-document-management-history', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
+    data: {
+        tab:tab 
+    },
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },

@@ -5,6 +5,7 @@ use App\Http\Controllers\ConstructionDocumentController;
 use App\Http\Controllers\CorSuratKeluarController;
 use App\Http\Controllers\CorSuratMasukController;
 use App\Http\Controllers\CustomController;
+use App\Http\Controllers\CustomDocumentManagementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -364,11 +365,31 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/role-update/{id}', [RoleController::class, 'update'])->name('role-update');
     Route::get('/role-permission/{id}', [RoleController::class, 'viewPermission'])->name('role-permission');
     Route::post('/role-permission-update', [RoleController::class, 'updatePermission'])->name('role-permission-update');
-
+    
     Route::post('/assign', [AssignController::class, 'index'])->name('assign');
+    
+    
+    Route::get('/master-custom', [CustomController::class, 'index'])->name('master-custom');
+    Route::post('/master-custom-save', [CustomController::class, 'save'])->name('master-custom-save');
+    Route::get('/get-master-custom', [CustomController::class, 'getMasterCustom'])->name('get-master-custom');   
+    Route::get('/master-custom-delete/{id}', [CustomController::class, 'viewDelete'])->name('master-custom-delete');
+    Route::post('/master-custom-deleted/{id}', [CustomController::class, 'deleted'])->name('master-custom-deleted');
 
 
-    Route::get('/custom', [CustomController::class, 'index'])->name('custom');
+    Route::get('/custom-document-management', [CustomDocumentManagementController::class, 'index'])->name('custom-document-management');
+    Route::get('/get-custom-document-management', [CustomDocumentManagementController::class, 'getCustomDocumentManagement'])->name('get-custom-document-management');   
+    Route::get('/custom-document-management-tambah', [CustomDocumentManagementController::class, 'viewTambah'])->name('custom-document-management-tambah');
+    Route::post('/custom-document-management-upload-temp', [CustomDocumentManagementController::class, 'uploadTemp'])->name('custom-document-management-upload-temp');
+    Route::post('/custom-document-management-save-uploads', [CustomDocumentManagementController::class, 'saveUploads'])->name('custom-document-management-save-uploads');
+    Route::get('/custom-document-management-edit/{id}', [CustomDocumentManagementController::class, 'viewEdit'])->name('custom-document-management-edit');
+    Route::post('/custom-document-management-update-uploads/{id}', [CustomDocumentManagementController::class, 'updateUploads'])->name('custom-document-management-update-uploads');
+    Route::get('/custom-document-management-pdf/{id}', [CustomDocumentManagementController::class, 'pdf'])->name('custom-document-management-pdf');
+    Route::get('/custom-document-management-share/{id}', [CustomDocumentManagementController::class, 'share'])->name('custom-document-management-share');
+    Route::get('/custom-document-management-delete/{id}', [CustomDocumentManagementController::class, 'viewDelete'])->name('custom-document-management-delete');
+    Route::post('/custom-document-management-deleted/{id}', [CustomDocumentManagementController::class, 'deleted'])->name('custom-document-management-deleted');
+    Route::get('/custom-document-management-history/{id}', [CustomDocumentManagementController::class, 'history'])->name('custom-document-management-history');
+  
+
     // Route::get('/report-daily', [ReportDailyController::class, 'index'])->name('report-daily');
     // Route::get('/get-report-daily', [ReportDailyController::class, 'getReport'])->name('get-report-daily');
     // Route::get('/report-daily-tambah', [ReportDailyController::class, 'tambah'])->name('report-daily-tambah');

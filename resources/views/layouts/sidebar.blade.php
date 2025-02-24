@@ -176,7 +176,7 @@
                     <span class="sub-item">DED</span>
                   </a>
                 </li>     
-                @endcan             
+                @endcan              
               </ul>
             </div>
           </li>
@@ -303,14 +303,15 @@
               </ul>
             </div>
           </li>
-          {{-- @can('view_file_manager')
+          @can('view_file_manager')
           <li class="nav-item {{ Request::is('file-manager*') ? 'active' : '' }}">
             <a href="{{ route('file-manager') }}">
               <i class="fas fa-folder"></i>
               <p>File Manager</p>
             </a>
           </li>
-          @endcan --}}
+          @endcan
+          <x-custom-document-management />
           <li class="nav-item">
             <a href="#">
               <p>Report</p>
@@ -420,14 +421,14 @@
             </a>
           </li>
           @endif
-          {{-- @can('view_custom')
-          <li class="nav-item {{ Request::is('custom*') ? 'active' : '' }}">
-            <a href="{{ route('custom') }}">
+          @can('view_custom')
+          <li class="nav-item {{ Request::is('master-*') ? 'active' : '' }}">
+            <a href="{{ route('master-custom') }}">
               <i class="fab fa-whmcs"></i>
               <p>Custom</p>
             </a>
           </li>
-          @endif --}}
+          @endif
       
 
         </ul>

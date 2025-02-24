@@ -8,7 +8,8 @@
       <div class="mb-3">
         <label for="start_date" class="form-label">Document Number</label>
         <input type="hidden" id="data_id" name="data_id" value="{{ $document->id }}"> <!-- Hidden input for ID -->
-        <input type="text" readonly class="form-control" value="{{ $document->username}}">
+        <input type="text" readonly class="form-control" value="{{ $document->document_number }}">
+        <input type="hidden" readonly name="tab" id="tab" class="form-control" value="{{ $tab }}">
       </div>
     </form>
   </div>
@@ -20,17 +21,20 @@
   
     // Update data
     $("#deleteData").on("click", function() {
+      
       $(".is-invalid").removeClass("is-invalid");
    
       let dataId = $("#data_id").val();
+      let tab = $("#tab").val();
   
         let formData = {
           id: dataId,
+          tab:tab,
           _token: "{{ csrf_token() }}",
         };
   
         $.ajax({
-          url: "{{ route('user-deleted', ':id') }}".replace(':id', dataId), // Ganti dengan route yang sesuai
+          url: "{{ route('custom-document-management-deleted', ':id') }}".replace(':id', dataId), // Ganti dengan route yang sesuai
     
           type: "POST",  // HTTP PUT untuk update
           data: formData,

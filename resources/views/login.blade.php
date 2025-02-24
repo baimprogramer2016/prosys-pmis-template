@@ -40,7 +40,7 @@
 <body>
 
 <div class="container">
-  <img class="logo_prosys" src="{{asset('assets/img/login/logo_prosys.png')}}" alt="">
+  <img class="logo_prosys" src="{{asset('assets/img/login/logo_prosys.jpg')}}" alt="">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
       <div class="card login-card p-4">

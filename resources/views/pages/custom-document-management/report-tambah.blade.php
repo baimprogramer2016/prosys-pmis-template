@@ -33,7 +33,7 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Document Management / Engineering / Upload</h6>
+        <h6 class="op-7 mb-2">Document Management /  {{ Ucwords(request('tab')) }}</h6>
       </div>
       <div onClick="addView()" class="ms-md-auto py-2 py-md-0">
         {{-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> --}}
@@ -67,7 +67,7 @@
       <div class="card ">   
         <div class="card-body">
           <div class="alert-warning text-center">Hanya bisa Upload 1 File</div>
-          <form action="{{ route('surat-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
+          <form action="{{ route('custom-document-management-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
             
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
@@ -99,7 +99,7 @@
                   @endforeach
               </select>
             </div>
-            <div class="col-md-4 mb-3">
+            {{-- <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
               <select class="form-select" id="category" name="category">
                   <option value="">---Pilih---</option>
@@ -122,7 +122,7 @@
               <select class="form-select"  id="email" name="email">
                  
               </select>
-            </div>
+            </div> --}}
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
             </div>
@@ -149,6 +149,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
 <script>
+
   var uploadedFiles = [];
 
 Dropzone.options.myDropzone = {
@@ -188,9 +189,9 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let version = $("#version").val()
         let tanggal = $("#tanggal").val()
         let discipline = $("#discipline").val()
-        let category = $("#category").val()
-        let status = $("#status").val()
-        let email = $("#email").val()
+        // let category = $("#category").val()
+        // let status = $("#status").val()
+        // let email = $("#email").val()
         // let email = $("#email").val()
   
         // Validasi Activity
@@ -225,6 +226,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           valid = false;
         } 
   
+  /*
         if (category === "") {
           $("#category").addClass("is-invalid");
           valid = false;
@@ -234,6 +236,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           $("#status").addClass("is-invalid");
           valid = false;
         } 
+          */
   
         // if (email === "") {
         //   $("#email").addClass("is-invalid");
@@ -248,8 +251,11 @@ document.getElementById('saveUploads').addEventListener('click', function () {
   }
 
   if(valid == true){
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab'); 
+
     $.ajax({
-      url: "{{ route('document-engineer-save-uploads') }}",
+      url: "{{ route('custom-document-management-save-uploads') }}",
       type: "POST",
       data: {
         _token: "{{ csrf_token() }}",
@@ -259,9 +265,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         version : version,
         tanggal : tanggal,
         discipline : discipline,
-        category : category,
-        status:status,  
-        email:email  
+        tab : tab
+        // category : category,
+        // status:status,  
+        // email:email  
       },
       success: function (response,color) {
         if (response.status == 'ok'){
@@ -279,7 +286,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
                 },
               });
         //kirim email
-        sendEmail(email,status,description)    
+     
         
         location.reload();
       },
@@ -307,40 +314,40 @@ function sendEmail(email,status, description){
   }
 
 
-document.getElementById('status').addEventListener('change', function () {
-  $("#email").prop("disabled", true);
-  if($("#status").val() == 'approve' || $("#status").val() == 'notapprove'){
-    $("#email").prop("disabled", true);
-    $("#email").html("")
-  }else{
-    $("#email").prop("disabled", false);
-    $.ajax({
-      url: "{{ route('assign') }}",
-      type: "POST",
-      data: {
-         status : $("#status").val(),
-        _token: "{{ csrf_token() }}",
-      },
-      success: function (response) {
+// document.getElementById('status').addEventListener('change', function () {
+//   $("#email").prop("disabled", true);
+//   if($("#status").val() == 'approve' || $("#status").val() == 'notapprove'){
+//     $("#email").prop("disabled", true);
+//     $("#email").html("")
+//   }else{
+//     $("#email").prop("disabled", false);
+//     $.ajax({
+//       url: "{{ route('assign') }}",
+//       type: "POST",
+//       data: {
+//          status : $("#status").val(),
+//         _token: "{{ csrf_token() }}",
+//       },
+//       success: function (response) {
       
-        let options ='';
-        if(response.length > 0){
+//         let options ='';
+//         if(response.length > 0){
         
-          response.forEach((item) =>{
-            options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
-          })
-        }
+//           response.forEach((item) =>{
+//             options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
+//           })
+//         }
 
      
-        $("#email").html(options);
+//         $("#email").html(options);
       
-      },
-      error: function (xhr) {
-        alert('An error occurred: ' + xhr.responseText);
-      }
-    });
-  }
+//       },
+//       error: function (xhr) {
+//         alert('An error occurred: ' + xhr.responseText);
+//       }
+//     });
+//   }
 
-})
+// })
 </script>
 @endpush

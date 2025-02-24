@@ -96,7 +96,7 @@ table.dataTable td {
                     <div class="form-group col-md-2">
                       <label for="dateInput">Name</label>
                       <input type="text" class="form-control form-control-sm" id="name" name="name">
-                      <input type="hidden" class="form-control form-control-sm" id="model_id" name="model_id">
+                      {{-- <input type="text" class="form-control form-control-sm" id="model_id" name="model_id"> --}}
                     </div>
                     <div class="form-group col-md-2">
                       <label for="role">Type</label>
@@ -158,6 +158,7 @@ table.dataTable td {
                   <th  class="bg-th">Table</th>                  
                   <th  class="bg-th">Table History</th>                  
                   <th  class="bg-th">Template</th>
+                  <th  class="bg-th">Date</th>
                   <th  class="bg-th">Action</th>
                 </tr>
               </thead>
@@ -196,14 +197,21 @@ table.dataTable td {
 <script src="https://cdn.datatables.net/buttons/3.2.1/js/buttons.print.min.js"></script>
 
 <script>
-  
+    $("#parent").prop("disabled", true);
+    $("#tab").prop("disabled", true);
+
 document.getElementById('type').addEventListener('change', function () {
   $("#parent").prop("disabled", false);
   if($("#type").val() == 'parent'){
     $("#parent").prop("disabled", true);
+    $("#icon").prop("disabled", false);
+    $("#tab").prop("disabled", true);
+    $("#tab").val("");
     $("#parent").html("")
   }else{
+    $("#tab").prop("disabled", false);
     $("#parent").prop("disabled", false);
+    $("#icon").prop("disabled", true);
     $.ajax({
       url: "{{ route('get-parent') }}",
       type: "GET",
@@ -237,55 +245,58 @@ document.getElementById('save').addEventListener('click', function () {
 $(".is-invalid").removeClass("is-invalid");
       let valid = true;
       let name = $("#name").val();
-      let username = $("#username").val()
-      let email = $("#email").val()
-      let password = $("#password").val()
-      let password_check = $("#password_check").val()
-      let role = $("#role").val()
-      let model_id = $("#model_id").val()
-      // Validasi Activity
-   
-
-   
+      let type = $("#type").val()
+      let tab = $("#tab").val()
+      let icon = $("#icon").val()
+      let tab_history =($("#tab").val() != "") ? $("#tab").val()+'_history' :'';
+      let parent = $("#parent").val()
+      let template = $("#template").val()
+  
  // Validasi End Date
       if (name === "") {
         $("#name").addClass("is-invalid");
         valid = false;
       } 
        // Validasi End Date
-       if (username === "") {
-        $("#username").addClass("is-invalid");
+       if (type === "") {
+        $("#type").addClass("is-invalid");
         valid = false;
       } 
-       if (email === "") {
-        $("#email").addClass("is-invalid");
+       if (tab === "" && type==="child") {
+        $("#tab").addClass("is-invalid");
         valid = false;
       } 
-       if (password === "") {
-        $("#password").addClass("is-invalid");
+       if (type === "child" && parent === "") {
+        console.log(type)
+        $("#parent").addClass("is-invalid");
         valid = false;
       } 
-       if (role === "") {
-        $("#role").addClass("is-invalid");
+       if (template === "") {
+        $("#template").addClass("is-invalid");
+        valid = false;
+      } 
+       if (icon === "" && type === "parent") {
+        $("#icon").addClass("is-invalid");
         valid = false;
       } 
 
 if(valid == true){
   
   $.ajax({
-    url: "{{ route('user-save') }}",
+    url: "{{ route('master-custom-save') }}",
     type: "POST",
     data: {
       _token: "{{ csrf_token() }}",
       name : name,
-      username : username,
-      email : email,
-      password : password,
-      model_id : model_id,
-      role : role ,
+      type : type,
+      tab : tab,
+      tab_history : tab_history,
+      icon : icon,
+      parent : parent,
+      template : template ,
     },
     success: function (response,color) {
-      console.log(response ,'xxxx')
+      
       if (response.status == 'ok'){
         msg_swal = "File Successfully Saved";
         color = "btn btn-success";
@@ -314,7 +325,7 @@ if(valid == true){
 function viewDelete(param){
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('user-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('master-custom-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -333,13 +344,25 @@ $.ajax({
 
 function viewEdit(param){
   console.log(param)
+  if(param["type"] == 'child'){
+    $("#icon").prop("disabled", true);
+    $("#tab").prop("disabled", false);
+    $("#parent").prop("disabled", false);
+  }else{
+    $("#icon").prop("disabled", false);
+    $("#tab").prop("disabled", true);
+    $("#parent").prop("disabled", true);
+  }
   $("#name").val(param["name"])
   $("#model_id").val(param["id"])
-  $("#username").val(param["username"])
-  $("#email").val(param["email"])
-  $("#password").val(param["password"])
-  $("#role").val(param["role_id"])
+  $("#type").val(param["type"])
+  $("#icon").val(param["icon"])
+  $("#tab").val(param["tab"])
+  $("#parent").val(param["parent"])
+  $("#template").val(param["template"])
+
 }
+
  $(document).ready(function() {
   var table = $('.table').DataTable({
           processing: true,
@@ -352,8 +375,7 @@ function viewEdit(param){
             },
       
           ajax: {
-            //mdr tidak ada kondisi
-            url : "{{ route('get-user') }}",
+            url : "{{ route('get-master-custom') }}",
           },
           dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
           buttons: [
@@ -363,16 +385,17 @@ function viewEdit(param){
           ],
           columns: [
               { data: 'name', name: 'name' },
-              { data: 'username', name: 'username' },
-              { data: 'email', name: 'email' },
-              { data: 'role', name: 'role' },
+              { data: 'parent_type', name: 'parent_type' },
+              { data: 'parent_desc', name: 'parent_desc'},
+              { data: 'icon_show', name: 'icon_show' },
+              { data: 'tab', name: 'tab' },
+              { data: 'tab_history', name: 'tab_history' },
+              { data: 'template', name: 'template' },
+              { data: 'tanggal', name: 'tanggal' },
               { data: 'action', name: 'action', orderable: false, searchable: false } ,
              ],
-            
       });
     });
-
-
     </script>
 
   
