@@ -41,28 +41,35 @@ class RoleController extends Controller
             $data = Role::select(['id',
                 'name',
                 'guard_name'
-            ]);
+        ]);
                
             return DataTables::of($data)
             ->addColumn('action', function($row) {
-              $btn = '<div class="dropdown">
-                <button
-                    class="btn btn-icon btn-clean me-0"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                >
-                    <i class="fas fa-ellipsis-h"></i>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewEdit(' . $row->id . ')" class="dropdown-item cursor-pointer">Edit</a>
-                <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>
-                                        
-                </div>
-            </div>';
-            return $btn;
+
+                if(!in_array($row->name,['superadmin','reviewer','checker','approver']))
+                {
+                    $btn = '<div class="dropdown">
+                    <button
+                        class="btn btn-icon btn-clean me-0"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewEdit(' . $row->id . ')" class="dropdown-item cursor-pointer">Edit</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>
+                                            
+                    </div>
+                </div>';
+                return $btn;
+                }else{
+                    $btn = "";
+                }
+          
             }) 
             ->addColumn('permission', function($row) {
                 $btn = '
