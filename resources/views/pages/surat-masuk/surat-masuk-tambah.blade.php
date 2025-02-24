@@ -266,7 +266,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
             
         setTimeout(function() {
              window.location.reload();
-         }, 1000);
+         }, 2000);
         location.reload();
       },
       error: function (xhr) {
