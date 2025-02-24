@@ -44,7 +44,7 @@ class CorSuratKeluarController extends Controller
                 'hardcopy',
                 'email',
                 'category',
-                DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal_keluar"), 
+                DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
                 'path',
                 'ext',
         ]);

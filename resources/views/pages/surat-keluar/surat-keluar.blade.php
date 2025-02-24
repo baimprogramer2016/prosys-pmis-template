@@ -262,7 +262,14 @@ function viewPdf(param){
               { data: 'category_desc', name: 'category_desc' },
               { data: 'isHardCopy', name: 'isHardCopy' },
               { data: 'isEmail', name: 'isEmail' },
-              { data: 'tanggal_keluar', name: 'tanggal_keluar' },
+              { data: 'tanggal', name: 'tanggal' ,render: function(data, type, row) {
+                if (!data) return ""; // Jika data kosong, return string kosong
+                const date = new Date(data);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Januari = 0
+                const year = date.getFullYear();
+                return `${year}-${month}-${day}`;
+            } },
               { data: 'action', name: 'action', orderable: false, searchable: false } ,
              ],
             

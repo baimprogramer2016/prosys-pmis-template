@@ -254,7 +254,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           color = "btn btn-success";
         }else{
           msg_swal = "Failed";
-          color = "btn btn-success";
+          color = "btn btn-danger";
         }
               swal(msg_swal, {
                 buttons: {
@@ -264,8 +264,9 @@ document.getElementById('saveUploads').addEventListener('click', function () {
                 },
               });
             
-        
-        location.reload();
+        setTimeout(function() {
+             window.location.reload();
+         }, 2000);
       },
       error: function (xhr) {
         alert('An error occurred: ' + xhr.responseText);

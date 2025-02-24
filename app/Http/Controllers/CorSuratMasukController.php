@@ -43,7 +43,7 @@ class CorSuratMasukController extends Controller
                 'version',
                 'hardcopy',
                 'email',
-                DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal_masuk"), 
+                DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
                 'path',
                 'ext',
                 'category'
@@ -142,7 +142,7 @@ class CorSuratMasukController extends Controller
 
     public function saveUploads(Request $request)
     {
-        return $request->all();
+        
         $uploadedFiles = $request->input('uploaded_files');
         $document_number = $request->input('document_number');
         $description = $request->input('description');

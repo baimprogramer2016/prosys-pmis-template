@@ -310,7 +310,14 @@ function viewEdit(param){
           columns: [
               { data: 'description', name: 'description' },
               { data: 'category', name: 'category' },
-              { data: 'tanggal', name: 'tanggal' },
+              { data: 'tanggal', name: 'tanggal',render: function(data, type, row) {
+                if (!data) return ""; // Jika data kosong, return string kosong
+                const date = new Date(data);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Januari = 0
+                const year = date.getFullYear();
+                return `${year}-${month}-${day}`;
+            }  },
               { data: 'percent', name: 'percent' },
               { data: 'action', name: 'action', orderable: false, searchable: false } ,
              ],

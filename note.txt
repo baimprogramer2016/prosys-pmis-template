@@ -55,6 +55,14 @@ ssh pmispros@36.50.77.55 -p 64000
 baGfZg2Z27P[1b!x
 
 
+Domain: pmisprosys.co.id
+
+cPanel Username: pmispros
+
+Control Panel URL: http://asti.id.domainesia.com/cpanel
+
+Alternatif: http://pmisprosys.co.id/cpanel
+
 Tampilan hanya  2 Bar 
 Size 
 

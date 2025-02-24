@@ -44,7 +44,7 @@ class CustomController extends Controller
                 'tab_history',
                 'parent',
                 'template',
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as tanggal"),   
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at"),   
         ]);
             
             return DataTables::of($data)

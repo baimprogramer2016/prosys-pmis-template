@@ -203,8 +203,22 @@
               { data: 'text', name: 'text' },
               { data: 'parent_desc', name: 'parent_desc' },
               { data: 'duration', name: 'duration' },
-              { data: 'start_date', name: 'start_date' },
-              { data: 'end_date', name: 'end_date' },
+              { data: 'start_date', name: 'start_date' ,render: function(data, type, row) {
+                if (!data) return ""; // Jika data kosong, return string kosong
+                const date = new Date(data);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Januari = 0
+                const year = date.getFullYear();
+                return `${year}-${month}-${day}`;
+            } },
+              { data: 'end_date', name: 'end_date' ,render: function(data, type, row) {
+                if (!data) return ""; // Jika data kosong, return string kosong
+                const date = new Date(data);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Januari = 0
+                const year = date.getFullYear();
+                return `${year}-${month}-${day}`;
+            } },
               { data: 'progress1', name: 'progress1' }    ,
               { data: 'action', name: 'action', orderable: false, searchable: false }   
              ],

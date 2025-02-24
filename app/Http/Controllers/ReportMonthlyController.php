@@ -36,7 +36,7 @@ class ReportMonthlyController extends Controller
                 'author',
                 'typeofreport',
                 'version',
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at_format"), 
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at"), 
                 'path',
                 'ext',
         ]);

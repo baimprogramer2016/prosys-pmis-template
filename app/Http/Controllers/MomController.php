@@ -35,7 +35,7 @@ class MomController extends Controller
                 'author',
                 'typeofmeeting',
                 'meetinglocation',
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at_format"), 
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at"), 
                 'path',
                 'ext',
         ]);
