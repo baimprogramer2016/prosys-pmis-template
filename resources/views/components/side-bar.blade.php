@@ -320,9 +320,9 @@
             </a>
           </li>
           @endcan
-          <x-custom-drawings />
           <x-custom-document-management />
           <x-custom-photographic />
+          <x-custom-drawings />
           <li class="nav-item">
             <a href="#">
               <p>Report</p>

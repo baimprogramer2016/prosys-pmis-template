@@ -112,7 +112,7 @@ table.dataTable td {
                     </div>
                     <div class="form-group col-md-2">
                       <label for="dateInput">Table</label>
-                      <input type="text" class="form-control form-control-sm" id="tab" name="tab">
+                      <input type="text" class="form-control form-control-sm" id="tab" name="tab" placeholder="Ex : construction_drawing">
                     </div>
                     <div class="form-group col-md-2">
                       <label for="role">Parent</label>
