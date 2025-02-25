@@ -80,7 +80,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-12">
             <div class="card card-stats card-round">
-              <div class="card-body">
+              <div class="card-body d-flex justify-content-between">
                 <div class="row align-items-center">
                   <div class="col-icon">
                     <div

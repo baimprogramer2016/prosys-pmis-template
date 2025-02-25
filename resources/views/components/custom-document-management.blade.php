@@ -19,6 +19,7 @@
                     <li class="{{ request('tab') == $item_sub_sidebar->tab ? 'active' : '' }}">
                         <a href="{{ route('custom-document-management', ['tab' => $item_sub_sidebar->tab,'icon' => $item_sidebar->icon]) }}">
                             <span class="sub-item">{{ $item_sub_sidebar->name }}</span>
+                            <span class="badge badge-success">{{ $item_sub_sidebar->jml_doc }}</span>
                         </a>
                     </li>
                 @endforeach

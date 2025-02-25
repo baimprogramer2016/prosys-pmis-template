@@ -67,7 +67,7 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Document Management / {{ Ucwords(request('tab')) }} </h6>
+        <h6 class="op-7 mb-2">Document Management / {{ Ucwords(str_replace('_',' ',request('tab'))) }}  </h6>
        
         </div> 
      
@@ -91,7 +91,7 @@
                   </div>
                   <div class="col col-stats ms-3 ms-sm-0 d-flex">
                     <div class="numbers">
-                      <h4 class="card-title"> {{ Ucwords(request('tab')) }}</h4>
+                      <h4 class="card-title"> {{ Ucwords(str_replace('_',' ',request('tab'))) }}</h4>
                     </div>
                     
                   </div>

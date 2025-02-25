@@ -82,7 +82,8 @@
       <div class="spinner"></div>
     </div>
     <div class="wrapper">
-      @include("layouts.sidebar")
+      {{-- @include("layouts.sidebar") --}}
+      <x-side-bar/>
 
       <div class="main-panel">
         @include('layouts.navbar')

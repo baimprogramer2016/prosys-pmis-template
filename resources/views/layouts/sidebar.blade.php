@@ -184,7 +184,7 @@
             <a data-bs-toggle="collapse" href="#constructiondocument">
               <i class="fas fa-hotel"></i>
 
-              <p>Construction Document</p>
+              <p>Construction</p>
               <span class="caret"></span>
             </a>
             <div class="collapse {{ Request::is('construction-document*') || Request::is('construction-document') ? 'show' : '' }}"" id="constructiondocument">
@@ -311,7 +311,9 @@
             </a>
           </li>
           @endcan
+          <x-custom-drawings />
           <x-custom-document-management />
+          <x-custom-photographic />
           <li class="nav-item">
             <a href="#">
               <p>Report</p>
@@ -330,6 +332,7 @@
                 <li class="{{ Request::is('report-daily*') ? 'active' : '' }}">
                   <a href="{{ route('report-daily') }}">
                     <span class="sub-item">Daily Report</span>
+                      <span class="badge badge-success">4</span>
                   </a>
                 </li>
                 @endcan

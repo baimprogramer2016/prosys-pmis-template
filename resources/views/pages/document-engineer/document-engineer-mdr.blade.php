@@ -82,47 +82,43 @@ table.dataTable {
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="row">
-        @foreach ($documents_group_status as $item_group_status)
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-icon">
-                  <div
-                    class="icon-big text-center {{ $item_group_status->color}} bubble-shadow-small"
-                  >
-                  @if($item_group_status->status == 'new')
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  @endif
-                  @if($item_group_status->status == 'check')
-                  <i class="fas fa-user-check"></i>
-                  @endif
-                  @if($item_group_status->status == 'review')
-                  <i class="fas fa-user-clock"></i>
-                  @endif
-                  @if($item_group_status->status == 'approve')
-                  <i class="fas fa-check"></i>
-                  @endif
-                  @if($item_group_status->status == 'notapprove')
-                  <i class="fas fa-user-times"></i>
-                  @endif
+          @foreach ($documents_group_status as $item_group_status)
+          <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-round">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-icon">
+                    <div
+                      class="icon-big text-center {{ $item_group_status->color}} bubble-shadow-small"
+                    >
+                    @if($item_group_status->status == 'new')
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    @endif
+                    @if($item_group_status->status == 'check')
+                    <i class="fas fa-user-check"></i>
+                    @endif
+                    @if($item_group_status->status == 'review')
+                    <i class="fas fa-user-clock"></i>
+                    @endif
+                    @if($item_group_status->status == 'approve')
+                    <i class="fas fa-check"></i>
+                    @endif
+                    @if($item_group_status->status == 'notapprove')
+                    <i class="fas fa-user-times"></i>
+                    @endif
+                    </div>
                   </div>
-                </div>
-                <div class="col col-stats ms-3 ms-sm-0">
-                  <div class="numbers">
-                    <p class="card-category">{{ $item_group_status->status}}</p>
-                    <h4 class="card-title">{{$item_group_status->total }}</h4>
+                  <div class="col col-stats ms-3 ms-sm-0">
+                    <div class="numbers">
+                      <p class="card-category">{{ $item_group_status->status}}</p>
+                      <h4 class="card-title">{{$item_group_status->total }}</h4>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        @endforeach
-        
-     
-          
-         
+          @endforeach
         </div>
       </div>    
       <div class="col-sm-12 col-md-12">

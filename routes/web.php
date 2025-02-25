@@ -6,6 +6,8 @@ use App\Http\Controllers\CorSuratKeluarController;
 use App\Http\Controllers\CorSuratMasukController;
 use App\Http\Controllers\CustomController;
 use App\Http\Controllers\CustomDocumentManagementController;
+use App\Http\Controllers\CustomDrawingController;
+use App\Http\Controllers\CustomPhotographicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -390,20 +392,30 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-document-management-history/{id}', [CustomDocumentManagementController::class, 'history'])->name('custom-document-management-history');
   
 
-    // Route::get('/report-daily', [ReportDailyController::class, 'index'])->name('report-daily');
-    // Route::get('/get-report-daily', [ReportDailyController::class, 'getReport'])->name('get-report-daily');
-    // Route::get('/report-daily-tambah', [ReportDailyController::class, 'tambah'])->name('report-daily-tambah');
-    // Route::post('/report-daily-upload-temp', [ReportDailyController::class, 'uploadTemp'])->name('report-daily-upload-temp');
-    // Route::post('/report-daily-save-uploads', [ReportDailyController::class, 'saveUploads'])->name('report-daily-save-uploads');
-   
-    // Route::get('/report-daily-edit/{id}', [ReportDailyController::class, 'viewEdit'])->name('report-daily-edit');
-    // Route::post('/report-daily-update/{id}', [ReportDailyController::class, 'update'])->name('report-daily-update');
-    // Route::get('/report-daily-share/{id}', [ReportDailyController::class, 'share'])->name('report-daily-share');
-    // Route::get('/report-daily-pdf/{id}', [ReportDailyController::class, 'pdf'])->name('report-daily-pdf');
-    // Route::get('/report-daily-delete/{id}', [ReportDailyController::class, 'viewDelete'])->name('report-daily-delete');
-    // Route::post('/report-daily-deleted/{id}', [ReportDailyController::class, 'deleted'])->name('report-daily-deleted');
-    // Route::get('/report-daily-history/{id}', [ReportDailyController::class, 'history'])->name('report-daily-history');
   
-  
-  
+    Route::get('/custom-drawing', [CustomDrawingController::class, 'index'])->name('custom-drawing');
+    Route::get('/get-custom-drawing', [CustomDrawingController::class, 'getCustomDrawing'])->name('get-custom-drawing');   
+    Route::get('/custom-drawing-tambah', [CustomDrawingController::class, 'viewTambah'])->name('custom-drawing-tambah');
+    Route::post('/custom-drawing-upload-temp', [CustomDrawingController::class, 'uploadTemp'])->name('custom-drawing-upload-temp');
+    Route::post('/custom-drawing-save-uploads', [CustomDrawingController::class, 'saveUploads'])->name('custom-drawing-save-uploads');
+    Route::get('/custom-drawing-edit/{id}', [CustomDrawingController::class, 'viewEdit'])->name('custom-drawing-edit');
+    Route::post('/custom-drawing-update-uploads/{id}', [CustomDrawingController::class, 'updateUploads'])->name('custom-drawing-update-uploads');
+    Route::get('/custom-drawing-pdf/{id}', [CustomDrawingController::class, 'pdf'])->name('custom-drawing-pdf');
+    Route::get('/custom-drawing-share/{id}', [CustomDrawingController::class, 'share'])->name('custom-drawing-share');
+    Route::get('/custom-drawing-delete/{id}', [CustomDrawingController::class, 'viewDelete'])->name('custom-drawing-delete');
+    Route::post('/custom-drawing-deleted/{id}', [CustomDrawingController::class, 'deleted'])->name('custom-drawing-deleted');
+    Route::get('/custom-drawing-history/{id}', [CustomDrawingController::class, 'history'])->name('custom-drawing-history');
+
+    Route::get('/custom-photographic', [CustomPhotographicController::class, 'index'])->name('custom-photographic');
+    Route::get('/get-custom-photographic', [CustomPhotographicController::class, 'getCustomPhotographic'])->name('get-custom-photographic');   
+    Route::get('/custom-photographic-tambah', [CustomPhotographicController::class, 'viewTambah'])->name('custom-photographic-tambah');
+    Route::post('/custom-photographic-upload-temp', [CustomPhotographicController::class, 'uploadTemp'])->name('custom-photographic-upload-temp');
+    Route::post('/custom-photographic-save-uploads', [CustomPhotographicController::class, 'saveUploads'])->name('custom-photographic-save-uploads');
+    Route::get('/custom-photographic-edit/{id}', [CustomPhotographicController::class, 'viewEdit'])->name('custom-photographic-edit');
+    Route::post('/custom-photographic-update-uploads/{id}', [CustomPhotographicController::class, 'updateUploads'])->name('custom-photographic-update-uploads');
+    Route::get('/custom-photographic-pdf/{id}', [CustomPhotographicController::class, 'pdf'])->name('custom-photographic-pdf');
+    Route::get('/custom-photographic-share/{id}', [CustomPhotographicController::class, 'share'])->name('custom-photographic-share');
+    Route::get('/custom-photographic-delete/{id}', [CustomPhotographicController::class, 'viewDelete'])->name('custom-photographic-delete');
+    Route::post('/custom-photographic-deleted/{id}', [CustomPhotographicController::class, 'deleted'])->name('custom-photographic-deleted');
+    Route::get('/custom-photographic-history/{id}', [CustomPhotographicController::class, 'history'])->name('custom-photographic-history');
 });

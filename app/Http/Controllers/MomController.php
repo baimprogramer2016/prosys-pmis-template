@@ -44,7 +44,7 @@ class MomController extends Controller
             ->addColumn('action', function($row) {
                 $fileUrl = asset('storage/' . $row->path);
 
-                if($row->ext == 'pdf'){
+                if(in_array($row->ext,['pdf','jpg','png','jpeg'])){
                     $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                 }
                 $btn = '<div class="dropdown">

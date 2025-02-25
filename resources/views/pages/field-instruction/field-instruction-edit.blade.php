@@ -36,8 +36,7 @@
         <h6 class="op-7 mb-2">Field Instruction / Edit</h6>
       </div>
       <div class="ms-md-auto py-2 py-md-0">
-        {{-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> --}}
-        {{-- <a href="{{ route('field-instruction-check') }}"  class="btn btn-primary btn-round">Document</a> --}}
+        <a onclick="window.history.back()"  class="btn btn-primary btn-round">Daftar</a>
       </div>
     </div>
     <div class="row">
@@ -253,7 +252,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           color = "btn btn-success";
         }else{
           msg_swal = "Failed";
-          color = "btn btn-success";
+          color = "btn btn-danger";
         }
               swal(msg_swal, {
                 buttons: {
