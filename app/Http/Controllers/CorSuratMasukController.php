@@ -42,6 +42,7 @@ class CorSuratMasukController extends Controller
                 'from_',
                 'version',
                 'hardcopy',
+                'status',
                 'email',
                 DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
                 'path',
@@ -56,6 +57,7 @@ class CorSuratMasukController extends Controller
                 if(in_array($row->ext,['pdf','jpg','png','jpeg'])){
                     $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                 }
+              
                 $btn = '<div class="dropdown">
                     <button
                         class="btn btn-icon btn-clean me-0"
@@ -73,6 +75,7 @@ class CorSuratMasukController extends Controller
                         <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>
                         <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewShare(' . $row->id . ')" class="dropdown-item cursor-pointer">Share</a>
                         '.$addDropdown.'                        
+                                        
                     </div>
                 </div>';
                 return $btn;
@@ -110,7 +113,24 @@ class CorSuratMasukController extends Controller
                             
                 return $version_link;
             })
-                ->rawColumns(['action','isHardCopy','isEmail','version_link']) // Agar HTML di kolom 'action' dirender
+            ->addColumn('status_badge', function($row) {
+                if($row->status == 'open'){
+                    $badge = "<span class='badge badge-secondary'>".$row->status."</span>";
+                }else{
+                    $badge = "<span class='badge badge-success'>".$row->status."</span>";
+                }
+                    
+                    return $badge;
+                    })
+            ->addColumn('btn_status', function($row) {
+                if ($row->status == 'close') {
+                    $btn_status = ' <span class="btn btn-sm" style="background-color:gray;color:#fff;">Close</span>';
+                } else {
+                    $btn_status = ' <a data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewUpdateStatus(' . $row->id . ')" class="btn btn-success btn-sm">Close</a>';
+                }
+                    return $btn_status;
+                    })
+                ->rawColumns(['action','isHardCopy','isEmail','version_link','btn_status','status_badge']) // Agar HTML di kolom 'action' dirender
                 ->make(true);
         }
     }
@@ -149,6 +169,7 @@ class CorSuratMasukController extends Controller
         $category = $request->input('category');
         $typeofincomingdocument = $request->input('typeofincomingdocument');
         $from = $request->input('from');
+        $status = $request->input('status');
         $version = $request->input('version');
         $hardcopy = $request->input('hardcopy');
         $email = $request->input('email');
@@ -170,6 +191,7 @@ class CorSuratMasukController extends Controller
             $doc->description = trim($description);
             $doc->typeofincomingdocument = trim($typeofincomingdocument);
             $doc->category = trim($category);
+            $doc->status = trim($status);
             $doc->from_ = trim($from);
             $doc->path = str_replace('public/', '', $newPath);
             $doc->ext = $file_ext;
@@ -217,6 +239,7 @@ class CorSuratMasukController extends Controller
         $from = $request->input('from');
         $version = $request->input('version');
         $hardcopy = $request->input('hardcopy');
+        $status = $request->input('status');
         $email = $request->input('email');
       
         $doc = CorSuratMasuk::find($id);
@@ -230,6 +253,7 @@ class CorSuratMasukController extends Controller
           $docHistory->typeofincomingdocument = $doc->typeofincomingdocument;
           $docHistory->from_ = $doc->from_;
           $docHistory->hardcopy = $doc->hardcopy;
+          $docHistory->status = $doc->status;
           $docHistory->email = $doc->email;
           $docHistory->author = $doc->author;
           $docHistory->tanggal = $doc->created_at;
@@ -260,6 +284,7 @@ class CorSuratMasukController extends Controller
             $doc->from_ = $from;
             $doc->ext = $file_ext;
             $doc->version = $version;
+            $doc->status = $status;
             $doc->hardcopy = $hardcopy;
             $doc->email = $email;
           
@@ -340,4 +365,30 @@ class CorSuratMasukController extends Controller
             ], 500);
         }
     } 
+    public function viewUpdateStatus(Request $request, $id){ 
+        try{
+            $surat = CorSuratMasuk::find($id);
+            return view('pages.surat-masuk.surat-masuk-update-status', [
+                "data_surat" => $surat,
+            ]);
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
+
+    public function updateStatus($id, Request $request){
+        $task = CorSuratMasuk::find($id);
+        $task->status = 'close';
+        
+        $task->save();
+ 
+        return response()->json([
+            "message"=> "updated"
+        ]);
+    }
+    
 }

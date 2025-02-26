@@ -71,28 +71,28 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
           <div class="align-items-center mb-3 mt-3   p-3 row">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Document Number</label>
               <input type="text" class="form-control" id="document_number" name="document_number">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description">
             </div>
           
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Recipient</label>
               <input type="text" class="form-control" id="recipient" name="recipient">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Attn</label>
               <input type="text" class="form-control" id="attn" name="attn">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="version" class="form-label strong">Version</label>
               <input type="text" class="form-control" id="version" name="version">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
                 <select class="form-select" id="category" name="category">
                   <option value="">---Pilih---</option>
@@ -101,13 +101,19 @@
                   @endforeach
                 </select>
             </div>
-          
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
+              <label for="start_date" class="form-label strong">Status</label>
+                <select class="form-select" id="status" name="status">
+                  <option value="open">Open</option>
+                  <option value="close">Close</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
               <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
               <input type="checkbox" id="hardcopy" name="hardcopy">
               <label for="hardcopy">Hardcopy</label>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="email" class="form-label strong">Email</label><br>
               <input type="checkbox" id="email" name="email" >
               <label for="email">Email</label>
@@ -184,6 +190,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let recipient = $("#recipient").val();
         let attn = $("#attn").val();        
         let category = $("#category").val();        
+        let status = $("#status").val();        
         let version = $("#version").val();        
         let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
         let email = $("input[name='email']").is(":checked") ? '1' : '0';
@@ -243,6 +250,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         recipient : recipient,
         attn : attn,
         version : version,
+        status : status,
         hardcopy : hardcopy,
         email : email,
         category : category,

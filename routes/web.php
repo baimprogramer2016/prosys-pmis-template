@@ -229,6 +229,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/surat-masuk-delete/{id}', [CorSuratMasukController::class, 'viewDelete'])->name('surat-masuk-delete');
     Route::post('/surat-masuk-deleted/{id}', [CorSuratMasukController::class, 'deleted'])->name('surat-masuk-deleted');
     Route::get('/surat-masuk-history/{id}', [CorSuratMasukController::class, 'history'])->name('surat-masuk-history');
+    Route::get('/surat-masuk-update-status/{id}', [CorSuratMasukController::class, 'viewUpdateStatus'])->name('surat-masuk-update-status');
+    Route::post('/surat-masuk-updated-status/{id}', [CorSuratMasukController::class, 'updateStatus'])->name('surat-masuk-updated-status');
 
     Route::get('/surat-keluar', [CorSuratKeluarController::class, 'index'])->name('surat-keluar');
     Route::get('/get-surat-keluar', [CorSuratKeluarController::class, 'getSuratKeluar'])->name('get-surat-keluar');
@@ -243,6 +245,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/surat-keluar-delete/{id}', [CorSuratKeluarController::class, 'viewDelete'])->name('surat-keluar-delete');
     Route::post('/surat-keluar-deleted/{id}', [CorSuratKeluarController::class, 'deleted'])->name('surat-keluar-deleted');
     Route::get('/surat-keluar-history/{id}', [CorSuratKeluarController::class, 'history'])->name('surat-keluar-history');
+    Route::get('/surat-keluar-update-status/{id}', [CorSuratKeluarController::class, 'viewUpdateStatus'])->name('surat-keluar-update-status');
+    Route::post('/surat-keluar-updated-status/{id}', [CorSuratKeluarController::class, 'updateStatus'])->name('surat-keluar-updated-status');
+
 
     Route::get('/construction-document', [ConstructionDocumentController::class, 'cdr'])->name('construction-document');
     Route::get('/get-construction-document/{field}/{status}', [ConstructionDocumentController::class, 'getConstructionDocument'])->name('get-construction-document');

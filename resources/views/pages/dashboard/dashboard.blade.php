@@ -329,7 +329,7 @@
 <script>
   document.getElementById("filterBtn").addEventListener('click', function(){
     if($("#start_date").val() != "" && $("#end_date").val() != ""){
-      console.log("DISINI")
+     
       PieChartProcess($("#start_date").val(),$("#end_date").val())
     }else{
       console.log("DISANA")

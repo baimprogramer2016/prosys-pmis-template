@@ -51,7 +51,7 @@
 49. Buat Custom Report Document ->Done
 50. Buat Custom Report Drawing -> Done
 51. Buatkan Info jumlah data yang di upload -> Done
-52. Tambahkan Correspondence Status
+52. Tambahkan Correspondence Status ->Done
 
 
 ssh pmispros@36.50.77.55 -p 64000

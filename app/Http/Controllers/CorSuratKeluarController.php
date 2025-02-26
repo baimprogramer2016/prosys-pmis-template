@@ -44,6 +44,7 @@ class CorSuratKeluarController extends Controller
                 'hardcopy',
                 'email',
                 'category',
+                'status',
                 DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
                 'path',
                 'ext',
@@ -110,8 +111,25 @@ class CorSuratKeluarController extends Controller
                             
                 return $version_link;
             })
-                ->rawColumns(['action','isHardCopy','isEmail','version_link']) // Agar HTML di kolom 'action' dirender
-                ->make(true);
+            ->addColumn('status_badge', function($row) {
+                if($row->status == 'open'){
+                    $badge = "<span class='badge badge-secondary'>".$row->status."</span>";
+                }else{
+                    $badge = "<span class='badge badge-success'>".$row->status."</span>";
+                }
+                    
+                    return $badge;
+                    })
+            ->addColumn('btn_status', function($row) {
+                if ($row->status == 'close') {
+                    $btn_status = ' <span class="btn btn-sm" style="background-color:gray;color:#fff;">Close</span>';
+                } else {
+                    $btn_status = ' <a data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewUpdateStatus(' . $row->id . ')" class="btn btn-success btn-sm">Close</a>';
+                }
+                    return $btn_status;
+                    })
+            ->rawColumns(['action','isHardCopy','isEmail','version_link','btn_status','status_badge']) // Agar HTML di kolom 'action' dirender
+            ->make(true);
         }
     }
 
@@ -150,6 +168,7 @@ class CorSuratKeluarController extends Controller
         $version = $request->input('version');
         $hardcopy = $request->input('hardcopy');
         $email = $request->input('email');
+        $status = $request->input('status');
         $category = $request->input('category');
    
         $savedFiles = [];
@@ -172,6 +191,7 @@ class CorSuratKeluarController extends Controller
             $doc->hardcopy = trim($hardcopy);
             $doc->email = trim($email);
             $doc->category = trim($category);
+            $doc->status = trim($status);
             $doc->path = str_replace('public/', '', $newPath);
             $doc->ext = $file_ext;
             $doc->author =Auth::User()->name;
@@ -214,6 +234,7 @@ class CorSuratKeluarController extends Controller
         $attn = $request->input('attn');
         $version = $request->input('version');
         $hardcopy = $request->input('hardcopy');
+        $status = $request->input('status');
         $email = $request->input('email');
         $category = $request->input('category');
       
@@ -228,6 +249,7 @@ class CorSuratKeluarController extends Controller
           $docHistory->hardcopy = $doc->hardcopy;
           $docHistory->email = $doc->email;
           $docHistory->category = $doc->category;
+          $docHistory->status = $doc->status;
           $docHistory->version = $doc->version;
           $docHistory->author = $doc->author;
           $docHistory->tanggal = $doc->created_at;
@@ -257,6 +279,7 @@ class CorSuratKeluarController extends Controller
             $doc->attn = $attn;
             $doc->version = $version;
             $doc->hardcopy = $hardcopy;
+            $doc->status = $status;
             $doc->email = $email;
             $doc->category = $category;
             $doc->ext = $file_ext;
@@ -338,4 +361,30 @@ class CorSuratKeluarController extends Controller
             ], 500);
         }
     } 
+    
+    public function viewUpdateStatus(Request $request, $id){ 
+        try{
+            $surat = CorSuratKeluar::find($id);
+            return view('pages.surat-keluar.surat-keluar-update-status', [
+                "data_surat" => $surat,
+            ]);
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
+
+    public function updateStatus($id, Request $request){
+        $task = CorSuratKeluar::find($id);
+        $task->status = 'close';
+        
+        $task->save();
+ 
+        return response()->json([
+            "message"=> "updated"
+        ]);
+    }
 }

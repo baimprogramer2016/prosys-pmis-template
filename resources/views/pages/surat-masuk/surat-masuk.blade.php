@@ -110,6 +110,8 @@
             <table class="table table-bordered" id="myTable">
               <thead>
                 <tr>  
+                  <th  class="bg-th">Update Status</th>
+                  <th  class="bg-th">Status</th>
                   <th  class="bg-th">Document Number</th>
                   <th  class="bg-th">Title</th>
                   <th  class="bg-th">Type</th>
@@ -232,6 +234,25 @@ function viewPdf(param){
   });
 }
 
+function viewUpdateStatus(param){
+  $(".modal-content").html("");
+  $.ajax({
+    url: "{{ route('surat-masuk-update-status', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+      type: "GET",
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function(response) {
+      
+        $(".modal-content").html("");
+        $(".modal-content").html(response);
+        
+      },
+      error: function(xhr) {
+          alert('An error occurred: ' + xhr.responseText);
+      }
+  });
+}
  $(document).ready(function() {
   var table = $('.table').DataTable({
           processing: true,
@@ -254,6 +275,8 @@ function viewPdf(param){
             { extend: 'print', text: 'Print', className: 'btn btn-primary btn-sm' }
           ],
           columns: [
+              { data: 'btn_status', name: 'btn_status' },
+              { data: 'status_badge', name: 'status_badge' },
               { data: 'document_number', name: 'document_number' },
               { data: 'description', name: 'description' },
               { data: 'typeofincomingdocument', name: 'typeofincomingdocument' },

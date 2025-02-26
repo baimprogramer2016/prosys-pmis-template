@@ -73,27 +73,27 @@
           </form>
           <div class="align-items-center mb-3 mt-3   p-3 row">
             <input type="hidden" class="form-control" id="id_edit" name="id_edit" value="{{$document->id}}">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Document Number</label>
               <input type="text" class="form-control" id="document_number" name="document_number" value="{{$document->document_number}}">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Title</label>
               <input type="text" class="form-control" id="description" name="description" value="{{$document->description}}">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Recipient</label>
               <input type="text" class="form-control" id="recipient" name="recipient" value="{{$document->recipient}}">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">From</label>
               <input type="text" class="form-control" id="attn" name="attn" value="{{$document->attn}}">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="version" class="form-label strong">Version</label>
               <input type="text" class="form-control" id="version" name="version" value="{{$document->version}}">
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
               <select class="form-select" id="category" name="category">
                 <option value="{{ $document->category }}">{{ optional($document->r_category)->description }} </option>
@@ -103,12 +103,20 @@
                   @endforeach
               </select>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
+              <label for="start_date" class="form-label strong">Status</label>
+                <select class="form-select" id="status" name="status">
+                  <option value="{{ $document->status}}"> {{ Ucwords($document->status)}}</option>
+                  <option value="open">Open</option>
+                  <option value="close">Close</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
               <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
               <input type="checkbox" id="hardcopy" name="hardcopy" {{ $document->hardcopy == "1" ? 'checked' : ''}}>
               <label for="hardcopy">Hardcopy</label>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label for="email" class="form-label strong">Email</label><br>
               <input type="checkbox" id="email" name="email"  {{ $document->email == "1" ? 'checked' : ''}} >
               <label for="email">Email</label>
@@ -184,6 +192,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let attn = $("#attn").val();        
         let category = $("#category").val();        
         let version = $("#version").val();        
+        let status = $("#status").val();        
         let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
         let email = $("input[name='email']").is(":checked") ? '1' : '0';
     
@@ -237,6 +246,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         recipient : recipient,
         attn : attn,
         version : version,
+        status : status,
         hardcopy : hardcopy,
         email : email,
         category : category,

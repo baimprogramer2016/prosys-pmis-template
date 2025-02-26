@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CorSuratKeluar;
+use App\Models\CorSuratMasuk;
 use App\Models\MasterCategory;
 use App\Models\Surat;
 use Illuminate\Http\Request;
@@ -48,33 +50,31 @@ class DashboardController extends Controller
         $startDate = $request->start_date;
         $endDate = $request->end_date;
 
-        $surat_masuk_count = Surat::where('jenis', 'masuk')
-        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('tanggal', [$startDate, $endDate]);
+        $surat_masuk_count = CorSuratMasuk::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         })
         ->count();
-       $surat_keluar_count = Surat::where('jenis', 'keluar')
-       ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-           $query->whereBetween('tanggal', [$startDate, $endDate]);
+       $surat_keluar_count = CorSuratKeluar::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+           $query->whereBetween('created_at', [$startDate, $endDate]);
        })
        ->count();;
 
-       $surat_masuk_open = Surat::where('jenis','masuk')->where('status','open')
+       $surat_masuk_open = CorSuratMasuk::where('status','open')
        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('tanggal', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         })->count();
-       $surat_masuk_close = Surat::where('jenis','masuk')->where('status','close')
+       $surat_masuk_close = CorSuratMasuk::where('status','close')
        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('tanggal', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         })->count();
 
-       $surat_keluar_open = Surat::where('jenis','keluar')->where('status','open')
+       $surat_keluar_open = CorSuratKeluar::where('status','open')
        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('tanggal', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         })->count();
-       $surat_keluar_close = Surat::where('jenis','keluar')->where('status','close')
+       $surat_keluar_close = CorSuratKeluar::where('status','close')
        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('tanggal', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         })->count();
 
  
