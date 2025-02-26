@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CorSuratKeluar;
 use App\Models\CorSuratMasuk;
+use App\Models\DynamicCustom;
 use App\Models\MasterCategory;
+use App\Models\MasterCustom;
 use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -106,5 +108,28 @@ class DashboardController extends Controller
                 ]
                 ]);
 
+    }
+    public function dashboardDrawings(Request $request){
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $tabel_drawings = MasterCustom::where('template','drawings')->whereNotNull('tab')->get();
+        $array_drawings = [];
+
+        // return $tabel_drawings;
+
+        foreach($tabel_drawings as $item_drawing) {
+            $drawing['title'] = $item_drawing->name;
+
+            //jumlah ambil dari dynamic model
+            $model = (new DynamicCustom())->setTableName('custom_'.$item_drawing->tab);
+            $drawing['jumlah'] = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
+
+            array_push($array_drawings, $drawing);
+        }
+
+        return response()->json($array_drawings);
     }
 }

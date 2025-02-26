@@ -27,3 +27,4 @@ Route::get('/data', [GanttController::class,'data'])->name('api-gantt-data');
 Route::post("/dashboard-pie-surat",[DashboardController::class,'dashboardPieSurat'])->name('dashboard-pie-surat');
 Route::post("/send-mail", [EmailController::class,'index'])->name('send-mail');
 Route::get("/get-parent", [CustomController::class,'getParent'])->name('get-parent');
+Route::get("/dashboard-drawings", [DashboardController::class,'dashboardDrawings'])->name('dashboard-drawings');

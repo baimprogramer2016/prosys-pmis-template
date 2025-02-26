@@ -87,7 +87,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
-            <div class="card-title">Pie Chart - Surat</div>
+            <div class="card-title">Correspondence</div>
             <div class="d-flex align-items-center">
               <label for="start_date" class="me-2 mb-0">Tanggal Awal:</label>
               <input type="date" id="start_date" class="form-control form-control-sm me-3" style="width: 150px;">
@@ -120,6 +120,26 @@
           </div>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <div class="card-title">Drawings</div>
+            <div class="d-flex align-items-center">
+              <label for="start_date" class="me-2 mb-0">Tanggal Awal:</label>
+              <input type="date" id="start_date_drawing" class="form-control form-control-sm me-3" style="width: 150px;">
+              
+              <label for="end_date" class="me-2 mb-0">Tanggal Akhir:</label>
+              <input type="date" id="end_date_drawing" class="form-control form-control-sm me-3" style="width: 150px;">
+              
+              <button class="btn btn-primary btn-sm" id="filterBtnDrawings">Filter</button>
+            </div>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-between" id="drawing-container">
+       {{-- Drawing disini --}}
+        </div>
+        
+      </div>
     </div>
    
   </div>
@@ -128,10 +148,84 @@
 @push('bottom')
 <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
-//S_CURVEEEEE
 <script>
 
+//drawings
+
+$("#filterBtnDrawings").click(function() {
+  const chartContainer = document.getElementById("drawing-container");
+  chartContainer.innerHTML = "";
+    let valid = true;
+    if(valid) {
+      getDataDrawings($("#start_date_drawing").val(),$("#end_date_drawing").val());
+    }
+  });
+
+  getDataDrawings('','') 
+  
+  function getDataDrawings(start_date, end_date){
+
+    $.ajax({
+      url: "{{route('dashboard-drawings')}}",
+      data: {
+        start_date: start_date,
+        end_date: end_date,
+      },
+      method:"GET",
+      success:function(response){
+        response.forEach((item) =>{
+          createCardElement(item.jumlah,item.title)
+        })
+        
+      }
+    })
+    
+
+  }
+
+  function createCardElement(param,title){
+      
+    const createCardElement = () => {
+        const colDiv = document.createElement("div");
+        colDiv.className = "col-6 col-md-6 col-lg-3";
+
+        const cardDiv = document.createElement("div");
+        cardDiv.className = "card";
+
+        const cardBodyDiv = document.createElement("div");
+        cardBodyDiv.className = "card-body p-3 text-center";
+
+        const textEndDiv = document.createElement("div");
+        textEndDiv.className = "text-end text-success";
+        textEndDiv.innerHTML = "6% <i class='fa fa-chevron-up'></i>";
+
+        const h1Element = document.createElement("div");
+        h1Element.className = "h1 m-0";
+        h1Element.textContent = param;
+
+        const textMutedDiv = document.createElement("div");
+        textMutedDiv.className = "text-muted mb-3 ";
+        textMutedDiv.textContent = title;
+
+     
+        cardBodyDiv.appendChild(h1Element);
+        cardBodyDiv.appendChild(textMutedDiv);
+        cardDiv.appendChild(cardBodyDiv);
+        colDiv.appendChild(cardDiv);
+
+        return colDiv;
+    };
+
+    // Menambahkan elemen ke dalam container tertentu di halaman
+    const container = document.getElementById("drawing-container"); // Ganti dengan ID elemen target
+    if (container) {
+        container.appendChild(createCardElement());
+    }
+  }
+</script>
+
+<script>
+//SCURVE
   $("#filterBtnSCurve").click(function() {
     let valid = true;
     // if($("#tanggal_awal").val() == ""){
@@ -325,20 +419,21 @@
     </script>
     
 
-//PIEEEEEE
+
 <script>
+  //PIE
   document.getElementById("filterBtn").addEventListener('click', function(){
     if($("#start_date").val() != "" && $("#end_date").val() != ""){
      
       PieChartProcess($("#start_date").val(),$("#end_date").val())
     }else{
-      console.log("DISANA")
+      // console.log("DISANA")
       PieChartProcess("","")
     }
   })
   PieChartProcess("","")
   function PieChartProcess(start_date_param,end_date_param){
-    console.log(start_date_param, end_date_param)
+    // console.log(start_date_param, end_date_param)
     $.ajax({
       url: "{{ route('dashboard-pie-surat') }}",
       type: "POST",
@@ -348,7 +443,7 @@
         end_date: $("#end_date").val()
       },
       success: function (response,color) {
-        console.log(response)
+        // console.log(response)
         if (response.status == 'ok'){
           
           response.data_pie_surat.map((item) =>{
