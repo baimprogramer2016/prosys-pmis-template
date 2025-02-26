@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomController;
 use App\Http\Controllers\CustomDocumentManagementController;
 use App\Http\Controllers\CustomDrawingController;
 use App\Http\Controllers\CustomPhotographicController;
+use App\Http\Controllers\CustomProcurementLogisticController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\UserController;
 use App\Models\ReportMonthlyHistory;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -423,4 +425,17 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-photographic-delete/{id}', [CustomPhotographicController::class, 'viewDelete'])->name('custom-photographic-delete');
     Route::post('/custom-photographic-deleted/{id}', [CustomPhotographicController::class, 'deleted'])->name('custom-photographic-deleted');
     Route::get('/custom-photographic-history/{id}', [CustomPhotographicController::class, 'history'])->name('custom-photographic-history');
+
+    Route::get('/custom-procurement-logistic', [CustomProcurementLogisticController::class, 'index'])->name('custom-procurement-logistic');
+    Route::get('/get-custom-procurement-logistic', [CustomProcurementLogisticController::class, 'getCustomProcurementLogistic'])->name('get-custom-procurement-logistic');   
+    Route::get('/custom-procurement-logistic-tambah', [CustomProcurementLogisticController::class, 'viewTambah'])->name('custom-procurement-logistic-tambah');
+    Route::post('/custom-procurement-logistic-upload-temp', [CustomProcurementLogisticController::class, 'uploadTemp'])->name('custom-procurement-logistic-upload-temp');
+    Route::post('/custom-procurement-logistic-save-uploads', [CustomProcurementLogisticController::class, 'saveUploads'])->name('custom-procurement-logistic-save-uploads');
+    Route::get('/custom-procurement-logistic-edit/{id}', [CustomProcurementLogisticController::class, 'viewEdit'])->name('custom-procurement-logistic-edit');
+    Route::post('/custom-procurement-logistic-update-uploads/{id}', [CustomProcurementLogisticController::class, 'updateUploads'])->name('custom-procurement-logistic-update-uploads');
+    Route::get('/custom-procurement-logistic-pdf/{id}', [CustomProcurementLogisticController::class, 'pdf'])->name('custom-procurement-logistic-pdf');
+    Route::get('/custom-procurement-logistic-share/{id}', [CustomProcurementLogisticController::class, 'share'])->name('custom-procurement-logistic-share');
+    Route::get('/custom-procurement-logistic-delete/{id}', [CustomProcurementLogisticController::class, 'viewDelete'])->name('custom-procurement-logistic-delete');
+    Route::post('/custom-procurement-logistic-deleted/{id}', [CustomProcurementLogisticController::class, 'deleted'])->name('custom-procurement-logistic-deleted');
+    Route::get('/custom-procurement-logistic-history/{id}', [CustomProcurementLogisticController::class, 'history'])->name('custom-procurement-logistic-history');
 });

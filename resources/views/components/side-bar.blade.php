@@ -37,7 +37,7 @@
             </a>
           </li>
           @endcan
-          <li class="nav-item {{ Request::is('gantt-chart*') ? 'active' : '' }}">
+          <li class="nav-item active">
             <a href="#">
              
               <p>Menu</p>
@@ -105,7 +105,7 @@
               <p>Task Progress</p>
             </a>
           </li> --}}
-          <li class="nav-item">
+          <li class="nav-item active">
             <a href="#">
              
               <p>Document Management</p>
@@ -323,7 +323,13 @@
           <x-custom-document-management />
           <x-custom-photographic />
           <x-custom-drawings />
-          <li class="nav-item">
+          <li class="nav-item active">
+            <a href="#">
+              <p>Procurement & Logistic</p>
+            </a>
+          </li>
+          <x-custom-procurement-logistic />
+          <li class="nav-item active">
             <a href="#">
               <p>Report</p>
             </a>
@@ -408,7 +414,7 @@
           @endcan --}}
         
 
-          <li class="nav-item {{ Request::is('gantt-chart*') ? 'active' : '' }}">
+          <li class="nav-item active">
             <a href="#">
              
               <p>Settings</p>

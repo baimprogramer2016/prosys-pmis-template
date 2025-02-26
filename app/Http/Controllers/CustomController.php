@@ -206,7 +206,44 @@ class CustomController extends Controller
                           PRIMARY KEY (`id`)
                       )
                       ");
-              }     
+              }elseif($request->template == 'procurement_logistic'){
+                // Buat tabel baru secara dinamis
+                DB::statement("
+                CREATE TABLE `$tableName` (
+                    `id` INT(11) NOT NULL AUTO_INCREMENT,
+                    `document_number` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `discipline` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `version` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `author` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `tanggal` DATETIME NULL DEFAULT NULL,
+                    `size` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `created_at` DATETIME NULL DEFAULT NULL,
+                    `updated_at` DATETIME NULL DEFAULT NULL,
+                    `ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    PRIMARY KEY (`id`)
+                )
+                ");
+                DB::statement("
+                CREATE TABLE `$tableNameHistory` (
+                    `id` INT(11) NOT NULL AUTO_INCREMENT,
+                    `document_number` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `custom_id` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `discipline` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `version` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `author` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `tanggal` DATETIME NULL DEFAULT NULL,
+                    `size` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    `created_at` DATETIME NULL DEFAULT NULL,
+                    `updated_at` DATETIME NULL DEFAULT NULL,
+                    `ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                    PRIMARY KEY (`id`)
+                )
+                ");
+                }     
         }
     return response()->json([
         'status' =>'ok',
