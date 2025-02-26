@@ -69,3 +69,4 @@ Alternatif: http://pmisprosys.co.id/cpanel
 Tampilan hanya  2 Bar 
 Size 
 
+ssh-keygen -t rsa -b 4096 -C "baimprogramer@gmail.com" 
