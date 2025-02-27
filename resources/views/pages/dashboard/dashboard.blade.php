@@ -187,7 +187,7 @@ $("#filterBtnDrawings").click(function() {
       
     const createCardElement = () => {
         const colDiv = document.createElement("div");
-        colDiv.className = "col-6 col-md-6 col-lg-3";
+        colDiv.className = "col-6 col-md-6 col-lg-2";
 
         const cardDiv = document.createElement("div");
         cardDiv.className = "card";
