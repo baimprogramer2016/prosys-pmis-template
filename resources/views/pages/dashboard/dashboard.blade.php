@@ -135,7 +135,7 @@
             </div>
           </div>
         </div>
-        <div class="row d-flex justify-content-between" id="drawing-container">
+        <div class="row d-flex justify-content-between p-0" id="drawing-container">
        {{-- Drawing disini --}}
         </div>
         
@@ -205,7 +205,7 @@ $("#filterBtnDrawings").click(function() {
 
         const textMutedDiv = document.createElement("div");
         textMutedDiv.className = "text-muted mb-3 ";
-        textMutedDiv.textContent = title;
+        textMutedDiv.textContent = title.replace("Drawing","");
 
      
         cardBodyDiv.appendChild(h1Element);
