@@ -48,6 +48,7 @@ class PermissionController extends Controller
              
                 $rowJson = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');  // Konversi $row ke JSON string
              
+                
                 $btn = '<div class="dropdown">
                     <button
                         class="btn btn-icon btn-clean me-0"
