@@ -9,10 +9,11 @@ class DynamicCustom extends Model
 {
     use HasFactory;
     protected $guarded = []; // Memungkinkan mass assignment
-
+    public $tab_parent; 
     // Menentukan tabel secara dinamis
     public function setTableName($tableName)
     {
+        $this->tab_parent = $tableName;
         $this->setTable($tableName);
         return $this;
     }
@@ -29,5 +30,5 @@ class DynamicCustom extends Model
     {
         return $this->hasOne(MasterStatus::class, 'code', 'status');
     }
-
+   
 }

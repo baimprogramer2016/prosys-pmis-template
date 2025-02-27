@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ConstructionDocument;
 use App\Models\CorSuratKeluar;
 use App\Models\CorSuratMasuk;
+use App\Models\DocumentEngineering;
 use App\Models\DynamicCustom;
+use App\Models\FieldInstruction;
 use App\Models\MasterCategory;
 use App\Models\MasterCustom;
+use App\Models\Sop;
 use App\Models\Surat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -87,21 +91,21 @@ class DashboardController extends Controller
                 [
                     "id" => "pieChart1",
                     "title" =>"Surat Masuk & Keluar",
-                    "color" => ["#1d7af3", "#f3545d"],
+                    "color" => ["#e25668", "#e256ae"],
                     "value" =>[$surat_masuk_count, $surat_keluar_count],
                     "legend" =>["Masuk", "Keluar"],
                 ],
                 [
                     "id" => "pieChart2",
                     "title" =>"Surat Masuk",
-                    "color" => ["orange", "red"],
+                    "color" => ["#8a56e2", "#5668e2"],
                     "value" => [$surat_masuk_open, $surat_masuk_close],
                     "legend" =>["Open", "Close"],
                 ],
                 [
                     "id" => "pieChart3",
                     "title" =>"Surat Keluar",
-                    "color" => ["pink", "indigo"],
+                    "color" => ["#57aee2", "#6de257"],
                     "value" =>[$surat_keluar_open, $surat_keluar_close],
                     "legend" =>["Open", "Close"],
                 ]
@@ -131,5 +135,79 @@ class DashboardController extends Controller
         }
 
         return response()->json($array_drawings);
+    }
+
+    public function dashboardProcurementLogistic(Request $request){
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $tabel_procurement_logistic = MasterCustom::where('template','procurement_logistic')->whereNotNull('tab')->get();
+        $array_tab = [];
+
+        // return $tabel_drawings;
+
+        foreach($tabel_procurement_logistic as $item) {
+            $data['label'] = $item->name;
+
+            //jumlah ambil dari dynamic model
+            $model = (new DynamicCustom())->setTableName('custom_'.$item->tab);
+            $data['value'] = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
+
+            $data['color'] = (optional($item->r_parent)->name == 'Procurement') ? "#245069" : "#9dd9e8";
+            array_push($array_tab, $data);
+        }
+
+        return response()->json($array_tab);
+    }
+    public function dashboardDocumentManagement(Request $request){
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $array_tab = [];
+
+        //engineer
+        $jumlah_engineer = DocumentEngineering::count();
+        $data_engineer['label'] = "Engineer";
+        $data_engineer['value'] = $jumlah_engineer;
+
+        array_push($array_tab,$data_engineer);
+
+        $jumlah_contruction = ConstructionDocument::count();
+        $data_construction['label'] = "Construction";
+        $data_construction['value'] = $jumlah_contruction;
+
+        array_push($array_tab,$data_construction);
+
+        $jumlah_field = FieldInstruction::count();
+        $data_field['label'] = "Field Instruction";
+        $data_field['value'] = $jumlah_field;
+
+        array_push($array_tab,$data_field);
+
+        $jumlah_sop = Sop::count();
+        $data_sop['label'] = "Project Procedure";
+        $data_sop['value'] = $jumlah_sop;
+
+        array_push($array_tab,$data_sop);
+
+        $tabel_document_management = MasterCustom::where('template','document_management')->whereNotNull('tab')->get();
+
+        // return $array_tab;
+        foreach($tabel_document_management as $item) {
+            $data['label'] = $item->name;
+
+            //jumlah ambil dari dynamic model
+            $model = (new DynamicCustom())->setTableName('custom_'.$item->tab);
+            $data['value'] = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
+
+            $data['color'] = (optional($item->r_parent)->name == 'Procurement') ? "#245069" : "#9dd9e8";
+            array_push($array_tab, $data);
+        }
+
+        return response()->json($array_tab);
     }
 }

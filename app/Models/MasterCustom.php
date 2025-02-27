@@ -23,5 +23,6 @@ class MasterCustom extends Model
     {
         return $this->hasMany(MasterCustom::class, 'parent', 'id');
     }
+  
     
 }

@@ -34,8 +34,8 @@
       class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
     >
       <div>
-        <h3 class="fw-bold mb-3">Dashboard</h3>
-        <h6 class="op-7 mb-2">Admin Dashboard</h6>
+        {{-- <h3 class="fw-bold mb-3">Dashboard</h3> --}}
+        <h6 class="op-7 mb-2">Dashboard</h6>
       </div>
       <div class="ms-md-auto py-2 py-md-0">
         {{-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
@@ -71,8 +71,8 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="chart-container" id="chart-container-1">
-              <canvas id="multipleLineChart" ></canvas>
+            <div class="chart-container" id="sCurveContainer">
+              <canvas id="sCurveChart" ></canvas>
             </div>
 
             <table id="progressTable">
@@ -99,23 +99,65 @@
             </div>
           </div>
           <div class="card-body row">
-            <div class="chart-container col-md-4">
+            <div class="chart-container col-md-4" id="pieContainer1">
               <canvas
                 id="pieChart1"
                 style="width: 50%; height: 50%"
               ></canvas>
             </div>
-            <div class="chart-container col-md-4">
+            <div class="chart-container col-md-4" id="pieContainer2">
               <canvas
                 id="pieChart2"
                 style="width: 50%; height: 50%"
               ></canvas>
             </div>
-            <div class="chart-container col-md-4">
+            <div class="chart-container col-md-4" id="pieContainer3">
               <canvas
                 id="pieChart3"
                 style="width: 50%; height: 50%"
               ></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Document Management</div>
+            <div class="d-flex align-items-center">
+              {{-- <label for="start_date" class="me-2 mb-0">Tanggal Awal:</label> --}}
+              <input type="date" id="start_date_document_management" class="form-control form-control-sm me-3" style="width: 100%;">
+              
+              {{-- <label for="end_date" class="me-2 mb-0">Tanggal Akhir:</label> --}}
+              <input type="date" id="end_date_document_management" class="form-control form-control-sm me-3" style="width: 100%;">
+              
+              <button class="btn btn-primary btn-sm" id="filterBtnDocumentMangement">Filter</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container"  id="documentManagementContainer">
+              <canvas id="barChartDocumentManagement"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Procurement & Logistic</div>
+            <div class="d-flex align-items-center">
+              {{-- <label for="start_date" class="me-2 mb-0">Tanggal Awal:</label> --}}
+              <input type="date" id="start_date_procurement_logistic" class="form-control form-control-sm me-3" style="width: 100%;">
+              
+              {{-- <label for="end_date" class="me-2 mb-0">Tanggal Akhir:</label> --}}
+              <input type="date" id="end_date_procurement_logistic" class="form-control form-control-sm me-3" style="width: 100%;">
+              
+              <button class="btn btn-primary btn-sm" id="filterBtnProcurementLogistic">Filter</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" id="procurementLogisticContainer">
+              <canvas id="barChartProcurementLogistic"></canvas>
             </div>
           </div>
         </div>
@@ -149,8 +191,138 @@
 <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
+function resetChartContainer(container,id_canvas) {
+    const chartContainer = document.getElementById(container);
+    // Hapus semua elemen dalam chart container
+    chartContainer.innerHTML = "";
+    // Buat elemen canvas baru
+    const newCanvas = document.createElement("canvas");
+    newCanvas.setAttribute("id", id_canvas);
+    chartContainer.appendChild(newCanvas);
+}
 
-//drawings
+//DOCUMENT MANAGEMENT
+$("#filterBtnDocumentMangement").click(function() { 
+      resetChartContainer('documentManagementContainer','barChartDocumentManagement'); 
+      getDataDocumentManagement($("#start_date_document_management").val(),$("#end_date_document_management").val());
+});
+
+getDataDocumentManagement('','');
+function getDataDocumentManagement(start_date, end_date){
+  barChartDocumentManagement = document.getElementById("barChartDocumentManagement").getContext("2d");
+
+  
+  $.ajax({
+      url: "{{route('dashboard-document-management')}}",
+      data: {
+        start_date: start_date,
+        end_date: end_date,
+      },
+      method:"GET",
+      success:function(response){
+        // console.log(response);
+      const chartDataDocumentManagement = response;
+
+      // Mengonversi struktur data ke format Chart.js
+      const labelsDocumentManagement = chartDataDocumentManagement.map(item => item.label);
+      const dataValuesDocumentManagement = chartDataDocumentManagement.map(item => item.value);
+
+        new Chart(barChartDocumentManagement, {
+          type: "bar",
+          data: {
+            labels: labelsDocumentManagement,
+            datasets: [
+              {
+                backgroundColor: "rgb(200,39,57)",
+                borderColor: "rgb(200,39,57)",
+                data: dataValuesDocumentManagement,
+              },
+            ],
+          },
+          options: {
+            legend: {
+          display: false, // Ini akan menyembunyikan legenda
+        },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+          },
+        });
+      }
+    })
+}
+ 
+
+
+//PROCUREMENT LOGISTIC
+$("#filterBtnProcurementLogistic").click(function() { 
+      resetChartContainer('procurementLogisticContainer','barChartProcurementLogistic'); 
+      getDataProcurementLogistic($("#start_date_procurement_logistic").val(),$("#end_date_procurement_logistic").val());
+});
+
+getDataProcurementLogistic('','');
+function getDataProcurementLogistic(start_date, end_date){
+  barChartProcurementLogistic = document.getElementById("barChartProcurementLogistic").getContext("2d");
+
+  
+  $.ajax({
+      url: "{{route('dashboard-procurement-logistic')}}",
+      data: {
+        start_date: start_date,
+        end_date: end_date,
+      },
+      method:"GET",
+      success:function(response){
+        // console.log(response);
+        const chartDataProcurementLogisctic = response;
+
+      // Mengonversi struktur data ke format Chart.js
+      const labelsProcurementLogistic = chartDataProcurementLogisctic.map(item => item.label);
+      const dataValuesProcurementLogistic = chartDataProcurementLogisctic.map(item => item.value);
+      const colorProcurementLogistic = chartDataProcurementLogisctic.map(item => item.color);
+        new Chart(barChartProcurementLogistic, {
+          type: "bar",
+          data: {
+            labels: labelsProcurementLogistic,
+            datasets: [
+              {
+                backgroundColor: colorProcurementLogistic,
+                borderColor: colorProcurementLogistic,
+                data: dataValuesProcurementLogistic,
+              },
+            ],
+          },
+          options: {
+            legend: {
+          display: false, // Ini akan menyembunyikan legenda
+        },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+          },
+        });
+      }
+    })
+}
+ 
+
+//DRAWINGS
 
 $("#filterBtnDrawings").click(function() {
   const chartContainer = document.getElementById("drawing-container");
@@ -179,8 +351,6 @@ $("#filterBtnDrawings").click(function() {
         
       }
     })
-    
-
   }
 
   function createCardElement(param,title){
@@ -222,45 +392,25 @@ $("#filterBtnDrawings").click(function() {
         container.appendChild(createCardElement());
     }
   }
-</script>
 
-<script>
-//SCURVE
-  $("#filterBtnSCurve").click(function() {
-    let valid = true;
-    // if($("#tanggal_awal").val() == ""){
-    //   $("#tanggal_awal").addClass("is-invalid");
-    //   valid = false
-    // }
-    // if($("#tanggal_akhir").val() == ""){
-    //   $("#tanggal_akhir").addClass("is-invalid");
-    //   valid = false
-    // }
+
+//S_CURVE  
     
+
+  $("#filterBtnSCurve").click(function() {
+    let valid = true;    
     if(valid) {
       resetTable();
-      resetChartContainer(); 
+      resetChartContainer('sCurveContainer','sCurveChart'); 
   
-      showChart($("#tanggal_awal").val(),$("#tanggal_akhir").val(),$("#category").val());
+      showScurve($("#tanggal_awal").val(),$("#tanggal_akhir").val(),$("#category").val());
     }
    
   });
   
-  
-  function resetChartContainer() {
-    const chartContainer = document.getElementById("chart-container-1");
-    
-    // Hapus semua elemen dalam chart container
-    chartContainer.innerHTML = "";
-  
-    // Buat elemen canvas baru
-    const newCanvas = document.createElement("canvas");
-    newCanvas.setAttribute("id", "multipleLineChart");
-    chartContainer.appendChild(newCanvas);
-  }
-  
-  showChart('', '','all')
-  function showChart(param_tgl_awal, param_tgl_akhir,param_category){
+
+  showScurve('', '','all')
+  function showScurve(param_tgl_awal, param_tgl_akhir,param_category){
   
     $.ajax({
       url: "{{route('s-curve-chart-data')}}",
@@ -326,7 +476,7 @@ $("#filterBtnDrawings").click(function() {
       
   
       multipleLineChart = document
-      .getElementById("multipleLineChart")
+      .getElementById('sCurveChart')
       .getContext("2d");
     
       multipleLineChart = new Chart(multipleLineChart, {
@@ -416,13 +566,12 @@ $("#filterBtnDrawings").click(function() {
       }
     });
     }
-    </script>
-    
 
-
-<script>
-  //PIE
+//PIE CHART CORRESPONDENCE
   document.getElementById("filterBtn").addEventListener('click', function(){
+    resetChartContainer('pieContainer1','pieChart1'); 
+    resetChartContainer('pieContainer2','pieChart2'); 
+    resetChartContainer('pieContainer3','pieChart3'); 
     if($("#start_date").val() != "" && $("#end_date").val() != ""){
      
       PieChartProcess($("#start_date").val(),$("#end_date").val())

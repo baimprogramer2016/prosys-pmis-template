@@ -28,3 +28,5 @@ Route::post("/dashboard-pie-surat",[DashboardController::class,'dashboardPieSura
 Route::post("/send-mail", [EmailController::class,'index'])->name('send-mail');
 Route::get("/get-parent", [CustomController::class,'getParent'])->name('get-parent');
 Route::get("/dashboard-drawings", [DashboardController::class,'dashboardDrawings'])->name('dashboard-drawings');
+Route::get("/dashboard-procurement-logistic", [DashboardController::class,'dashboardProcurementLogistic'])->name('dashboard-procurement-logistic');
+Route::get("/dashboard-document-management", [DashboardController::class,'dashboardDocumentManagement'])->name('dashboard-document-management');
