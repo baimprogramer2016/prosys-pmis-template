@@ -168,25 +168,34 @@ class DashboardController extends Controller
         $array_tab = [];
 
         //engineer
-        $jumlah_engineer = DocumentEngineering::count();
+        $jumlah_engineer = DocumentEngineering::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
+        })->count();
         $data_engineer['label'] = "Engineer";
         $data_engineer['value'] = $jumlah_engineer;
 
         array_push($array_tab,$data_engineer);
 
-        $jumlah_contruction = ConstructionDocument::count();
+        $jumlah_contruction = ConstructionDocument::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
+        })->count();
         $data_construction['label'] = "Construction";
         $data_construction['value'] = $jumlah_contruction;
 
         array_push($array_tab,$data_construction);
 
-        $jumlah_field = FieldInstruction::count();
+        $jumlah_field = FieldInstruction::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
+        })->count();
         $data_field['label'] = "Field Instruction";
         $data_field['value'] = $jumlah_field;
 
         array_push($array_tab,$data_field);
 
-        $jumlah_sop = Sop::count();
+        $jumlah_sop = Sop::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        })->count();
+        
         $data_sop['label'] = "Project Procedure";
         $data_sop['value'] = $jumlah_sop;
 
@@ -207,6 +216,23 @@ class DashboardController extends Controller
             $data['color'] = (optional($item->r_parent)->name == 'Procurement') ? "#245069" : "#9dd9e8";
             array_push($array_tab, $data);
         }
+
+        ///drawing
+        $tabel_drawing = MasterCustom::where('template','drawings')->whereNotNull('tab')->get();
+        $data_drawing['label'] = 'Drawings';
+        // return $array_tab;
+        $total_drawing = 0;
+        foreach($tabel_drawing as $item_drawing) {
+            //jumlah ambil dari dynamic model
+            $model = (new DynamicCustom())->setTableName('custom_'.$item_drawing->tab);
+            $total = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
+            
+            $total_drawing +=$total;
+        }
+        $data_drawing['value'] = $total_drawing;
+        array_push($array_tab, $data_drawing);
 
         return response()->json($array_tab);
     }

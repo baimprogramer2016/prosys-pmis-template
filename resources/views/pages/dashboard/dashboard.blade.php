@@ -220,7 +220,7 @@ function getDataDocumentManagement(start_date, end_date){
       },
       method:"GET",
       success:function(response){
-        // console.log(response);
+        console.log(response);
       const chartDataDocumentManagement = response;
 
       // Mengonversi struktur data ke format Chart.js
