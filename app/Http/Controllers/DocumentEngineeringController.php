@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\IOFactory;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables ;
 
@@ -348,8 +349,20 @@ class DocumentEngineeringController extends Controller
     public function pdf(Request $request, $id){ 
         try{
             $document = DocumentEngineering::find($id);
+            $content ="";
+            if($document->ext == 'docx') {
+
+                $path = storage_path('app/public/' . $document->path);
+                $phpWord = IOFactory::load($path);
+                $htmlWriter = IOFactory::createWriter($phpWord, 'HTML');
+            
+                ob_start();
+                $htmlWriter->save("php://output");
+                $content = ob_get_clean();
+            }
             return view('pages.document-engineer.document-engineer-pdf', [
                 "document" => $document,
+                "content" => $content
             ]);
         }catch (Throwable $e) {
             // Tangani error
