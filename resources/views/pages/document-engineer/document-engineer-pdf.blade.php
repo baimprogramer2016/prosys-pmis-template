@@ -27,7 +27,17 @@
 <script>
   function hideLoading() {
     document.getElementById("loading").style.display = "none"; // Sembunyikan loading
-    document.getElementById("docIframe").style.display = "block"; // Tampilkan dokumen
-    document.getElementById("pdfIframe").style.display = "block"; // Tampilkan PDF
+    
+    var docIframe = document.getElementById("docIframe");
+    var pdfIframe = document.getElementById("pdfIframe");
+
+    // Tampilkan iframe jika ditemukan
+    if (docIframe) {
+        docIframe.style.display = "block";
+    }
+    if (pdfIframe) {
+        pdfIframe.style.display = "block";
+    }
   }
 </script>
+
