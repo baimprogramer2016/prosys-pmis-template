@@ -162,7 +162,7 @@ table.dataTable {
   <div class="modal fade" id="modal-pdf" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true" >
     <div class="modal-dialog modal-fullscreen"> <!-- Tambahkan modal-lg di sini -->
       <div class="modal-content">
-       
+     
       </div>
     </div>
   </div>
@@ -259,9 +259,10 @@ function viewPdf(param){
       },
       success: function(response) {
       
-        $(".modal-content").html("");
-        $(".modal-content").html(response);
-        
+        $(".modal-content").html("Harap menuggu, data sedang di muat......");
+        setTimeout(() => {
+          $(".modal-content").html(response);
+        }, 1000);
       },
       error: function(xhr) {
           alert('An error occurred: ' + xhr.responseText);

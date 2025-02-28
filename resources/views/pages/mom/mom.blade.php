@@ -218,8 +218,10 @@ function viewPdf(param){
       },
       success: function(response) {
       
-        $(".modal-content").html("");
-        $(".modal-content").html(response);
+        $(".modal-content").html("Harap menuggu, data sedang di muat......");
+        setTimeout(() => {
+          $(".modal-content").html(response);
+        }, 1000);
         
       },
       error: function(xhr) {

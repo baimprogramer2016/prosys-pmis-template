@@ -61,7 +61,7 @@ class DocumentEngineeringController extends Controller
                 $fileUrl = asset('storage/' . $row->path);
 
                 $addDropdown = "";
-                if(in_array($row->ext,['pdf','jpg','png','jpeg','docx'])){
+                if(in_array($row->ext,['pdf','jpg','png','jpeg','docx','doc','xlsx','xls'])){
                     $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                 }
                 $btn = '<div class="dropdown">
@@ -349,20 +349,10 @@ class DocumentEngineeringController extends Controller
     public function pdf(Request $request, $id){ 
         try{
             $document = DocumentEngineering::find($id);
-            $content ="";
-            if($document->ext == 'docx') {
-
-                $path = storage_path('app/public/' . $document->path);
-                $phpWord = IOFactory::load($path);
-                $htmlWriter = IOFactory::createWriter($phpWord, 'HTML');
-            
-                ob_start();
-                $htmlWriter->save("php://output");
-                $content = ob_get_clean();
-            }
+           
             return view('pages.document-engineer.document-engineer-pdf', [
                 "document" => $document,
-                "content" => $content
+         
             ]);
         }catch (Throwable $e) {
             // Tangani error
