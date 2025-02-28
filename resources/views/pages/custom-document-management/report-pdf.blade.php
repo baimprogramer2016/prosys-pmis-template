@@ -6,6 +6,13 @@
             frameborder="0" 
             >
     </iframe>
+  @elseif(in_array($document->ext, ['xls', 'xlsx','ppt','pptx']))
+    <iframe id="excelIframe" 
+            src="https://view.officeapps.live.com/op/embed.aspx?src={{ asset('storage/' . $document->path) }}"
+            style="width: 100%; height: 100vh; border: none;" 
+            frameborder="0" 
+         >
+    </iframe>
   @else
     <iframe id="pdfIframe" 
             src="{{ asset('storage/' . $document->path)}}" 
