@@ -244,7 +244,7 @@ function viewPdf(param){
         $(".modal-content").html("Harap menuggu, data sedang di muat......");
         setTimeout(() => {
           $(".modal-content").html(response);
-        }, 1000);
+        }, 2000);
       },
       error: function(xhr) {
           alert('An error occurred: ' + xhr.responseText);

@@ -45,7 +45,7 @@ class RfiController extends Controller
                 $fileUrl = asset('storage/' . $row->path);
 
                 $addDropdown = "";
-                if(in_array($row->ext,['pdf','jpg','png','jpeg','docx','doc'])){
+                if(in_array($row->ext,['pdf','jpg','png','jpeg','docx','doc','xls','xlsx','ppt','pptx'])){
                     $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                 }
                 $btn = '<div class="dropdown">
