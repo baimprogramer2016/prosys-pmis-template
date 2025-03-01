@@ -28,10 +28,6 @@ class CustomController extends Controller
     }   
   
 
-    public function getParent(){
-        $data_parent =  MasterCustom::where('type','=','parent')->get();
-        return response()->json($data_parent);
-    }
     public function getMasterCustom(Request $request)
     {
       
@@ -325,6 +321,21 @@ class CustomController extends Controller
     }
 
 
+    public function getParent(){
+        $data_parent =  MasterCustom::where('type','=','parent')->get();
+        return response()->json($data_parent);
+    }
+    
+    public function getTemplate(Request $request){
+
+        if($request->type == 'parent'){
+            $data_template = MasterCategory::where('category','template')->select('description')->get();
+        }else{
+            $data_template = MasterCustom::where('parent', $request->parent)->select('template as description')->distinct()->get();
+        }
+  
+        return response()->json($data_template);
+    }
     //
 
   

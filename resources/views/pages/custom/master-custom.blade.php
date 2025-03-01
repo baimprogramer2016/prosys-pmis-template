@@ -126,9 +126,9 @@ table.dataTable td {
                     <div class="form-group col-md-2">
                       <label for="role">Template</label>
                       <select class="form-control form-control-sm" id="template" name="template">
-                        @foreach ($data_template as $item_template)
+                        {{-- @foreach ($data_template as $item_template)
                           <option value="{{ $item_template->description}}">{{ ucwords($item_template->description)}}</option>
-                        @endforeach
+                        @endforeach --}}
                       </select>
                     </div>
                     <div class="col-md-3 d-flex align-items-end mb-2 justify-content-start">
@@ -199,8 +199,9 @@ table.dataTable td {
 <script>
     $("#parent").prop("disabled", true);
     $("#tab").prop("disabled", true);
-
+    getParent();
 document.getElementById('type').addEventListener('change', function () {
+  
   $("#parent").prop("disabled", false);
   if($("#type").val() == 'parent'){
     $("#parent").prop("disabled", true);
@@ -208,6 +209,7 @@ document.getElementById('type').addEventListener('change', function () {
     $("#tab").prop("disabled", true);
     $("#tab").val("");
     $("#parent").html("")
+    getParent();
   }else{
     $("#tab").prop("disabled", false);
     $("#parent").prop("disabled", false);
@@ -230,6 +232,7 @@ document.getElementById('type').addEventListener('change', function () {
 
      
         $("#parent").html(options);
+        getParent();
       
       },
       error: function (xhr) {
@@ -238,6 +241,42 @@ document.getElementById('type').addEventListener('change', function () {
     });
   }
 })
+
+
+document.getElementById('parent').addEventListener('change', function () {
+  getParent();
+})
+
+function getParent(){
+  $.ajax({
+      url: "{{ route('get-template') }}",
+      type: "GET",
+      data: {
+        type: $("#type").val(),
+        parent: $("#parent").val(),
+        _token: "{{ csrf_token() }}",
+      },
+      success: function (response) {
+      
+        // console.log(response)
+        let options ='';
+        if(response.length > 0){
+        
+          response.forEach((item) =>{
+            options += `<option value="${item.description}">${item.description}</option>`; 
+          })
+        }
+
+     
+        $("#template").html(options);
+      
+      },
+      error: function (xhr) {
+        alert('An error occurred: ' + xhr.responseText);
+      }
+    });
+  
+}
 
 document.getElementById('save').addEventListener('click', function () {
 
