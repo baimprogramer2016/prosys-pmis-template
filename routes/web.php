@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomDocumentManagementController;
 use App\Http\Controllers\CustomDrawingController;
 use App\Http\Controllers\CustomPhotographicController;
 use App\Http\Controllers\CustomProcurementLogisticController;
+use App\Http\Controllers\CustomReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -438,4 +439,17 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-procurement-logistic-delete/{id}', [CustomProcurementLogisticController::class, 'viewDelete'])->name('custom-procurement-logistic-delete');
     Route::post('/custom-procurement-logistic-deleted/{id}', [CustomProcurementLogisticController::class, 'deleted'])->name('custom-procurement-logistic-deleted');
     Route::get('/custom-procurement-logistic-history/{id}', [CustomProcurementLogisticController::class, 'history'])->name('custom-procurement-logistic-history');
+
+    Route::get('/custom-report', [CustomReportController::class, 'index'])->name('custom-report');
+    Route::get('/get-custom-report', [CustomReportController::class, 'getCustomReport'])->name('get-custom-report');   
+    Route::get('/custom-report-tambah', [CustomReportController::class, 'viewTambah'])->name('custom-report-tambah');
+    Route::post('/custom-report-upload-temp', [CustomReportController::class, 'uploadTemp'])->name('custom-report-upload-temp');
+    Route::post('/custom-report-save-uploads', [CustomReportController::class, 'saveUploads'])->name('custom-report-save-uploads');
+    Route::get('/custom-report-edit/{id}', [CustomReportController::class, 'viewEdit'])->name('custom-report-edit');
+    Route::post('/custom-report-update-uploads/{id}', [CustomReportController::class, 'updateUploads'])->name('custom-report-update-uploads');
+    Route::get('/custom-report-pdf/{id}', [CustomReportController::class, 'pdf'])->name('custom-report-pdf');
+    Route::get('/custom-report-share/{id}', [CustomReportController::class, 'share'])->name('custom-report-share');
+    Route::get('/custom-report-delete/{id}', [CustomReportController::class, 'viewDelete'])->name('custom-report-delete');
+    Route::post('/custom-report-deleted/{id}', [CustomReportController::class, 'deleted'])->name('custom-report-deleted');
+    Route::get('/custom-report-history/{id}', [CustomReportController::class, 'history'])->name('custom-report-history');
 });
