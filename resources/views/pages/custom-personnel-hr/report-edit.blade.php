@@ -33,7 +33,7 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Document Management / {{ Ucwords(str_replace('_',' ',request('tab'))) }}</h6>
+        <h6 class="op-7 mb-2">Document Management / {{ Ucwords(str_replace('_',' ',request('tab'))) }}/ Edit</h6>
       </div>
       <div class="ms-md-auto py-2 py-md-0">
         <a onclick="window.history.back()"  class="btn btn-primary btn-round">Daftar</a>
@@ -53,7 +53,7 @@
               </div>
               <div class="col col-stats ms-3 ms-sm-0 d-flex">
                 <div class="numbers">
-                  <h4 class="card-title">Upload Document</h4>
+                  <h4 class="card-title">Edit Document</h4>
                 </div>
                 
               </div>
@@ -65,33 +65,33 @@
       <div class="col-sm-12 col-md-12">
       <div class="card ">   
         <div class="card-body">
-          <div class="alert-warning text-center">Hanya bisa Upload 1 File</div>
-          <form action="{{ route('custom-document-management-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
+          <div class="alert-warning text-center">Hanya bisa Upload 1 File <strong>Kosongkan jika Document tidak dirubah</strong></div>
+          <form action="{{ route('custom-personnel-hr-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
             
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
           <div class="align-items-center mb-3 mt-3   p-3 row">
+            <input type="hidden" class="form-control" id="id_edit" name="id_edit" value="{{$document->id}}">
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Document Number</label>
-              <input type="text" class="form-control" id="document_number" name="document_number">
+              <input type="text" class="form-control" id="document_number" name="document_number" value="{{$document->document_number}}">
             </div>
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Title</label>
-              <input type="text" class="form-control" id="description" name="description">
+              <input type="text" class="form-control" id="description" name="description" value="{{$document->description}}">
             </div>
-          
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Version</label>
-              <input type="text" class="form-control" id="version" name="version">
+              <input type="text" class="form-control" id="version" name="version" value="{{$document->version}}">
             </div>
-          
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Tanggal</label>
-              <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+              <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ \Carbon\Carbon::parse($document->tanggal)->format('Y-m-d') }}">
             </div>
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Discipline</label>
               <select class="form-select" id="discipline" name="discipline">
+                  <option value="{{ $document->discipline }}">{{ optional($document->r_discipline)->description }} </option>
                   <option value=""">---Pilih---</option>
                   @foreach ($data_discipline as $item_discipline)
                   <option value="{{ $item_discipline->id }}">{{ $item_discipline->description }} </option>
@@ -101,6 +101,7 @@
             {{-- <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
               <select class="form-select" id="category" name="category">
+                <option value="{{ $document->category }}">{{ optional($document->r_category)->description }} </option>
                   <option value="">---Pilih---</option>
                   @foreach ($data_category as $item_category)
                   <option value="{{ $item_category->id }}">{{ $item_category->description }} </option>
@@ -110,22 +111,21 @@
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Status</label>
               <select class="form-select" id="status" name="status">
+                <option value="{{ $document->status }}">{{ optional($document->r_status)->description }} </option>
                   <option value="">---Pilih---</option>
                   @foreach ($data_status as $item_status)
                   <option value="{{ $item_status->code }}">{{ $item_status->description }} </option>
                   @endforeach
               </select>
-            </div>
-            <div class="col mb-3 to">
-              <label for="start_date" class="form-label strong">To</label>
-              <select class="form-select"  id="email" name="email">
-                 
-              </select>
             </div> --}}
             <div class="col-md-12 mb-3">
-              <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
+              <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
             </div>
-          </div>  
+
+          </div>
+        
+        
+         
         </div>
         
       </div> 
@@ -148,7 +148,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
 <script>
-
   var uploadedFiles = [];
 
 Dropzone.options.myDropzone = {
@@ -190,8 +189,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let discipline = $("#discipline").val()
         // let category = $("#category").val()
         // let status = $("#status").val()
-        // let email = $("#email").val()
-        // let email = $("#email").val()
+        let id_edit = $("#id_edit").val()
   
         // Validasi Activity
         if (document_number === "") {
@@ -205,13 +203,11 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           valid = false;
         }
   
-     
    // Validasi End Date
         if (version === "") {
           $("#version").addClass("is-invalid");
           valid = false;
         } 
-  
   
          // Validasi End Date
          if (tanggal === "") {
@@ -225,36 +221,21 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           valid = false;
         } 
   
-  /*
-        if (category === "") {
-          $("#category").addClass("is-invalid");
-          valid = false;
-        } 
-  
-        if (status === "") {
-          $("#status").addClass("is-invalid");
-          valid = false;
-        } 
-          */
-  
-        // if (email === "") {
-        //   $("#email").addClass("is-invalid");
+        // if (category === "") {
+        //   $("#category").addClass("is-invalid");
         //   valid = false;
         // } 
-
-
-  if (uploadedFiles.length === 0) {
-    alert('No valid files uploaded!');
-    valid = false;
-    return;
-  }
+  
+        // if (status === "") {
+        //   $("#status").addClass("is-invalid");
+        //   valid = false;
+        // } 
 
   if(valid == true){
     const urlParams = new URLSearchParams(window.location.search);
     const tab = urlParams.get('tab'); 
-
     $.ajax({
-      url: "{{ route('custom-document-management-save-uploads') }}",
+      url: "{{ route('custom-personnel-hr-update-uploads',':id') }}".replace(':id', id_edit),
       type: "POST",
       data: {
         _token: "{{ csrf_token() }}",
@@ -264,10 +245,9 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         version : version,
         tanggal : tanggal,
         discipline : discipline,
-        tab : tab
+        tab:tab
         // category : category,
-        // status:status,  
-        // email:email  
+        // status:status  
       },
       success: function (response,color) {
         if (response.status == 'ok'){
@@ -284,8 +264,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
                   },
                 },
               });
-        //kirim email
-     
+            
         
         location.reload();
       },
@@ -297,56 +276,5 @@ document.getElementById('saveUploads').addEventListener('click', function () {
 
 });
 
-function sendEmail(email,status, description){
-  $.ajax({
-      url: "{{ route('send-mail') }}",
-      type: "POST",
-      data: {
-        _token: "{{ csrf_token() }}",
-        status:status,  
-        email:email,
-        description:description
-      },
-      success: function (response,color) {
-      }
-    });
-  }
-
-
-// document.getElementById('status').addEventListener('change', function () {
-//   $("#email").prop("disabled", true);
-//   if($("#status").val() == 'approve' || $("#status").val() == 'notapprove'){
-//     $("#email").prop("disabled", true);
-//     $("#email").html("")
-//   }else{
-//     $("#email").prop("disabled", false);
-//     $.ajax({
-//       url: "{{ route('assign') }}",
-//       type: "POST",
-//       data: {
-//          status : $("#status").val(),
-//         _token: "{{ csrf_token() }}",
-//       },
-//       success: function (response) {
-      
-//         let options ='';
-//         if(response.length > 0){
-        
-//           response.forEach((item) =>{
-//             options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
-//           })
-//         }
-
-     
-//         $("#email").html(options);
-      
-//       },
-//       error: function (xhr) {
-//         alert('An error occurred: ' + xhr.responseText);
-//       }
-//     });
-//   }
-
-// })
 </script>
 @endpush

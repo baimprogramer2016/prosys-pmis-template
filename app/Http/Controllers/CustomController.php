@@ -103,7 +103,7 @@ class CustomController extends Controller
                 $tableName = preg_replace('/[^a-zA-Z0-9_]/', '', "custom_".$request->tab);
                 $tableNameHistory = preg_replace('/[^a-zA-Z0-9_]/', '', "custom_".$request->tab_history);
 
-                if($request->template == 'document_management'){
+                if($request->template == 'personnel_hr'){
                         // Buat tabel baru secara dinamis
                         DB::statement("
                         CREATE TABLE `$tableName` (

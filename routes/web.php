@@ -5,9 +5,11 @@ use App\Http\Controllers\ConstructionDocumentController;
 use App\Http\Controllers\CorSuratKeluarController;
 use App\Http\Controllers\CorSuratMasukController;
 use App\Http\Controllers\CustomController;
-use App\Http\Controllers\CustomDocumentManagementController;
+
 use App\Http\Controllers\CustomDrawingController;
 use App\Http\Controllers\CustomInvoiceRecordController;
+
+use App\Http\Controllers\CustomPersonnelHrController;
 use App\Http\Controllers\CustomPhotographicController;
 use App\Http\Controllers\CustomProcurementLogisticController;
 use App\Http\Controllers\CustomReportController;
@@ -387,18 +389,18 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/master-custom-deleted/{id}', [CustomController::class, 'deleted'])->name('master-custom-deleted');
 
 
-    Route::get('/custom-document-management', [CustomDocumentManagementController::class, 'index'])->name('custom-document-management');
-    Route::get('/get-custom-document-management', [CustomDocumentManagementController::class, 'getCustomDocumentManagement'])->name('get-custom-document-management');   
-    Route::get('/custom-document-management-tambah', [CustomDocumentManagementController::class, 'viewTambah'])->name('custom-document-management-tambah');
-    Route::post('/custom-document-management-upload-temp', [CustomDocumentManagementController::class, 'uploadTemp'])->name('custom-document-management-upload-temp');
-    Route::post('/custom-document-management-save-uploads', [CustomDocumentManagementController::class, 'saveUploads'])->name('custom-document-management-save-uploads');
-    Route::get('/custom-document-management-edit/{id}', [CustomDocumentManagementController::class, 'viewEdit'])->name('custom-document-management-edit');
-    Route::post('/custom-document-management-update-uploads/{id}', [CustomDocumentManagementController::class, 'updateUploads'])->name('custom-document-management-update-uploads');
-    Route::get('/custom-document-management-pdf/{id}', [CustomDocumentManagementController::class, 'pdf'])->name('custom-document-management-pdf');
-    Route::get('/custom-document-management-share/{id}', [CustomDocumentManagementController::class, 'share'])->name('custom-document-management-share');
-    Route::get('/custom-document-management-delete/{id}', [CustomDocumentManagementController::class, 'viewDelete'])->name('custom-document-management-delete');
-    Route::post('/custom-document-management-deleted/{id}', [CustomDocumentManagementController::class, 'deleted'])->name('custom-document-management-deleted');
-    Route::get('/custom-document-management-history/{id}', [CustomDocumentManagementController::class, 'history'])->name('custom-document-management-history');
+    Route::get('/custom-personnel-hr', [CustomPersonnelHrController::class, 'index'])->name('custom-personnel-hr');
+    Route::get('/get-custom-personnel-hr', [CustomPersonnelHrController::class, 'getCustomPersonnelHr'])->name('get-custom-personnel-hr');   
+    Route::get('/custom-personnel-hr-tambah', [CustomPersonnelHrController::class, 'viewTambah'])->name('custom-personnel-hr-tambah');
+    Route::post('/custom-personnel-hr-upload-temp', [CustomPersonnelHrController::class, 'uploadTemp'])->name('custom-personnel-hr-upload-temp');
+    Route::post('/custom-personnel-hr-save-uploads', [CustomPersonnelHrController::class, 'saveUploads'])->name('custom-personnel-hr-save-uploads');
+    Route::get('/custom-personnel-hr-edit/{id}', [CustomPersonnelHrController::class, 'viewEdit'])->name('custom-personnel-hr-edit');
+    Route::post('/custom-personnel-hr-update-uploads/{id}', [CustomPersonnelHrController::class, 'updateUploads'])->name('custom-personnel-hr-update-uploads');
+    Route::get('/custom-personnel-hr-pdf/{id}', [CustomPersonnelHrController::class, 'pdf'])->name('custom-personnel-hr-pdf');
+    Route::get('/custom-personnel-hr-share/{id}', [CustomPersonnelHrController::class, 'share'])->name('custom-personnel-hr-share');
+    Route::get('/custom-personnel-hr-delete/{id}', [CustomPersonnelHrController::class, 'viewDelete'])->name('custom-personnel-hr-delete');
+    Route::post('/custom-personnel-hr-deleted/{id}', [CustomPersonnelHrController::class, 'deleted'])->name('custom-personnel-hr-deleted');
+    Route::get('/custom-personnel-hr-history/{id}', [CustomPersonnelHrController::class, 'history'])->name('custom-personnel-hr-history');
   
 
   

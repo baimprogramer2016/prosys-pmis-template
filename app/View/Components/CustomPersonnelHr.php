@@ -8,7 +8,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class CustomDocumentManagement extends Component
+class CustomPersonnelHr extends Component
 {
     /**
      * Create a new component instance.
@@ -23,16 +23,16 @@ class CustomDocumentManagement extends Component
      */
     public function render(): View|Closure|string
     {
-        $sidebar_document_management = MasterCustom::where("template",'document_management')->where('type','parent')->get();
+        $sidebar_personnel_hr = MasterCustom::where("template",'personnel_hr')->where('type','parent')->get();
 
-        foreach($sidebar_document_management as $item_parent){
+        foreach($sidebar_personnel_hr as $item_parent){
         
             foreach($item_parent->r_child as $item_child){
                 $item_child->jml_doc = (new DynamicCustom())->setTableName('custom_'.$item_child->tab)->count();
             }
         }
-        return view('components.custom-document-management',[
-            "sidebar_document_management" => $sidebar_document_management
+        return view('components.custom-personnel-hr',[
+            "sidebar_personnel_hr" => $sidebar_personnel_hr
         ]);
     }
 }

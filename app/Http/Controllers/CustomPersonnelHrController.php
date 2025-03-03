@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
 
-class CustomDocumentManagementController extends Controller
+class CustomPersonnelHrController extends Controller
 {
     public function index(Request $request){
         try{
-            return view('pages.custom-document-management.report');
+            return view('pages.custom-personnel-hr.report');
         }catch (Throwable $e) {
             // Tangani error
             return response()->json([
@@ -28,7 +28,7 @@ class CustomDocumentManagementController extends Controller
         }
     }
 
-    public function getCustomDocumentManagement(Request $request)
+    public function getCustomPersonnelHr(Request $request)
     {
 
         if ($request->ajax()) {
@@ -66,7 +66,7 @@ class CustomDocumentManagementController extends Controller
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="' . $fileUrl . '" download>Download</a>
-                                <a class="dropdown-item" href="' . route('custom-document-management-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>
+                                <a class="dropdown-item" href="' . route('custom-personnel-hr-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewShare(' . $row->id . ')" class="dropdown-item cursor-pointer">Share</a>
                                 ' . $addDropdown . '                        
@@ -116,7 +116,7 @@ class CustomDocumentManagementController extends Controller
             $data_status = MasterStatus::get();
             $data_category = MasterCategory::where('category','engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-document-management.report-tambah',[
+            return view('pages.custom-personnel-hr.report-tambah',[
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline
@@ -201,7 +201,7 @@ class CustomDocumentManagementController extends Controller
             $data_status = MasterStatus::get();
             $data_category = MasterCategory::where('category','engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-document-management.report-edit',[
+            return view('pages.custom-personnel-hr.report-edit',[
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline,
@@ -298,7 +298,7 @@ class CustomDocumentManagementController extends Controller
         $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
             $document =$tableCustom->find($id);
-            return view('pages.custom-document-management.report-pdf', [
+            return view('pages.custom-personnel-hr.report-pdf', [
                 "document" => $document,
             ]);
         }catch (Throwable $e) {
@@ -319,7 +319,7 @@ class CustomDocumentManagementController extends Controller
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
             $document =$tableCustom->find($id);
-            return view('pages.custom-document-management.report-share', [
+            return view('pages.custom-personnel-hr.report-share', [
                 "document" => $document,
             ]);
         }catch (Throwable $e) {
@@ -342,7 +342,7 @@ class CustomDocumentManagementController extends Controller
 
             $document =$tableCustom->find($id);
       
-            return view('pages.custom-document-management.report-delete', [
+            return view('pages.custom-personnel-hr.report-delete', [
                 "document" => $document,
                 "tab" => $tab
             ]);
@@ -382,7 +382,7 @@ class CustomDocumentManagementController extends Controller
          
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
             $document =$tableCustom->where('custom_id', $id)->get();
-            return view('pages.custom-document-management.report-history', [
+            return view('pages.custom-personnel-hr.report-history', [
                 "documents" => $document,
             ]);
         }catch (Throwable $e) {

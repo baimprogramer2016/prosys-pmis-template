@@ -72,7 +72,7 @@
         </div> 
      
       <div class="ms-md-auto py-2 py-md-0">
-        <a href="{{ route('custom-document-management-tambah',["tab" => request('tab')]) }}"  class="btn btn-primary btn-round">Tambah</a>
+        <a href="{{ route('custom-personnel-hr-tambah',["tab" => request('tab')]) }}"  class="btn btn-primary btn-round">Tambah</a>
        </div>
     </div>
     <div class="row">
@@ -177,7 +177,7 @@ function viewDelete(param){
   const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('custom-document-management-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('custom-personnel-hr-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     data: {
         tab:tab 
@@ -201,7 +201,7 @@ function viewShare(param){
   const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('custom-document-management-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('custom-personnel-hr-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     data: {
         tab:tab 
@@ -225,7 +225,7 @@ function viewPdf(param){
   const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
   $.ajax({
-    url: "{{ route('custom-document-management-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+    url: "{{ route('custom-personnel-hr-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
       type: "GET",
       data: {
         tab:tab 
@@ -259,7 +259,7 @@ function viewPdf(param){
             },
       
             ajax: {
-                url: "{{ route('get-custom-document-management', ['tab' => request('tab')]) }}",
+                url: "{{ route('get-custom-personnel-hr', ['tab' => request('tab')]) }}",
             },
           dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
           buttons: [
@@ -295,7 +295,7 @@ function viewHistory(param){
   const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
   $.ajax({
-  url: "{{ route('custom-document-management-history', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('custom-personnel-hr-history', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     data: {
         tab:tab 

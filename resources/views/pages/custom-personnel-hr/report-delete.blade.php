@@ -34,7 +34,7 @@
         };
   
         $.ajax({
-          url: "{{ route('custom-document-management-deleted', ':id') }}".replace(':id', dataId), // Ganti dengan route yang sesuai
+          url: "{{ route('custom-personnel-hr-deleted', ':id') }}".replace(':id', dataId), // Ganti dengan route yang sesuai
     
           type: "POST",  // HTTP PUT untuk update
           data: formData,

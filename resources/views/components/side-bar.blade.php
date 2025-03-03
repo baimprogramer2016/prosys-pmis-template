@@ -319,7 +319,7 @@
                   </a>
                 </li>
                 @endcan
-                <x-custom-document-management />
+                <x-custom-personnel-hr />
                 <x-custom-photographic />
                 <x-custom-drawings />
 
