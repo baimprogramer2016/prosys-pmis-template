@@ -7,6 +7,7 @@ use App\Http\Controllers\CorSuratMasukController;
 use App\Http\Controllers\CustomController;
 use App\Http\Controllers\CustomDocumentManagementController;
 use App\Http\Controllers\CustomDrawingController;
+use App\Http\Controllers\CustomInvoiceRecordController;
 use App\Http\Controllers\CustomPhotographicController;
 use App\Http\Controllers\CustomProcurementLogisticController;
 use App\Http\Controllers\CustomReportController;
@@ -452,4 +453,17 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-report-delete/{id}', [CustomReportController::class, 'viewDelete'])->name('custom-report-delete');
     Route::post('/custom-report-deleted/{id}', [CustomReportController::class, 'deleted'])->name('custom-report-deleted');
     Route::get('/custom-report-history/{id}', [CustomReportController::class, 'history'])->name('custom-report-history');
+
+    Route::get('/custom-invoice-record', [CustomInvoiceRecordController::class, 'index'])->name('custom-invoice-record');
+    Route::get('/get-custom-invoice-record', [CustomInvoiceRecordController::class, 'getCustomInvoiceRecord'])->name('get-custom-invoice-record');   
+    Route::get('/custom-invoice-record-tambah', [CustomInvoiceRecordController::class, 'viewTambah'])->name('custom-invoice-record-tambah');
+    Route::post('/custom-invoice-record-upload-temp', [CustomInvoiceRecordController::class, 'uploadTemp'])->name('custom-invoice-record-upload-temp');
+    Route::post('/custom-invoice-record-save-uploads', [CustomInvoiceRecordController::class, 'saveUploads'])->name('custom-invoice-record-save-uploads');
+    Route::get('/custom-invoice-record-edit/{id}', [CustomInvoiceRecordController::class, 'viewEdit'])->name('custom-invoice-record-edit');
+    Route::post('/custom-invoice-record-update-uploads/{id}', [CustomInvoiceRecordController::class, 'updateUploads'])->name('custom-invoice-record-update-uploads');
+    Route::get('/custom-invoice-record-pdf/{id}', [CustomInvoiceRecordController::class, 'pdf'])->name('custom-invoice-record-pdf');
+    Route::get('/custom-invoice-record-share/{id}', [CustomInvoiceRecordController::class, 'share'])->name('custom-invoice-record-share');
+    Route::get('/custom-invoice-record-delete/{id}', [CustomInvoiceRecordController::class, 'viewDelete'])->name('custom-invoice-record-delete');
+    Route::post('/custom-invoice-record-deleted/{id}', [CustomInvoiceRecordController::class, 'deleted'])->name('custom-invoice-record-deleted');
+    Route::get('/custom-invoice-record-history/{id}', [CustomInvoiceRecordController::class, 'history'])->name('custom-invoice-record-history');
 });

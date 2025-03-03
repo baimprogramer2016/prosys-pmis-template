@@ -51,12 +51,7 @@
             </a>
           </li>
           @endcan
-          <li class="nav-item active">
-            <a href="#">
-             
-              <p>Menu</p>
-            </a>
-          </li>
+       
           
           @can('view_letter')
           <li class="nav-item nav-item-custom nav-item-custom {{ Request::is('surat*') ? 'active' : '' }}">
@@ -107,250 +102,250 @@
               </ul>
             </div>
           </li>
-          {{-- <li class="nav-item nav-item-custom {{ Request::is('master-schedule*') ? 'active' : '' }}">
-            <a href="{{ route('master-schedule') }}">
-              <i class="fas fa-calendar-alt"></i>
-              <p>Schedule Management</p>
-            </a>
-          </li>
-          <li class="nav-item nav-item-custom {{ Request::is('gantt-chart*') ? 'active' : '' }}">
-            <a href="{{ route('gantt-chart') }}">
-              <i class="fas fa-car-side"></i>
-              <p>Task Progress</p>
-            </a>
-          </li> --}}
-          <li class="nav-item active">
-            <a href="#">
-             
+         
+          <li class="nav-item ">
+            <a data-bs-toggle="collapse" href="#document_management">
+              <i class="fas fa-file-archive"></i>
               <p>Document Management</p>
+              <span class="caret"></span>
             </a>
+            <div class="collapse {{ Request::is('*drawing*')  || Request::is('*custom-photo*') || Request::is('*document-management*') || Request::is('document-engineer*') || Request::is('sop*') || Request::is('construction-document*') || Request::is('field-instruction*') || Request::is('surat*') ? 'show' : '' }}" id="document_management">
+              <ul class="nav nav-collapse subnav">
+                @can('view_sop')
+                <li class="nav-item nav-item-custom nav-item-custom {{ Request::is('sop*') ? 'active' : '' }}">
+                  <a href="{{ route('sop') }}">
+                    <i class="fas fa-pen-square"></i>
+                    <p>Project Procedure</p>
+                    <span class="badge badge-success">{{ $jml_sop}}</span>
+                  </a>
+                </li>
+                @endcan
+                <li class="nav-item">
+                  <a data-bs-toggle="collapse" href="#engineering">
+                    <i class="fas fa-tachometer-alt"></i>
+      
+                    <p>Engineering</p>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="collapse  {{ Request::is('document-engineer*') || Request::is('document-engineer')  ? 'show' : '' }}"" id="engineering">
+                    <ul class="nav nav-collapse">
+                      @can('view_doc_engineering_upload')
+                      <li class="nav-item-custom nav-item-custom {{ Request::is('document-engineer-tambah') ? 'active' : '' }}">
+                        <a href="{{ route('document-engineer-tambah') }}">
+                          <span class="sub-item">Upload Document</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_doc_engineering_check')
+                      <li class="nav-item-custom nav-item-custom {{ Request::is('document-engineer-check') ? 'active' : '' }}">
+                        <a href="{{ route('document-engineer-check') }}">
+                          <span class="sub-item">Check</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_doc_engineering_review')
+                      <li class="nav-item-custom nav-item-custom {{ Request::is('document-engineer-review') ? 'active' : '' }}">
+                        <a href="{{ route('document-engineer-review') }}">
+                          <span class="sub-item">Review</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_doc_engineering_approve')
+                      <li class="nav-item-custom {{ Request::is('document-engineer-approve') ? 'active' : '' }}">
+                        <a href="{{ route('document-engineer-approve') }}">
+                          <span class="sub-item">Approve</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_doc_engineering_mdr')
+                      <li class="nav-item-custom {{ Request::is('document-engineer-master-deliverables-register') ? 'active' : '' }}">
+                        <a href="{{ route('document-engineer-master-deliverables-register') }}">
+                          <span class="sub-item">MDR</span>
+                          <span class="badge badge-success">{{ $jml_mdr}}</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_doc_engineering_basic_design')
+                      <li class="nav-item-custom {{ Request::is('document-engineer-basic-design') ? 'active' : '' }}">
+                        <a href="{{ route('document-engineer-basic-design') }}">
+                          <span class="sub-item">Basic Design</span>
+                          <span class="badge badge-success">{{ $jml_bd}}</span>
+                        </a>
+                      </li>   
+                      @endcan
+                      @can('view_doc_engineering_ded')
+                      <li class="nav-item-custom {{ Request::is('document-engineer-detail-engineering-design') ? 'active' : '' }}">
+                        <a href="{{ route('document-engineer-detail-engineering-design') }}">
+                          <span class="sub-item">DED</span>
+                          <span class="badge badge-success">{{ $jml_ded}}</span>
+                        </a>
+                      </li>     
+                      @endcan              
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a data-bs-toggle="collapse" href="#constructiondocument">
+                    <i class="fas fa-hotel"></i>
+      
+                    <p>Construction</p>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="collapse  {{ Request::is('construction-document*') || Request::is('construction-document') ? 'show' : '' }}"" id="constructiondocument">
+                    <ul class="nav nav-collapse">
+                      @can('view_construction_upload')
+                      <li class="nav-item-custom {{ Request::is('construction-document-tambah') ? 'active' : '' }}">
+                        <a href="{{ route('construction-document-tambah') }}">
+                          <span class="sub-item">Upload Document</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_construction_check')
+                      <li class="nav-item-custom {{ Request::is('construction-document-check') ? 'active' : '' }}">
+                        <a href="{{ route('construction-document-check') }}">
+                          <span class="sub-item">Check</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_construction_review')
+                      <li class="nav-item-custom {{ Request::is('construction-document-review') ? 'active' : '' }}">
+                        <a href="{{ route('construction-document-review') }}">
+                          <span class="sub-item">Review</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_construction_approve')
+                      <li class="nav-item-custom {{ Request::is('construction-document-approve') ? 'active' : '' }}">
+                        <a href="{{ route('construction-document-approve') }}">
+                          <span class="sub-item">Approve</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_construction_document')
+                      <li class="nav-item-custom {{ Request::is('construction-document') ? 'active' : '' }}">
+                        <a href="{{ route('construction-document') }}">
+                          <span class="sub-item">Construction Document</span>
+                          <span class="badge badge-success">{{ $jml_construction}}</span>
+                        </a>
+                      </li>          
+                      @endcan    
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a data-bs-toggle="collapse" href="#fieldinstruction">
+                    <i class="fas fa-chess-rook"></i>
+      
+                    <p>Field Instructions</p>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="collapse  {{ Request::is('field-instruction*') || Request::is('field-instruction') ? 'show' : '' }}"" id="fieldinstruction">
+                    <ul class="nav nav-collapse">
+                      @can('view_field_instruction_upload')
+                      <li class="nav-item-custom {{ Request::is('field-instruction-tambah') ? 'active' : '' }}">
+                        <a href="{{ route('field-instruction-tambah') }}">
+                          <span class="sub-item">Upload Document</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_field_instruction_check')
+                      <li class="nav-item-custom {{ Request::is('field-instruction-check') ? 'active' : '' }}">
+                        <a href="{{ route('field-instruction-check') }}">
+                          <span class="sub-item">Check</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_field_instruction_review')
+                      <li class="nav-item-custom {{ Request::is('field-instruction-review') ? 'active' : '' }}">
+                        <a href="{{ route('field-instruction-review') }}">
+                          <span class="sub-item">Review</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_field_instruction_approve')
+                      <li class="nav-item-custom {{ Request::is('field-instruction-approve') ? 'active' : '' }}">
+                        <a href="{{ route('field-instruction-approve') }}">
+                          <span class="sub-item">Approve</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_field_instruction')
+                      <li class="nav-item-custom {{ Request::is('field-instruction') ? 'active' : '' }}">
+                        <a href="{{ route('field-instruction') }}">
+                          <span class="sub-item">Field Instructions</span>
+                          <span class="badge badge-success">{{ $jml_field_construction}}</span>
+                        </a>
+                      </li>
+                      @endcan
+                    
+                               
+                    </ul>
+                  </div>
+                </li>
+      
+                <li class="nav-item">
+                  <a data-bs-toggle="collapse" href="#correspondence">
+                    <i class="fas fa-folder-open"></i>
+      
+                    <p>Correspondence </p>
+                    <span class="caret"></span>
+                  </a>
+                  <div class="collapse  {{ Request::is('surat-masuk*') || Request::is('surat-keluar*') ? 'show' : '' }}"" id="correspondence">
+                    <ul class="nav nav-collapse">
+                      @can('view_correspondence_surat_masuk')
+                      <li class="nav-item-custom {{ Request::is('surat-masuk*') ? 'active' : '' }}">
+                        <a href="{{ route('surat-masuk') }}">
+                          <span class="sub-item">Surat Masuk</span>
+                          <span class="badge badge-success">{{ $jml_cor_masuk}}</span>
+                        </a>
+                      </li>
+                      @endcan
+                      @can('view_correspondence_surat_keluar')
+                      <li class="nav-item-custom {{ Request::is('surat-keluar*') ? 'active' : '' }}">
+                        <a href="{{ route('surat-keluar') }}">
+                          <span class="sub-item">Surat Keluar</span>
+                          <span class="badge badge-success">{{ $jml_cor_keluar}}</span>
+                        </a>
+                      </li>   
+                      @endcan            
+                    </ul>
+                  </div>
+                </li>
+                @can('view_file_manager')
+                <li class="nav-item nav-item-custom {{ Request::is('file-manager*') ? 'active' : '' }}">
+                  <a href="{{ route('file-manager') }}">
+                    <i class="fas fa-folder"></i>
+                    <p>File Manager</p>
+                  </a>
+                </li>
+                @endcan
+                <x-custom-document-management />
+                <x-custom-photographic />
+                <x-custom-drawings />
+
+                {{-- end here --}}
+
+              </ul>
+            </div>
           </li>
-          @can('view_sop')
-          <li class="nav-item nav-item-custom nav-item-custom {{ Request::is('sop*') ? 'active' : '' }}">
-            <a href="{{ route('sop') }}">
-              <i class="fas fa-pen-square"></i>
-              <p>Project Procedure</p>
-              <span class="badge badge-success">{{ $jml_sop}}</span>
-            </a>
-          </li>
-          @endcan
           
           <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#engineering">
-              <i class="fas fa-tachometer-alt"></i>
-
-              <p>Engineering</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse  {{ Request::is('document-engineer*') || Request::is('document-engineer')  ? 'show' : '' }}"" id="engineering">
-              <ul class="nav nav-collapse">
-                @can('view_doc_engineering_upload')
-                <li class="nav-item-custom nav-item-custom {{ Request::is('document-engineer-tambah') ? 'active' : '' }}">
-                  <a href="{{ route('document-engineer-tambah') }}">
-                    <span class="sub-item">Upload Document</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_doc_engineering_check')
-                <li class="nav-item-custom nav-item-custom {{ Request::is('document-engineer-check') ? 'active' : '' }}">
-                  <a href="{{ route('document-engineer-check') }}">
-                    <span class="sub-item">Check</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_doc_engineering_review')
-                <li class="nav-item-custom nav-item-custom {{ Request::is('document-engineer-review') ? 'active' : '' }}">
-                  <a href="{{ route('document-engineer-review') }}">
-                    <span class="sub-item">Review</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_doc_engineering_approve')
-                <li class="nav-item-custom {{ Request::is('document-engineer-approve') ? 'active' : '' }}">
-                  <a href="{{ route('document-engineer-approve') }}">
-                    <span class="sub-item">Approve</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_doc_engineering_mdr')
-                <li class="nav-item-custom {{ Request::is('document-engineer-master-deliverables-register') ? 'active' : '' }}">
-                  <a href="{{ route('document-engineer-master-deliverables-register') }}">
-                    <span class="sub-item">MDR</span>
-                    <span class="badge badge-success">{{ $jml_mdr}}</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_doc_engineering_basic_design')
-                <li class="nav-item-custom {{ Request::is('document-engineer-basic-design') ? 'active' : '' }}">
-                  <a href="{{ route('document-engineer-basic-design') }}">
-                    <span class="sub-item">Basic Design</span>
-                    <span class="badge badge-success">{{ $jml_bd}}</span>
-                  </a>
-                </li>   
-                @endcan
-                @can('view_doc_engineering_ded')
-                <li class="nav-item-custom {{ Request::is('document-engineer-detail-engineering-design') ? 'active' : '' }}">
-                  <a href="{{ route('document-engineer-detail-engineering-design') }}">
-                    <span class="sub-item">DED</span>
-                    <span class="badge badge-success">{{ $jml_ded}}</span>
-                  </a>
-                </li>     
-                @endcan              
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#constructiondocument">
-              <i class="fas fa-hotel"></i>
-
-              <p>Construction</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse  {{ Request::is('construction-document*') || Request::is('construction-document') ? 'show' : '' }}"" id="constructiondocument">
-              <ul class="nav nav-collapse">
-                @can('view_construction_upload')
-                <li class="nav-item-custom {{ Request::is('construction-document-tambah') ? 'active' : '' }}">
-                  <a href="{{ route('construction-document-tambah') }}">
-                    <span class="sub-item">Upload Document</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_construction_check')
-                <li class="nav-item-custom {{ Request::is('construction-document-check') ? 'active' : '' }}">
-                  <a href="{{ route('construction-document-check') }}">
-                    <span class="sub-item">Check</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_construction_review')
-                <li class="nav-item-custom {{ Request::is('construction-document-review') ? 'active' : '' }}">
-                  <a href="{{ route('construction-document-review') }}">
-                    <span class="sub-item">Review</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_construction_approve')
-                <li class="nav-item-custom {{ Request::is('construction-document-approve') ? 'active' : '' }}">
-                  <a href="{{ route('construction-document-approve') }}">
-                    <span class="sub-item">Approve</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_construction_document')
-                <li class="nav-item-custom {{ Request::is('construction-document') ? 'active' : '' }}">
-                  <a href="{{ route('construction-document') }}">
-                    <span class="sub-item">Construction Document</span>
-                    <span class="badge badge-success">{{ $jml_construction}}</span>
-                  </a>
-                </li>          
-                @endcan    
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#fieldinstruction">
-              <i class="fas fa-chess-rook"></i>
-
-              <p>Field Instructions</p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse  {{ Request::is('field-instruction*') || Request::is('field-instruction') ? 'show' : '' }}"" id="fieldinstruction">
-              <ul class="nav nav-collapse">
-                @can('view_field_instruction_upload')
-                <li class="nav-item-custom {{ Request::is('field-instruction-tambah') ? 'active' : '' }}">
-                  <a href="{{ route('field-instruction-tambah') }}">
-                    <span class="sub-item">Upload Document</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_field_instruction_check')
-                <li class="nav-item-custom {{ Request::is('field-instruction-check') ? 'active' : '' }}">
-                  <a href="{{ route('field-instruction-check') }}">
-                    <span class="sub-item">Check</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_field_instruction_review')
-                <li class="nav-item-custom {{ Request::is('field-instruction-review') ? 'active' : '' }}">
-                  <a href="{{ route('field-instruction-review') }}">
-                    <span class="sub-item">Review</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_field_instruction_approve')
-                <li class="nav-item-custom {{ Request::is('field-instruction-approve') ? 'active' : '' }}">
-                  <a href="{{ route('field-instruction-approve') }}">
-                    <span class="sub-item">Approve</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_field_instruction')
-                <li class="nav-item-custom {{ Request::is('field-instruction') ? 'active' : '' }}">
-                  <a href="{{ route('field-instruction') }}">
-                    <span class="sub-item">Field Instructions</span>
-                    <span class="badge badge-success">{{ $jml_field_construction}}</span>
-                  </a>
-                </li>
-                @endcan
-              
-                         
-              </ul>
-            </div>
-          </li>
-
-          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#correspondence">
-              <i class="fas fa-folder-open"></i>
-
-              <p>Correspondence </p>
-              <span class="caret"></span>
-            </a>
-            <div class="collapse  {{ Request::is('surat-masuk*') || Request::is('surat-keluar*') ? 'show' : '' }}"" id="correspondence">
-              <ul class="nav nav-collapse">
-                @can('view_correspondence_surat_masuk')
-                <li class="nav-item-custom {{ Request::is('surat-masuk*') ? 'active' : '' }}">
-                  <a href="{{ route('surat-masuk') }}">
-                    <span class="sub-item">Surat Masuk</span>
-                    <span class="badge badge-success">{{ $jml_cor_masuk}}</span>
-                  </a>
-                </li>
-                @endcan
-                @can('view_correspondence_surat_keluar')
-                <li class="nav-item-custom {{ Request::is('surat-keluar*') ? 'active' : '' }}">
-                  <a href="{{ route('surat-keluar') }}">
-                    <span class="sub-item">Surat Keluar</span>
-                    <span class="badge badge-success">{{ $jml_cor_keluar}}</span>
-                  </a>
-                </li>   
-                @endcan            
-              </ul>
-            </div>
-          </li>
-          @can('view_file_manager')
-          <li class="nav-item nav-item-custom {{ Request::is('file-manager*') ? 'active' : '' }}">
-            <a href="{{ route('file-manager') }}">
-              <i class="fas fa-folder"></i>
-              <p>File Manager</p>
-            </a>
-          </li>
-          @endcan
-          <x-custom-document-management />
-          <x-custom-photographic />
-          <x-custom-drawings />
-          <li class="nav-item active">
-            <a href="#">
+            <a data-bs-toggle="collapse" href="#procurement_logistic">
+              <i class="fas fa-truck-loading"></i>
               <p>Procurement & Logistic</p>
+              <span class="caret"></span>
             </a>
+            <div class="collapse {{Request::is('*procurement-log*') ? 'show' : '' }}" id="procurement_logistic">
+              <ul class="nav nav-collapse subnav">
+                <x-custom-procurement-logistic />
+              </ul>
+            </div>
           </li>
-          <x-custom-procurement-logistic />
-          <li class="nav-item active">
-            <a href="#">
-              <p>Report</p>
-            </a>
-          </li>
+        
+       
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#report">
-              <i class="fas fa-folder"></i>
+              <i class="fas fa-file-signature"></i>
 
               <p>Report</p>
               <span class="caret"></span>
@@ -405,11 +400,23 @@
                   </a>
                 </li>    
                 @endcan
+                <x-custom-report />
               </ul>
             </div>
             
           </li>
-          <x-custom-report />
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#finance">
+              <i class="fas fa-money-bill-wave"></i>
+              <p>Finance</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse {{Request::is('*custom-invoice-record*') ? 'show' : '' }}" id="finance">
+              <ul class="nav nav-collapse subnav">
+                <x-custom-invoice-record />
+              </ul>
+            </div>
+          </li>
           @can('view_minutes_of_meeting')
           <li class="nav-item nav-item-custom {{ Request::is('mom*') ? 'active' : '' }}">
             <a href="{{ route('mom') }}">
@@ -419,16 +426,6 @@
             </a>
           </li>
           @endcan
-          {{-- @can('view_minutes_of_meeting')
-          <li class="nav-item nav-item-custom {{ Request::is('custom-report*') ? 'active' : '' }} bg-success ">
-            <a href="{{ route('custom-report') }}">
-              <i class="fab fa-whmcs" style="color:white"></i>
-              <p class="text-white"> Custom Report</p>
-            </a>
-          </li>
-          @endcan --}}
-        
-
           <li class="nav-item active">
             <a href="#">
              

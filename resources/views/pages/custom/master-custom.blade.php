@@ -199,7 +199,7 @@ table.dataTable td {
 <script>
     $("#parent").prop("disabled", true);
     $("#tab").prop("disabled", true);
-    getParent();
+    getTemplate();
 document.getElementById('type').addEventListener('change', function () {
   
   $("#parent").prop("disabled", false);
@@ -209,7 +209,7 @@ document.getElementById('type').addEventListener('change', function () {
     $("#tab").prop("disabled", true);
     $("#tab").val("");
     $("#parent").html("")
-    getParent();
+    getTemplate();
   }else{
     $("#tab").prop("disabled", false);
     $("#parent").prop("disabled", false);
@@ -232,7 +232,7 @@ document.getElementById('type').addEventListener('change', function () {
 
      
         $("#parent").html(options);
-        getParent();
+        getTemplate();
       
       },
       error: function (xhr) {
@@ -244,10 +244,10 @@ document.getElementById('type').addEventListener('change', function () {
 
 
 document.getElementById('parent').addEventListener('change', function () {
-  getParent();
+  getTemplate();
 })
 
-function getParent(){
+function getTemplate(){
   $.ajax({
       url: "{{ route('get-template') }}",
       type: "GET",

@@ -272,7 +272,38 @@ class CustomController extends Controller
                     PRIMARY KEY (`id`)
                 )
                 ");
-                }          
+                }elseif($request->template == 'invoice_record'){
+                    // Buat tabel baru secara dinamis
+                    DB::statement("
+                    CREATE TABLE `$tableName` (
+                        `id` INT(11) NOT NULL AUTO_INCREMENT,
+                        `no_invoice` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `status` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `invoice_date` DATETIME NULL DEFAULT NULL,
+                        `created_at` DATETIME NULL DEFAULT NULL,
+                        `updated_at` DATETIME NULL DEFAULT NULL,
+                        `ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        PRIMARY KEY (`id`)
+                    )
+                    ");
+                    DB::statement("
+                    CREATE TABLE `$tableNameHistory` (
+                        `id` INT(11) NOT NULL AUTO_INCREMENT,
+                        `custom_id` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `no_invoice` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `status` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        `invoice_date` DATETIME NULL DEFAULT NULL,
+                        `created_at` DATETIME NULL DEFAULT NULL,
+                        `updated_at` DATETIME NULL DEFAULT NULL,
+                        `ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+                        PRIMARY KEY (`id`)
+                    )
+                    ");
+                    }          
         }
     return response()->json([
         'status' =>'ok',
@@ -328,10 +359,11 @@ class CustomController extends Controller
     
     public function getTemplate(Request $request){
 
+        // return $request->parent;
         if($request->type == 'parent'){
             $data_template = MasterCategory::where('category','template')->select('description')->get();
         }else{
-            $data_template = MasterCustom::where('parent', $request->parent)->select('template as description')->distinct()->get();
+            $data_template = MasterCustom::where('id', $request->parent)->select('template as description')->distinct()->get();
         }
   
         return response()->json($data_template);

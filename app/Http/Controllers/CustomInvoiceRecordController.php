@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
 
-class CustomPhotographicController extends Controller
+class CustomInvoiceRecordController extends Controller
 {
     public function index(Request $request){
         try{
-            return view('pages.custom-photographic.report');
+            return view('pages.custom-invoice-record.report');
         }catch (Throwable $e) {
             // Tangani error
             return response()->json([
@@ -28,19 +28,19 @@ class CustomPhotographicController extends Controller
         }
     }
 
-    public function getCustomPhotographic(Request $request)
+    public function getCustomInvoiceRecord(Request $request)
     {
 
         if ($request->ajax()) {
             $tableName = 'custom_' . $request->tab;
             $data = (new DynamicCustom())->setTableName($tableName)
             ->select(['id',
+                'no_invoice', 
                 'description', 
-                'author',
-                DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
+                'status',
+                DB::raw("DATE_FORMAT(invoice_date, '%Y-%m-%d') as invoice_date"), 
                 'path',
                 'ext',
-                'size',
             ]);
             
             return DataTables::of($data)
@@ -63,7 +63,7 @@ class CustomPhotographicController extends Controller
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="' . $fileUrl . '" download>Download</a>
-                                <a class="dropdown-item" href="' . route('custom-photographic-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>
+                                <a class="dropdown-item" href="' . route('custom-invoice-record-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewShare(' . $row->id . ')" class="dropdown-item cursor-pointer">Share</a>
                                 ' . $addDropdown . '                        
@@ -84,7 +84,7 @@ class CustomPhotographicController extends Controller
             $data_status = MasterStatus::get();
             $data_category = MasterCategory::where('category','engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-photographic.report-tambah',[
+            return view('pages.custom-invoice-record.report-tambah',[
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline
@@ -112,8 +112,10 @@ class CustomPhotographicController extends Controller
     public function saveUploads(Request $request)
     {
         $uploadedFiles = $request->input('uploaded_files');
+        $no_invoice = $request->input('no_invoice');
         $description = $request->input('description');
-        $tanggal = $request->input('tanggal');
+        $status = $request->input('status');
+        $invoice_date = $request->input('invoice_date');
         $tab = $request->input('tab');
         $tableName = 'custom_'.$request->input('tab');
 
@@ -122,7 +124,7 @@ class CustomPhotographicController extends Controller
             // Split nama file berdasarkan "~"
             $fileName = $file['fileName'];
             $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileSize =0; // dalam byte
+            
            
             // Pindahkan file dari 'temp' ke 'public/engineer'
             $newPath = str_replace('temp', 'public/'.$tab, $file['path']);
@@ -130,12 +132,13 @@ class CustomPhotographicController extends Controller
 
             // Simpan ke database atau proses lainnya
             $doc = (new DynamicCustom())->setTableName($tableName);
+            $doc->no_invoice = trim($no_invoice);
             $doc->description = trim($description);
-            $doc->author =Auth::User()->name;
-            $doc->tanggal = $tanggal;
+            $doc->status = trim($status);
+            $doc->invoice_date = $invoice_date;
             $doc->path = str_replace('public/', '', $newPath);
             $doc->ext = $file_ext;
-            $doc->size = $fileSize;
+            
             $doc->save();
 
             $savedFiles[] = $doc;
@@ -158,7 +161,7 @@ class CustomPhotographicController extends Controller
             $data_status = MasterStatus::get();
             $data_category = MasterCategory::where('category','engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-photographic.report-edit',[
+            return view('pages.custom-invoice-record.report-edit',[
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline,
@@ -177,8 +180,10 @@ class CustomPhotographicController extends Controller
     public function updateUploads(Request $request, $id)
     {
         $uploadedFiles = $request->input('uploaded_files');
+        $no_invoice = $request->input('no_invoice');
+        $status = $request->input('status');
         $description = $request->input('description');
-        $tanggal = $request->input('tanggal');
+        $invoice_date = $request->input('invoice_date');
         $tab = $request->input('tab');
         $tableName = 'custom_'.$tab;
      
@@ -187,12 +192,12 @@ class CustomPhotographicController extends Controller
         $doc = $tableCustom->find($id);
         $path = $doc->path;
         $file_ext = $doc->ext;
-        $fileSize = $doc->size;
+        
         if (!empty($uploadedFiles) && is_array($uploadedFiles)) {
             // Split nama file berdasarkan "~"
             $fileName = $uploadedFiles[0]['fileName'];
             $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileSize =0; // dalam byte
+            
 
             // Pindahkan file dari 'temp' ke 'public/engineer'
             $newPath = str_replace('temp', 'public/'.$tab, $uploadedFiles[0]['path']);
@@ -200,12 +205,13 @@ class CustomPhotographicController extends Controller
             $path = str_replace('public/', '', $newPath);
         }
             // Simpan ke database atau proses lainnya
+            $doc->no_invoice = trim($no_invoice);
             $doc->description = trim($description);
-            $doc->author = Auth::User()->name;
-            $doc->tanggal = $tanggal;
+            $doc->status = trim($status);
+            $doc->invoice_date = $invoice_date;
             $doc->path = $path;
             $doc->ext = $file_ext;
-            $doc->size = $fileSize;
+            
             $doc->save();
 
     return response()->json([
@@ -223,7 +229,7 @@ class CustomPhotographicController extends Controller
         $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
             $document =$tableCustom->find($id);
-            return view('pages.custom-photographic.report-pdf', [
+            return view('pages.custom-invoice-record.report-pdf', [
                 "document" => $document,
             ]);
         }catch (Throwable $e) {
@@ -244,7 +250,7 @@ class CustomPhotographicController extends Controller
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
             $document =$tableCustom->find($id);
-            return view('pages.custom-photographic.report-share', [
+            return view('pages.custom-invoice-record.report-share', [
                 "document" => $document,
             ]);
         }catch (Throwable $e) {
@@ -267,7 +273,7 @@ class CustomPhotographicController extends Controller
 
             $document =$tableCustom->find($id);
       
-            return view('pages.custom-photographic.report-delete', [
+            return view('pages.custom-invoice-record.report-delete', [
                 "document" => $document,
                 "tab" => $tab
             ]);
