@@ -24,9 +24,11 @@ use App\Http\Controllers\SuratController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentEngineeringController;
 use App\Http\Controllers\FieldInstructionController;
+use App\Http\Controllers\IssueLogController;
 use App\Http\Controllers\MomController;
 use App\Http\Controllers\MrrController;
 use App\Http\Controllers\MvrController;
+use App\Http\Controllers\NcrController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ReportDailyController;
 use App\Http\Controllers\ReportMonthlyController;
@@ -482,4 +484,33 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-contract-management-delete/{id}', [CustomContractManagementController::class, 'viewDelete'])->name('custom-contract-management-delete');
     Route::post('/custom-contract-management-deleted/{id}', [CustomContractManagementController::class, 'deleted'])->name('custom-contract-management-deleted');
     Route::get('/custom-contract-management-history/{id}', [CustomContractManagementController::class, 'history'])->name('custom-contract-management-history');
+
+
+    
+    Route::get('/ncr', [NcrController::class, 'index'])->name('ncr');
+    Route::get('/get-ncr', [NcrController::class, 'getNcr'])->name('get-ncr');
+    Route::get('/ncr-tambah', [NcrController::class, 'tambah'])->name('ncr-tambah');
+    Route::post('/ncr-upload-temp', [NcrController::class, 'uploadTemp'])->name('ncr-upload-temp');
+    Route::post('/ncr-save-uploads', [NcrController::class, 'saveUploads'])->name('ncr-save-uploads');
+   
+    Route::get('/ncr-edit/{id}', [NcrController::class, 'viewEdit'])->name('ncr-edit');
+    Route::post('/ncr-update/{id}', [NcrController::class, 'update'])->name('ncr-update');
+    Route::get('/ncr-share/{id}', [NcrController::class, 'share'])->name('ncr-share');
+    Route::get('/ncr-pdf/{id}', [NcrController::class, 'pdf'])->name('ncr-pdf');
+    Route::get('/ncr-delete/{id}', [NcrController::class, 'viewDelete'])->name('ncr-delete');
+    Route::post('/ncr-deleted/{id}', [NcrController::class, 'deleted'])->name('ncr-deleted');
+
+    Route::get('/issue-log', [IssueLogController::class, 'index'])->name('issue-log');
+    Route::get('/get-issue-log', [IssueLogController::class, 'getIssueLog'])->name('get-issue-log');
+    Route::get('/issue-log-tambah', [IssueLogController::class, 'tambah'])->name('issue-log-tambah');
+    Route::post('/issue-log-upload-temp', [IssueLogController::class, 'uploadTemp'])->name('issue-log-upload-temp');
+    Route::post('/issue-log-save-uploads', [IssueLogController::class, 'saveUploads'])->name('issue-log-save-uploads');
+   
+    Route::get('/issue-log-edit/{id}', [IssueLogController::class, 'viewEdit'])->name('issue-log-edit');
+    Route::post('/issue-log-update/{id}', [IssueLogController::class, 'update'])->name('issue-log-update');
+    Route::get('/issue-log-share/{id}', [IssueLogController::class, 'share'])->name('issue-log-share');
+    Route::get('/issue-log-pdf/{id}', [IssueLogController::class, 'pdf'])->name('issue-log-pdf');
+    Route::get('/issue-log-delete/{id}', [IssueLogController::class, 'viewDelete'])->name('issue-log-delete');
+    Route::post('/issue-log-deleted/{id}', [IssueLogController::class, 'deleted'])->name('issue-log-deleted');
+
 });

@@ -43,7 +43,7 @@ class CorSuratKeluarController extends Controller
                 'version',
                 'hardcopy',
                 'email',
-                'category',
+                // 'category',
                 'status',
                 DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
                 'path',
@@ -99,10 +99,10 @@ class CorSuratKeluarController extends Controller
                 
                 return $emailcheck;
             }) 
-            ->addColumn('category_desc', function($row) {
+            // ->addColumn('category_desc', function($row) {
                 
-                return optional($row->r_category)->description;
-            }) 
+            //     return optional($row->r_category)->description;
+            // }) 
             ->addColumn('version_link', function($row) {
                 if($row->r_history->count() >0){
                     $version_link = $row->version.'<br> <a href="" data-bs-toggle="modal" data-bs-target="#modal-large" onClick="return viewHistory(' . $row->id . ')" class="text-center">(Check_History)</a>';
@@ -170,7 +170,7 @@ class CorSuratKeluarController extends Controller
         $hardcopy = $request->input('hardcopy');
         $email = $request->input('email');
         $status = $request->input('status');
-        $category = $request->input('category');
+        // $category = $request->input('category');
    
         $savedFiles = [];
         foreach ($uploadedFiles as $file) {
@@ -191,7 +191,7 @@ class CorSuratKeluarController extends Controller
             $doc->version = trim($version);
             $doc->hardcopy = trim($hardcopy);
             $doc->email = trim($email);
-            $doc->category = trim($category);
+            // $doc->category = trim($category);
             $doc->status = trim($status);
             $doc->path = str_replace('public/', '', $newPath);
             $doc->ext = $file_ext;
@@ -237,7 +237,7 @@ class CorSuratKeluarController extends Controller
         $hardcopy = $request->input('hardcopy');
         $status = $request->input('status');
         $email = $request->input('email');
-        $category = $request->input('category');
+        // $category = $request->input('category');
       
         $doc = CorSuratKeluar::find($id);
           //insert ke history
@@ -249,7 +249,7 @@ class CorSuratKeluarController extends Controller
           $docHistory->attn = $doc->attn;
           $docHistory->hardcopy = $doc->hardcopy;
           $docHistory->email = $doc->email;
-          $docHistory->category = $doc->category;
+        //   $docHistory->category = $doc->category;
           $docHistory->status = $doc->status;
           $docHistory->version = $doc->version;
           $docHistory->author = $doc->author;
@@ -282,7 +282,7 @@ class CorSuratKeluarController extends Controller
             $doc->hardcopy = $hardcopy;
             $doc->status = $status;
             $doc->email = $email;
-            $doc->category = $category;
+            // $doc->category = $category;
             $doc->ext = $file_ext;
           
             $doc->save();

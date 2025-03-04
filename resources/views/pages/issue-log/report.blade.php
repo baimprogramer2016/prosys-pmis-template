@@ -67,12 +67,12 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Correspondence / Surat Keluar</h6>
+        <h6 class="op-7 mb-2">Quality Management / Issue Log</h6>
        
         </div> 
      
       <div class="ms-md-auto py-2 py-md-0">
-        <a href="{{ route('surat-keluar-tambah') }}"  class="btn btn-primary btn-round">Tambah</a>
+        <a href="{{ route('issue-log-tambah') }}"  class="btn btn-primary btn-round">Tambah</a>
        </div>
     </div>
     <div class="row">
@@ -86,12 +86,12 @@
                     <div
                       class="icon-big text-center icon-primary bubble-shadow-small"
                     >
-                    <i class="fas fa-location-arrow"></i>
+                    <i class="fas fa-list-alt"></i>
                     </div>
                   </div>
                   <div class="col col-stats ms-3 ms-sm-0 d-flex">
                     <div class="numbers">
-                      <h4 class="card-title">Surat Keluar</h4>
+                      <h4 class="card-title">Issue Log</h4>
                     </div>
                     
                   </div>
@@ -110,17 +110,15 @@
             <table class="table table-bordered" id="myTable">
               <thead>
                 <tr>  
-                  <th  class="bg-th">Update Status</th>
-                  <th  class="bg-th">Status</th>
-                  <th  class="bg-th">Document Number</th>
+                  <th  class="bg-th">Number</th>
                   <th  class="bg-th">Title</th>
-                  <th  class="bg-th">Recipient</th>
-                  <th  class="bg-th">Attn</th>
-                  <th  class="bg-th">Version</th>
-                  {{-- <th  class="bg-th">Category</th> --}}
-                  <th  class="bg-th">Hardcopy</th>
-                  <th  class="bg-th">Email</th>
-                  <th  class="bg-th">Date</th>
+                  <th  class="bg-th">Description</th>
+                  <th  class="bg-th">Raised On</th>
+                  <th  class="bg-th">Report By</th>
+                  <th  class="bg-th">Priority</th>
+                  <th  class="bg-th">Status</th>
+                  <th  class="bg-th">Remark</th>
+                  <th  class="bg-th">Closure Date</th>
                   <th  class="bg-th">Action</th>
                 </tr>
               </thead>
@@ -179,7 +177,7 @@
 function viewDelete(param){
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('surat-keluar-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('issue-log-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -198,7 +196,7 @@ $.ajax({
 function viewShare(param){
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('surat-keluar-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('issue-log-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -217,7 +215,7 @@ $.ajax({
 function viewPdf(param){
   $(".modal-content").html("");
   $.ajax({
-    url: "{{ route('surat-keluar-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+    url: "{{ route('issue-log-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
       type: "GET",
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -228,6 +226,7 @@ function viewPdf(param){
         setTimeout(() => {
           $(".modal-content").html(response);
         }, 2000);
+        $(".modal-content").html(response);
         
       },
       error: function(xhr) {
@@ -249,7 +248,7 @@ function viewPdf(param){
       
           ajax: {
             //mdr tidak ada kondisi
-            url : "{{ route('get-surat-keluar') }}",
+            url : "{{ route('get-issue-log') }}",
           },
           dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
           buttons: [
@@ -258,70 +257,27 @@ function viewPdf(param){
             { extend: 'print', text: 'Print', className: 'btn btn-primary btn-sm' }
           ],
           columns: [
-              { data: 'btn_status', name: 'btn_status' },
-              { data: 'status_badge', name: 'status_badge' },
-              { data: 'document_number', name: 'document_number' },
+              { data: 'number', name: 'number' },
+              { data: 'title', name: 'title' },
               { data: 'description', name: 'description' },
-              { data: 'recipient', name: 'recipient' },
-              { data: 'attn', name: 'attn' },
-              { data: 'version_link', name: 'version_link' },
-              // { data: 'category_desc', name: 'category_desc' },
-              { data: 'isHardCopy', name: 'isHardCopy' },
-              { data: 'isEmail', name: 'isEmail' },
-              { data: 'tanggal', name: 'tanggal' ,render: function(data, type, row) {
+              { data: 'raised_on', name: 'raised_on' },
+              { data: 'report_by', name: 'report_by' },
+              { data: 'priority', name: 'priority' },
+              { data: 'status', name: 'status' },
+              { data: 'remark', name: 'remark' },
+              { data: 'closure_date', name: 'closure_date',render: function(data, type, row) {
                 if (!data) return ""; // Jika data kosong, return string kosong
                 const date = new Date(data);
                 const day = String(date.getDate()).padStart(2, '0');
                 const month = String(date.getMonth() + 1).padStart(2, '0'); // Januari = 0
                 const year = date.getFullYear();
                 return `${year}-${month}-${day}`;
-            } },
+            }  },
               { data: 'action', name: 'action', orderable: false, searchable: false } ,
              ],
-            
       });
     });
 
-    
-function viewUpdateStatus(param){
-  $(".modal-content").html("");
-  $.ajax({
-    url: "{{ route('surat-keluar-update-status', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
-      type: "GET",
-      headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      success: function(response) {
-      
-        $(".modal-content").html("");
-        $(".modal-content").html(response);
-        
-      },
-      error: function(xhr) {
-          alert('An error occurred: ' + xhr.responseText);
-      }
-  });
-}
-    
-function viewHistory(param){
-  $(".modal-content").html("");
-$.ajax({
-  url: "{{ route('surat-keluar-history', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
-    type: "GET",
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    success: function(response) {
-    
-      $(".modal-content").html("");
-      $(".modal-content").html(response);
-      
-    },
-    error: function(xhr) {
-        alert('An error occurred: ' + xhr.responseText);
-    }
-});
-}
     </script>
 
   

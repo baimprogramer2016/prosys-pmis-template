@@ -47,7 +47,7 @@ class CorSuratMasukController extends Controller
                 DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
                 'path',
                 'ext',
-                'category'
+                // 'category'
         ]);
             
             return DataTables::of($data)
@@ -100,10 +100,10 @@ class CorSuratMasukController extends Controller
                 
                 return $emailcheck;
             }) 
-            ->addColumn('category_desc', function($row) {
+            // ->addColumn('category_desc', function($row) {
                 
-                return optional($row->r_category)->description;
-            }) 
+            //     return optional($row->r_category)->description;
+            // }) 
             ->addColumn('version_link', function($row) {
                 if($row->r_history->count() >0){
                     $version_link = $row->version.'<br> <a href="" data-bs-toggle="modal" data-bs-target="#modal-large" onClick="return viewHistory(' . $row->id . ')" class="text-center">(Check_History)</a>';
@@ -166,7 +166,7 @@ class CorSuratMasukController extends Controller
         $uploadedFiles = $request->input('uploaded_files');
         $document_number = $request->input('document_number');
         $description = $request->input('description');
-        $category = $request->input('category');
+        // $category = $request->input('category');
         $typeofincomingdocument = $request->input('typeofincomingdocument');
         $from = $request->input('from');
         $status = $request->input('status');
@@ -190,7 +190,7 @@ class CorSuratMasukController extends Controller
             $doc->document_number = trim($document_number);
             $doc->description = trim($description);
             $doc->typeofincomingdocument = trim($typeofincomingdocument);
-            $doc->category = trim($category);
+            // $doc->category = trim($category);
             $doc->status = trim($status);
             $doc->from_ = trim($from);
             $doc->path = str_replace('public/', '', $newPath);
@@ -234,7 +234,7 @@ class CorSuratMasukController extends Controller
         $uploadedFiles = $request->input('uploaded_files');
         $document_number = $request->input('document_number');
         $description = $request->input('description');
-        $category = $request->input('category');
+        // $category = $request->input('category');
         $typeofincomingdocument = $request->input('typeofincomingdocument');
         $from = $request->input('from');
         $version = $request->input('version');
@@ -249,7 +249,7 @@ class CorSuratMasukController extends Controller
           $docHistory->document_number = $doc->document_number;
           $docHistory->description = $doc->description;
           $docHistory->version =$doc->version;
-          $docHistory->category = $doc->category;
+        //   $docHistory->category = $doc->category;
           $docHistory->typeofincomingdocument = $doc->typeofincomingdocument;
           $docHistory->from_ = $doc->from_;
           $docHistory->hardcopy = $doc->hardcopy;
@@ -279,7 +279,7 @@ class CorSuratMasukController extends Controller
             $doc->description = trim($description);
             $doc->author = Auth::User()->name;
             $doc->path = $path;
-            $doc->category = $category;
+            // $doc->category = $category;
             $doc->typeofincomingdocument = $typeofincomingdocument;
             $doc->from_ = $from;
             $doc->ext = $file_ext;

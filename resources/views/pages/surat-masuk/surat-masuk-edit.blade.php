@@ -94,7 +94,7 @@
               <input type="text" class="form-control" id="version" name="version" value="{{$document->version}}">
             </div>
            
-            <div class="col-md-4 mb-3">
+            {{-- <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
               <select class="form-select" id="category" name="category">
                 <option value="{{ $document->category }}">{{ optional($document->r_category)->description }} </option>
@@ -103,7 +103,7 @@
                   <option value="{{ $item_category->id }}">{{ $item_category->description }} </option>
                   @endforeach
               </select>
-            </div>
+            </div> --}}
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Status</label>
                 <select class="form-select" id="status" name="status">
@@ -188,7 +188,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let description = $("#description").val();
         let from = $("#from").val();
         let typeofincomingdocument = $("#typeofincomingdocument").val();
-        let category = $("#category").val();
+        // let category = $("#category").val();
         let status = $("#status").val();
         let version = $("#version").val();
         let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
@@ -219,10 +219,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           $("#version").addClass("is-invalid");
           valid = false;
         }
-        if (category === "") {
-          $("#category").addClass("is-invalid");
-          valid = false;
-        }
+        // if (category === "") {
+        //   $("#category").addClass("is-invalid");
+        //   valid = false;
+        // }
         if (hardcopy === "") {
           $("#hardcopy").addClass("is-invalid");
           valid = false;
@@ -247,7 +247,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         status : status,
         from : from,
         typeofincomingdocument : typeofincomingdocument,
-        category : category,
+        // category : category,
         version : version,
         hardcopy : hardcopy,
         email : email,

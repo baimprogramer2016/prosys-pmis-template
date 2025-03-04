@@ -33,11 +33,10 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Correspondence / Surat Keluar</h6>
+        <h6 class="op-7 mb-2">Quality Management / Ncr</h6>
       </div>
-      <div class="ms-md-auto py-2 py-md-0">
-        {{-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> --}}
-        <a href="{{ route('surat-keluar') }}"  class="btn btn-primary btn-round">Daftar</a>
+      <div onClick="addView()" class="ms-md-auto py-2 py-md-0">
+        <a href="{{ route('ncr') }}"  class="btn btn-primary btn-round">Daftar</a>
       </div>
     </div>
     <div class="row">
@@ -49,12 +48,12 @@
                 <div
                   class="icon-big text-center icon-primary bubble-shadow-small"
                 >
-                <i class="fas fa-location-arrow"></i>
+                <i class="fas fa-pen-square"></i>
                 </div>
               </div>
               <div class="col col-stats ms-3 ms-sm-0 d-flex">
                 <div class="numbers">
-                  <h4 class="card-title">Edit Surat Keluar</h4>
+                  <h4 class="card-title">Upload Document</h4>
                 </div>
                 
               </div>
@@ -66,64 +65,45 @@
       <div class="col-sm-12 col-md-12">
       <div class="card ">   
         <div class="card-body">
-          <div class="alert-warning text-center">Hanya bisa Upload 1 File <strong>Kosongkan jika Document tidak dirubah</strong></div>
-          <form action="{{ route('surat-keluar-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
+          <div class="alert-warning text-center">Hanya bisa Upload 1 File</div>
+          <form action="{{ route('ncr-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
             
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
           <div class="align-items-center mb-3 mt-3   p-3 row">
-            <input type="hidden" class="form-control" id="id_edit" name="id_edit" value="{{$document->id}}">
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Document Number</label>
-              <input type="text" class="form-control" id="document_number" name="document_number" value="{{$document->document_number}}">
+              <input type="text" class="form-control" id="document_number" name="document_number">
             </div>
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Title</label>
-              <input type="text" class="form-control" id="description" name="description" value="{{$document->description}}">
+              <input type="text" class="form-control" id="title" name="title">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Recipient</label>
-              <input type="text" class="form-control" id="recipient" name="recipient" value="{{$document->recipient}}">
+              <label for="start_date" class="form-label strong">Description</label>
+              <input type="text" class="form-control" id="description" name="description">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">From</label>
-              <input type="text" class="form-control" id="attn" name="attn" value="{{$document->attn}}">
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="version" class="form-label strong">Version</label>
-              <input type="text" class="form-control" id="version" name="version" value="{{$document->version}}">
-            </div>
-            {{-- <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
-              <select class="form-select" id="category" name="category">
-                <option value="{{ $document->category }}">{{ optional($document->r_category)->description }} </option>
-                  <option value="">---Pilih---</option>
-                  @foreach ($data_category as $item_category)
-                  <option value="{{ $item_category->id }}">{{ $item_category->description }} </option>
-                  @endforeach
-              </select>
-            </div> --}}
+              <input type="text" class="form-control" id="category" name="category">
+            </div>
+          
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Status</label>
-                <select class="form-select" id="status" name="status">
-                  <option value="{{ $document->status}}"> {{ Ucwords($document->status)}}</option>
-                  <option value="open">Open</option>
-                  <option value="close">Close</option>
-                </select>
+              <input type="text" class="form-control" id="status" name="status">
             </div>
             <div class="col-md-4 mb-3">
-              <label for="hardcopy" class="form-label strong">Hardcopy</label><br>
-              <input type="checkbox" id="hardcopy" name="hardcopy" {{ $document->hardcopy == "1" ? 'checked' : ''}}>
-              <label for="hardcopy">Hardcopy</label>
+              <label for="start_date" class="form-label strong">PIC</label>
+              <input type="text" class="form-control" id="pic" name="pic">
             </div>
+          
             <div class="col-md-4 mb-3">
-              <label for="email" class="form-label strong">Email</label><br>
-              <input type="checkbox" id="email" name="email"  {{ $document->email == "1" ? 'checked' : ''}} >
-              <label for="email">Email</label>
+              <label for="start_date" class="form-label strong">Due Date</label>
+              <input type="date" class="form-control" id="due_date" name="due_date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
             </div>
-           
+          
             <div class="col-md-12 mb-3">
-              <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
+              <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
             </div>
 
           </div>
@@ -187,16 +167,12 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let valid = true;
   
         let document_number = $("#document_number").val().trim();
+        let title = $("#title").val().trim();
         let description = $("#description").val();
-        let recipient = $("#recipient").val();
-        let attn = $("#attn").val();        
-        // let category = $("#category").val();        
-        let version = $("#version").val();        
-        let status = $("#status").val();        
-        let hardcopy = $("input[name='hardcopy']").is(":checked") ? '1' : '0';
-        let email = $("input[name='email']").is(":checked") ? '1' : '0';
-    
-        let id_edit = $("#id_edit").val()
+        let category = $("#category").val();
+        let status = $("#status").val();
+        let pic = $("#pic").val();
+        let due_date = $("#due_date").val();
   
         // Validasi Activity
         if (document_number === "") {
@@ -205,52 +181,53 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         }
   
         // Validasi Start Date
+        if (title === "") {
+          $("#title").addClass("is-invalid");
+          valid = false;
+        }
         if (description === "") {
           $("#description").addClass("is-invalid");
           valid = false;
         }
-        if (recipient === "") {
-          $("#recipient").addClass("is-invalid");
+        // Validasi Start Date
+        if (category === "") {
+          $("#category").addClass("is-invalid");
           valid = false;
         }
-        if (attn === "") {
-          $("#attn").addClass("is-invalid");
+        if (status === "") {
+          $("#status").addClass("is-invalid");
           valid = false;
         }
-        if (hardcopy === "") {
-          $("#hardcopy").addClass("is-invalid");
+        if (due_date === "") {
+          $("#due_date").addClass("is-invalid");
           valid = false;
         }
-        if (email === "") {
-          $("#email").addClass("is-invalid");
+        if (pic === "") {
+          $("#pic").addClass("is-invalid");
           valid = false;
         }
-      
-        // if (category === "") {
-        //   $("#category").addClass("is-invalid");
-        //   valid = false;
-        // }
-      
-     
   
+
+  if (uploadedFiles.length === 0) {
+    alert('No valid files uploaded!');
+    valid = false;
+    return;
+  }
 
   if(valid == true){
     $.ajax({
-      url: "{{ route('surat-keluar-update',':id') }}".replace(':id', id_edit),
+      url: "{{ route('ncr-save-uploads') }}",
       type: "POST",
       data: {
         _token: "{{ csrf_token() }}",
         uploaded_files: uploadedFiles,
         document_number : document_number,
+        title : title,
         description : description,
-        recipient : recipient,
-        attn : attn,
-        version : version,
+        category : category,
         status : status,
-        hardcopy : hardcopy,
-        email : email,
-        // category : category,
-     
+        pic : pic,
+        due_date : due_date,
       },
       success: function (response,color) {
         if (response.status == 'ok'){

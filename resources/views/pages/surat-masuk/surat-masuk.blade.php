@@ -117,7 +117,7 @@
                   <th  class="bg-th">Type</th>
                   <th  class="bg-th">From</th>
                   <th  class="bg-th">Version</th>
-                  <th  class="bg-th">Category</th>
+                  {{-- <th  class="bg-th">Category</th> --}}
                   <th  class="bg-th">Hardcopy</th>
                   <th  class="bg-th">Email</th>
                   <th  class="bg-th">Date</th>
@@ -284,7 +284,7 @@ function viewUpdateStatus(param){
               { data: 'typeofincomingdocument', name: 'typeofincomingdocument' },
               { data: 'from_', name: 'from_' },
               { data: 'version_link', name: 'version_link' },
-              { data: 'category_desc', name: 'category_desc' },
+              // { data: 'category_desc', name: 'category_desc' },
               { data: 'isHardCopy', name: 'isHardCopy' },
               { data: 'isEmail', name: 'isEmail' },
               { data: 'tanggal', name: 'tanggal', render: function(data, type, row) {

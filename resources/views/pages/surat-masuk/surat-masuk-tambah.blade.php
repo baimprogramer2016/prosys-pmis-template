@@ -92,7 +92,7 @@
               <label for="version" class="form-label strong">Version</label>
               <input type="text" class="form-control" id="version" name="version">
             </div>
-            <div class="col-md-4 mb-3">
+            {{-- <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Category</label>
                 <select class="form-select" id="category" name="category">
                   <option value="">---Pilih---</option>
@@ -100,7 +100,7 @@
                   <option value="{{ $item_category->id }}">{{ $item_category->description }} </option>
                   @endforeach
                 </select>
-            </div>
+            </div> --}}
             <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Status</label>
                 <select class="form-select" id="status" name="status">
@@ -188,7 +188,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let document_number = $("#document_number").val().trim();
         let description = $("#description").val();
         let from = $("#from").val();
-        let category = $("#category").val();
+        // let category = $("#category").val();
         let status = $("#status").val();
         let version = $("#version").val();
         let typeofincomingdocument = $("#typeofincomingdocument").val();
@@ -215,10 +215,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
           $("#from").addClass("is-invalid");
           valid = false;
         }
-        if (category === "") {
-          $("#category").addClass("is-invalid");
-          valid = false;
-        }
+        // if (category === "") {
+        //   $("#category").addClass("is-invalid");
+        //   valid = false;
+        // }
         if (version === "") {
           $("#version").addClass("is-invalid");
           valid = false;
@@ -254,7 +254,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         hardcopy : hardcopy,
         status : status,
         email : email,
-        category : category,
+        // category : category,
     
       },
       success: function (response,color) {

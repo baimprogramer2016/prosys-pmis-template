@@ -7,9 +7,11 @@ use App\Models\CorSuratKeluar;
 use App\Models\CorSuratMasuk;
 use App\Models\DocumentEngineering;
 use App\Models\FieldInstruction;
+use App\Models\IssueLog;
 use App\Models\Mom;
 use App\Models\Mrr;
 use App\Models\Mvr;
+use App\Models\Ncr;
 use App\Models\ReportDaily;
 use App\Models\ReportMonthly;
 use App\Models\ReportWeekly;
@@ -57,6 +59,8 @@ class SideBar extends Component
             "jml_mvr" => Mvr::count(),
             "jml_mrr" => Mrr::count(),
             "jml_mom" => Mom::count(),
+            "jml_ncr" => Ncr::count(),
+            "jml_issue_log" => IssueLog::count(),
         ]);
     }
 }

@@ -70,3 +70,53 @@ Tampilan hanya  2 Bar
 Size 
 
 ssh-keygen -t rsa -b 4096 -C "baimprogramer@gmail.com" 
+
+
+CREATE TABLE `ncr` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`document_number` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`title` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`due_date` DATETIME NULL DEFAULT NULL,
+	`category` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`pic` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`status` VARCHAR(50) NULL DEFAULT NULL,
+	`path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`created_at` DATETIME NULL DEFAULT NULL,
+	`updated_at` DATETIME NULL DEFAULT NULL,
+	`ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+contract_management
+custom-contract-management
+
+view_ncr
+
+
+
+CREATE TABLE issue_log (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	number VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	title VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	description VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	raised_on VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	report_by VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	priority VARCHAR(50) NULL DEFAULT NULL,
+	status VARCHAR(50) NULL DEFAULT NULL,
+   remark  VARCHAR(100) NULL DEFAULT NULL,
+   closure_date DATETIME NULL DEFAULT NULL,
+	path VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	created_at DATETIME NULL DEFAULT NULL,
+	updated_at DATETIME NULL DEFAULT NULL,
+	ext VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (id) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+view_issue_log

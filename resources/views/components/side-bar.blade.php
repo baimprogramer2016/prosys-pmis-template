@@ -418,6 +418,34 @@
             </div>
           </li>
           <x-custom-contract-management />
+          <li class="nav-item">
+            <a data-bs-toggle="collapse" href="#quality_management">
+              <i class="fas fa-file-signature"></i>
+              <p>Quality Management</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse  {{ Request::is('ncr*') || Request::is('issue*')  ? 'show' : '' }}"" id="quality_management">
+              <ul class="nav nav-collapse">
+                @can('view_ncr')
+                <li class="nav-item-custom {{ Request::is('ncr*') ? 'active' : '' }}">
+                  <a href="{{ route('ncr') }}">
+                    <span class="sub-item">Ncr</span>
+                    <span class="badge badge-success">{{ $jml_ncr}}</span>
+                  </a>
+                </li>
+                @endcan
+                @can('view_issue_log')
+                <li class="nav-item-custom {{ Request::is('ncr*') ? 'active' : '' }}">
+                  <a href="{{ route('issue-log') }}">
+                    <span class="sub-item">Issue Log</span>
+                    <span class="badge badge-success">{{ $jml_issue_log}}</span>
+                  </a>
+                </li>
+                @endcan
+              </ul>
+            </div>
+            
+          </li>
           @can('view_minutes_of_meeting')
           <li class="nav-item nav-item-custom {{ Request::is('mom*') ? 'active' : '' }}">
             <a href="{{ route('mom') }}">

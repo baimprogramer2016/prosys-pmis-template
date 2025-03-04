@@ -10,7 +10,7 @@
         <th  class="bg-th">Type</th>
         <th  class="bg-th">From</th>
         <th  class="bg-th">Version</th>
-        <th  class="bg-th">Category</th>
+        {{-- <th  class="bg-th">Category</th> --}}
         <th  class="bg-th">Hardcopy</th>
         <th  class="bg-th">Email</th>
         <th  class="bg-th">Date</th>
@@ -26,7 +26,7 @@
       <td>{{ $document->typeofincomingdocument}}</td>
       <td>{{ $document->from_}}</td>
       <td>{{ $document->version}}</td>
-      <td>{{ $document->category}}</td>
+      {{-- <td>{{ $document->category}}</td> --}}
       <td>{{ ($document->hardcopy == 1) ? "Done" : "" }}</td>
       <td>{{ ($document->email == 1) ? 'Done' : ""}}</td>
       <td>{{ $document->tanggal}}</td>
