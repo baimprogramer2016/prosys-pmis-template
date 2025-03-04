@@ -435,7 +435,7 @@
                 </li>
                 @endcan
                 @can('view_issue_log')
-                <li class="nav-item-custom {{ Request::is('ncr*') ? 'active' : '' }}">
+                <li class="nav-item-custom {{ Request::is('issue-log*') ? 'active' : '' }}">
                   <a href="{{ route('issue-log') }}">
                     <span class="sub-item">Issue Log</span>
                     <span class="badge badge-success">{{ $jml_issue_log}}</span>
