@@ -36,7 +36,7 @@
         <h6 class="op-7 mb-2">Document Management / Engineering / Upload</h6>
       </div>
       <div class="ms-md-auto py-2 py-md-0">
-        <a onclick="window.history.back()"  class="btn btn-primary btn-round">Daftar</a>
+        <a href="{{ route('document-engineer-master-deliverables-register') }}"  class="btn btn-primary btn-round">Daftar</a>
       </div>
     </div>
     <div class="row">

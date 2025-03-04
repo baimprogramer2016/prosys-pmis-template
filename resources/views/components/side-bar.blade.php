@@ -417,6 +417,7 @@
               </ul>
             </div>
           </li>
+          <x-custom-contract-management />
           @can('view_minutes_of_meeting')
           <li class="nav-item nav-item-custom {{ Request::is('mom*') ? 'active' : '' }}">
             <a href="{{ route('mom') }}">

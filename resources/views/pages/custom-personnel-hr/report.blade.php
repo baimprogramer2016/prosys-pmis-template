@@ -315,6 +315,11 @@ function viewHistory(param){
 });
 }
 
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+        location.reload();
+    }
+});
     </script>
 
   

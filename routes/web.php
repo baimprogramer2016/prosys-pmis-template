@@ -4,6 +4,7 @@ use App\Http\Controllers\AssignController;
 use App\Http\Controllers\ConstructionDocumentController;
 use App\Http\Controllers\CorSuratKeluarController;
 use App\Http\Controllers\CorSuratMasukController;
+use App\Http\Controllers\CustomContractManagementController;
 use App\Http\Controllers\CustomController;
 
 use App\Http\Controllers\CustomDrawingController;
@@ -468,4 +469,17 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-invoice-record-delete/{id}', [CustomInvoiceRecordController::class, 'viewDelete'])->name('custom-invoice-record-delete');
     Route::post('/custom-invoice-record-deleted/{id}', [CustomInvoiceRecordController::class, 'deleted'])->name('custom-invoice-record-deleted');
     Route::get('/custom-invoice-record-history/{id}', [CustomInvoiceRecordController::class, 'history'])->name('custom-invoice-record-history');
+
+    Route::get('/custom-contract-management', [CustomContractManagementController::class, 'index'])->name('custom-contract-management');
+    Route::get('/get-custom-contract-management', [CustomContractManagementController::class, 'getCustomContractManagement'])->name('get-custom-contract-management');   
+    Route::get('/custom-contract-management-tambah', [CustomContractManagementController::class, 'viewTambah'])->name('custom-contract-management-tambah');
+    Route::post('/custom-contract-management-upload-temp', [CustomContractManagementController::class, 'uploadTemp'])->name('custom-contract-management-upload-temp');
+    Route::post('/custom-contract-management-save-uploads', [CustomContractManagementController::class, 'saveUploads'])->name('custom-contract-management-save-uploads');
+    Route::get('/custom-contract-management-edit/{id}', [CustomContractManagementController::class, 'viewEdit'])->name('custom-contract-management-edit');
+    Route::post('/custom-contract-management-update-uploads/{id}', [CustomContractManagementController::class, 'updateUploads'])->name('custom-contract-management-update-uploads');
+    Route::get('/custom-contract-management-pdf/{id}', [CustomContractManagementController::class, 'pdf'])->name('custom-contract-management-pdf');
+    Route::get('/custom-contract-management-share/{id}', [CustomContractManagementController::class, 'share'])->name('custom-contract-management-share');
+    Route::get('/custom-contract-management-delete/{id}', [CustomContractManagementController::class, 'viewDelete'])->name('custom-contract-management-delete');
+    Route::post('/custom-contract-management-deleted/{id}', [CustomContractManagementController::class, 'deleted'])->name('custom-contract-management-deleted');
+    Route::get('/custom-contract-management-history/{id}', [CustomContractManagementController::class, 'history'])->name('custom-contract-management-history');
 });

@@ -67,12 +67,12 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Document Management / {{ Ucwords(str_replace('_',' ',request('tab'))) }}  </h6>
+        <h6 class="op-7 mb-2">Contract Management / {{ Ucwords(str_replace('_',' ',request('tab'))) }} </h6>
        
         </div> 
      
       <div class="ms-md-auto py-2 py-md-0">
-        <a href="{{ route('custom-invoice-record-tambah',["tab" => request('tab')]) }}"  class="btn btn-primary btn-round">Tambah</a>
+        <a href="{{ route('custom-contract-management-tambah',["tab" => request('tab')]) }}"  class="btn btn-primary btn-round">Tambah</a>
        </div>
     </div>
     <div class="row">
@@ -91,7 +91,7 @@
                   </div>
                   <div class="col col-stats ms-3 ms-sm-0 d-flex">
                     <div class="numbers">
-                      <h4 class="card-title">{{ Ucwords(str_replace('_',' ',request('tab'))) }} </h4>
+                      <h4 class="card-title"> {{ Ucwords(str_replace('_',' ',request('tab'))) }} </h4>
                     </div>
                     
                   </div>
@@ -110,10 +110,10 @@
             <table class="table table-bordered" id="myTable">
               <thead>
                 <tr>  
-                  <th  class="bg-th">No. Invoice</th>                
-                  <th  class="bg-th">Description</th>                
-                  <th  class="bg-th">Status</th> 
-                  <th  class="bg-th">Date</th> 
+                  <th  class="bg-th">Contract No.</th>
+                  <th  class="bg-th">Title</th>
+                  <th  class="bg-th">Description</th>
+                  <th  class="bg-th">Date</th>
                   <th  class="bg-th">Extension</th>
                   <th  class="bg-th">Action</th>
                 </tr>
@@ -175,7 +175,7 @@ function viewDelete(param){
   const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('custom-invoice-record-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('custom-contract-management-delete', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     data: {
         tab:tab 
@@ -199,7 +199,7 @@ function viewShare(param){
   const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
 $.ajax({
-  url: "{{ route('custom-invoice-record-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+  url: "{{ route('custom-contract-management-share', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
     type: "GET",
     data: {
         tab:tab 
@@ -223,7 +223,7 @@ function viewPdf(param){
   const tab = urlParams.get('tab'); 
   $(".modal-content").html("");
   $.ajax({
-    url: "{{ route('custom-invoice-record-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+    url: "{{ route('custom-contract-management-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
       type: "GET",
       data: {
         tab:tab 
@@ -258,7 +258,7 @@ function viewPdf(param){
             },
       
             ajax: {
-                url: "{{ route('get-custom-invoice-record', ['tab' => request('tab')]) }}",
+                url: "{{ route('get-custom-contract-management', ['tab' => request('tab')]) }}",
             },
           dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
           buttons: [
@@ -267,10 +267,10 @@ function viewPdf(param){
             { extend: 'print', text: 'Print', className: 'btn btn-primary btn-sm' }
           ],
           columns: [
-              { data: 'no_invoice', name: 'no_invoice' },
+              { data: 'no_contract', name: 'no_contract' },
+              { data: 'title', name: 'title' },
               { data: 'description', name: 'description' },
-              { data: 'status', name: 'status' },
-              { data: 'invoice_date', name: 'invoice_date' ,render: function(data, type, row) {
+              { data: 'created_at', name: 'created_at' ,render: function(data, type, row) {
                 if (!data) return ""; // Jika data kosong, return string kosong
                 const date = new Date(data);
                 const day = String(date.getDate()).padStart(2, '0');
@@ -278,7 +278,6 @@ function viewPdf(param){
                 const year = date.getFullYear();
                 return `${year}-${month}-${day}`;
             } },
-             
               { data: 'ext', name: 'ext' },
               { data: 'action', name: 'action', orderable: false, searchable: false } ,
              ],
@@ -286,11 +285,40 @@ function viewPdf(param){
       });
     });
           
-    window.addEventListener("pageshow", function (event) {
+
+    
+function viewHistory(param){
+  const urlParams = new URLSearchParams(window.location.search);
+  const tab = urlParams.get('tab'); 
+  $(".modal-content").html("");
+  $.ajax({
+  url: "{{ route('custom-contract-management-history', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+    type: "GET",
+    data: {
+        tab:tab 
+    },
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(response) {
+    
+      $(".modal-content").html("");
+      $(".modal-content").html(response);
+      
+    },
+    error: function(xhr) {
+        alert('An error occurred: ' + xhr.responseText);
+    }
+});
+}
+
+
+window.addEventListener("pageshow", function (event) {
     if (event.persisted) {
         location.reload();
     }
 });
+
     </script>
 
   

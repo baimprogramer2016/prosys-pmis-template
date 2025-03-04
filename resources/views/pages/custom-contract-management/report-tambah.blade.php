@@ -33,10 +33,10 @@
     >
       <div class="d-flex align-items-center gap-4">
 
-        <h6 class="op-7 mb-2">Field Instruction / Upload</h6>
+        <h6 class="op-7 mb-2">Document Management / {{ Ucwords(str_replace('_',' ',request('tab'))) }}</h6>
       </div>
       <div class="ms-md-auto py-2 py-md-0">
-        <a href="{{ route('field-instruction') }}"  class="btn btn-primary btn-round">Daftar</a>
+        <a onclick="window.history.back()"  class="btn btn-primary btn-round">Daftar</a>
       </div>
     </div>
     <div class="row">
@@ -66,70 +66,29 @@
       <div class="card ">   
         <div class="card-body">
           <div class="alert-warning text-center">Hanya bisa Upload 1 File</div>
-          <form action="{{ route('field-instruction-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
+          <form action="{{ route('custom-contract-management-upload-temp')}}" class="dropzone mt-3" id="myDropzone">
             
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
           </form>
           <div class="align-items-center mb-3 mt-3   p-3 row">
-            <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Document Number</label>
-              <input type="text" class="form-control" id="document_number" name="document_number">
+            <div class="col-md-6 mb-3">
+              <label for="start_date" class="form-label strong">Contract No.</label>
+              <input type="text" class="form-control" id="no_contract" name="no_contract">
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
               <label for="start_date" class="form-label strong">Title</label>
+              <input type="text" class="form-control" id="title" name="title">
+            </div>
+          
+            <div class="col-md-12 mb-3">
+              <label for="start_date" class="form-label strong">Description</label>
               <input type="text" class="form-control" id="description" name="description">
             </div>
           
-            <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Version</label>
-              <input type="text" class="form-control" id="version" name="version">
-            </div>
-          
-            <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Tanggal</label>
-              <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Discipline</label>
-              <select class="form-select" id="discipline" name="discipline">
-                  <option value=""">---Pilih---</option>
-                  @foreach ($data_discipline as $item_discipline)
-                  <option value="{{ $item_discipline->id }}">{{ $item_discipline->description }} </option>
-                  @endforeach
-              </select>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Category</label>
-              <select class="form-select" id="category" name="category">
-                  <option value="">---Pilih---</option>
-                  {{-- @foreach ($data_category as $item_category)
-                  <option value="{{ $item_category->id }}">{{ $item_category->description }} </option>
-                  @endforeach --}}
-              </select>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="start_date" class="form-label strong">Status</label>
-              <select class="form-select" id="status" name="status">
-                  <option value="">---Pilih---</option>
-                  @foreach ($data_status as $item_status)
-                  <option value="{{ $item_status->code }}">{{ $item_status->description }} </option>
-                  @endforeach
-              </select>
-            </div>
-            <div class="col mb-3 to">
-              <label for="start_date" class="form-label strong">To</label>
-              <select class="form-select"  id="email" name="email">
-                 
-              </select>
-            </div>
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
             </div>
-
-          </div>
-        
-        
-         
+          </div>  
         </div>
         
       </div> 
@@ -152,6 +111,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
 <script>
+
   var uploadedFiles = [];
 
 Dropzone.options.myDropzone = {
@@ -186,18 +146,13 @@ document.getElementById('saveUploads').addEventListener('click', function () {
   $(".is-invalid").removeClass("is-invalid");
         let valid = true;
   
-        let document_number = $("#document_number").val().trim();
+        let no_contract = $("#no_contract").val().trim();
+        let title = $("#title").val();
         let description = $("#description").val();
-        let version = $("#version").val()
-        let tanggal = $("#tanggal").val()
-        let discipline = $("#discipline").val()
-        let category = $("#category").val()
-        let status = $("#status").val()
-        let email = $("#email").val()
-  
+      
         // Validasi Activity
-        if (document_number === "") {
-          $("#document_number").addClass("is-invalid");
+        if (no_contract === "") {
+          $("#no_contract").addClass("is-invalid");
           valid = false;
         }
   
@@ -209,34 +164,12 @@ document.getElementById('saveUploads').addEventListener('click', function () {
   
      
    // Validasi End Date
-        if (version === "") {
-          $("#version").addClass("is-invalid");
+        if (title === "") {
+          $("#title").addClass("is-invalid");
           valid = false;
         } 
   
   
-         // Validasi End Date
-         if (tanggal === "") {
-          $("#tanggal").addClass("is-invalid");
-          valid = false;
-        } 
-  
-         // Validasi End Date
-         if (discipline === "") {
-          $("#discipline").addClass("is-invalid");
-          valid = false;
-        } 
-  
-        // if (category === "") {
-        //   $("#category").addClass("is-invalid");
-        //   valid = false;
-        // } 
-  
-        if (status === "") {
-          $("#status").addClass("is-invalid");
-          valid = false;
-        } 
-
 
   if (uploadedFiles.length === 0) {
     alert('No valid files uploaded!');
@@ -245,20 +178,19 @@ document.getElementById('saveUploads').addEventListener('click', function () {
   }
 
   if(valid == true){
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab'); 
+
     $.ajax({
-      url: "{{ route('field-instruction-save-uploads') }}",
+      url: "{{ route('custom-contract-management-save-uploads') }}",
       type: "POST",
       data: {
         _token: "{{ csrf_token() }}",
         uploaded_files: uploadedFiles,
-        document_number : document_number,
+        no_contract : no_contract,
         description : description,
-        version : version,
-        tanggal : tanggal,
-        discipline : discipline,
-        category : category,
-        status:status,
-        email:email  
+        title : title,
+        tab : tab
       },
       success: function (response,color) {
         if (response.status == 'ok'){
@@ -275,7 +207,8 @@ document.getElementById('saveUploads').addEventListener('click', function () {
                   },
                 },
               });
-            
+        //kirim email
+     
         
         location.reload();
       },
@@ -286,7 +219,6 @@ document.getElementById('saveUploads').addEventListener('click', function () {
   }
 
 });
-
 
 function sendEmail(email,status, description){
   $.ajax({
@@ -303,42 +235,5 @@ function sendEmail(email,status, description){
     });
   }
 
-
-
-  document.getElementById('status').addEventListener('change', function () {
-  $("#email").prop("disabled", true);
-  if($("#status").val() == 'approve' || $("#status").val() == 'notapprove'){
-    $("#email").prop("disabled", true);
-    $("#email").html("")
-  }else{
-    $("#email").prop("disabled", false);
-    $.ajax({
-      url: "{{ route('assign') }}",
-      type: "POST",
-      data: {
-         status : $("#status").val(),
-        _token: "{{ csrf_token() }}",
-      },
-      success: function (response) {
-      
-        let options ='';
-        if(response.length > 0){
-        
-          response.forEach((item) =>{
-            options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
-          })
-        }
-
-     
-        $("#email").html(options);
-      
-      },
-      error: function (xhr) {
-        alert('An error occurred: ' + xhr.responseText);
-      }
-    });
-  }
-
-})
 </script>
 @endpush
