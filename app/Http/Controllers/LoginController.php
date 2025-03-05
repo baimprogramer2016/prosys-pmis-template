@@ -58,4 +58,27 @@ class LoginController extends Controller
 
     return response()->json(['message' => 'User berhasil dibuat'], 201);
     }
+
+
+    public function changePassword(Request $request){
+        try{
+            return view('pages.users.users-change-password');
+        }catch (Throwable $e) {
+         
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+        
+    }
+
+    public function updatePassword(Request $request){
+      
+        $user = User::where('username', $request->username)->first();
+        $user->password = bcrypt($request->new_password); // Menggunakan bcrypt untuk mengenkripsi password
+        $user->save();
+
+    return response()->json(['status' => 'ok']);
+    }
 }

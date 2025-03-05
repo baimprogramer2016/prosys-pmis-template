@@ -485,7 +485,7 @@
             </a>
           </li>
           @endif
-          @can('view_custom')
+          @if(Auth::user()->hasAnyRole(['superadmin']))
           <li class="nav-item nav-item-custom {{ Request::is('master-*') ? 'active' : '' }}">
             <a href="{{ route('master-custom') }}">
               <i class="fab fa-whmcs"></i>

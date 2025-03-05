@@ -96,8 +96,10 @@
             </a>
             <ul class="dropdown-menu dropdown-user animated fadeIn">
               <div class="dropdown-user-scroll scrollbar-outer">
+                <a class="dropdown-item" href="{{route('change-password')}}">Change Password</a>   
+              </div>
+              <div class="dropdown-user-scroll scrollbar-outer">
                 <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
-                
               </div>
             </ul>
           </li>

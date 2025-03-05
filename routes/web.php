@@ -64,6 +64,8 @@ Route::post('/login', [LoginController::class, 'prosesLogin'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/change-password', [LoginController::class, 'changePassword'])->name('change-password');
+    Route::post('/update-password', [LoginController::class, 'updatePassword'])->name('update-password');
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
     Route::get('/slide', [DashboardController::class,'slide'])->name('slide');
 
@@ -512,5 +514,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/issue-log-pdf/{id}', [IssueLogController::class, 'pdf'])->name('issue-log-pdf');
     Route::get('/issue-log-delete/{id}', [IssueLogController::class, 'viewDelete'])->name('issue-log-delete');
     Route::post('/issue-log-deleted/{id}', [IssueLogController::class, 'deleted'])->name('issue-log-deleted');
+
+
+    
 
 });
