@@ -328,7 +328,7 @@
               </ul>
             </div>
           </li>
-          
+          @can('view_procurement_logistic')
           <li class="nav-item">
             <a data-bs-toggle="collapse" href="#procurement_logistic">
               <i class="fas fa-truck-loading"></i>
@@ -341,6 +341,7 @@
               </ul>
             </div>
           </li>
+          @endcan
         
        
           <li class="nav-item">

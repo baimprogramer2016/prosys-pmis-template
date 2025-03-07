@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 use Illuminate\Support\FacadesDB;
 use Yajra\DataTables\Facades\DataTables ;
@@ -48,6 +49,14 @@ class SCurveController extends Controller
             ->addColumn('action', function($row) {
                 $rowJson = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');  // Konversi $row ke JSON string
              
+                $editBtn = '';
+                if (Gate::allows('edit_input_s_curve')) {
+                    $editBtn = '<a onClick="return viewEdit('.$rowJson. ')" class="dropdown-item cursor-pointer">Edit</a>';
+                }
+                $deleteBtn = '';
+                if (Gate::allows('delete_input_s_curve')) {
+                    $deleteBtn = '<a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
+                }
                 $btn = '<div class="dropdown">
                     <button
                         class="btn btn-icon btn-clean me-0"
@@ -60,8 +69,8 @@ class SCurveController extends Controller
                         <i class="fas fa-ellipsis-h"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a onClick="return viewEdit('.$rowJson. ')" class="dropdown-item cursor-pointer">Edit</a>               
-                        <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>               
+                         ' . $editBtn . '
+                        ' . $deleteBtn . '
                     </div>
                 </div>';
                 return $btn;

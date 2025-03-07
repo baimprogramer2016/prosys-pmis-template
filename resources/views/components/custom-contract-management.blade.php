@@ -1,3 +1,4 @@
+@can('view_contract_management')
 @foreach ($sidebar_contract_management as $item_sidebar)
     <li class="nav-item">
         <a data-bs-toggle="collapse" href="#{{ $item_sidebar->id }}">
@@ -27,3 +28,4 @@
         </div>
     </li>
 @endforeach
+@endcan

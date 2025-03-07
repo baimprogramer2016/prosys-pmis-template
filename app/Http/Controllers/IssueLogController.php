@@ -7,6 +7,7 @@ use App\Models\IssueLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables ;
@@ -46,7 +47,16 @@ class IssueLogController extends Controller
             return DataTables::of($data)
             ->addColumn('action', function($row) {
                 $fileUrl = asset('storage/' . $row->path);
-
+                $editBtn = '';
+                if (Gate::allows('edit_issue_log')) {
+                    $editBtn = '<a class="dropdown-item" href="'.route('issue-log-edit', $row->id).'">Edit</a>';
+                }
+            
+                // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
+                $deleteBtn = '';
+                if (Gate::allows('delete_issue_log')) {
+                    $deleteBtn = '<a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
+                }
               
                 $btn = '<div class="dropdown">
                     <button
@@ -60,11 +70,8 @@ class IssueLogController extends Controller
                         <i class="fas fa-ellipsis-h"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        
-                        <a class="dropdown-item" href="'.route('issue-log-edit', $row->id).'">Edit</a>
-                        <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>
-                       
-                               
+                       ' . $editBtn . '
+                        ' . $deleteBtn . '      
                     </div>
                 </div>';
                 return $btn;

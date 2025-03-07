@@ -72,7 +72,9 @@
         </div> 
      
       <div class="ms-md-auto py-2 py-md-0">
+        @can('add_procurement_logistic')
         <a href="{{ route('custom-procurement-logistic-tambah',["tab" => request('tab')]) }}"  class="btn btn-primary btn-round">Tambah</a>
+        @endcan
        </div>
     </div>
     <div class="row">

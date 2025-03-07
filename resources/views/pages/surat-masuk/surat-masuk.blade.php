@@ -72,7 +72,9 @@
         </div> 
      
       <div class="ms-md-auto py-2 py-md-0">
+        @can('add_correspondence_surat_masuk')
         <a href="{{ route('surat-masuk-tambah') }}"  class="btn btn-primary btn-round">Tambah</a>
+        @endcan
        </div>
     </div>
     <div class="row">

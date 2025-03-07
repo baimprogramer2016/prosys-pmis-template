@@ -7,6 +7,7 @@ use App\Models\RfiHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables ;
@@ -48,6 +49,17 @@ class RfiController extends Controller
                 if(in_array($row->ext,['pdf','jpg','png','jpeg','docx','doc','xls','xlsx','ppt','pptx'])){
                     $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                 }
+                $editBtn = '';
+                if (Gate::allows('edit_rfi')) {
+                    $editBtn = '<a class="dropdown-item" href="'.route('rfi-edit', $row->id).'">Edit</a>';
+                }
+            
+                // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
+                $deleteBtn = '';
+                if (Gate::allows('delete_rfi')) {
+                    $deleteBtn = '<a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
+                }
+            
                 $btn = '<div class="dropdown">
                     <button
                         class="btn btn-icon btn-clean me-0"
@@ -61,8 +73,8 @@ class RfiController extends Controller
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="'.$fileUrl.'" download>Download</a>
-                        <a class="dropdown-item" href="'.route('rfi-edit', $row->id).'">Edit</a>
-                        <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>
+                        ' . $editBtn . '
+                        ' . $deleteBtn . '
                         <a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewShare(' . $row->id . ')" class="dropdown-item cursor-pointer">Share</a>
                         '.$addDropdown.'                        
                     </div>

@@ -82,6 +82,7 @@ table.dataTable td {
      
     </div>
     <div class="row">
+      @can('add_input_s_curve')
       <div class="col-sm-12 col-md-12">
         <div class="row">
           <div class="col-sm-12 col-md-12">
@@ -129,14 +130,15 @@ table.dataTable td {
                     
                   </div>
       
-                  <!-- Tombol Submit -->
-                  <button type="submit" id="save" name="save" class="btn btn-sm btn-primary ms-2">Update & Insert</button>
                 
+                  <button type="submit" id="save" name="save" class="btn btn-sm btn-primary ms-2">Update & Insert</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      @endcan
+   
         
       <div class="col-sm-12 col-md-12">
       <div class="card ">
@@ -189,74 +191,79 @@ table.dataTable td {
 
 <script>
 
-document.getElementById('save').addEventListener('click', function () {
+document.addEventListener("DOMContentLoaded", function () {
+  let saveButton = document.getElementById("save");
+    if (saveButton) {
+    saveButton.addEventListener('click', function () {
 
-// Reset error messages
-$(".is-invalid").removeClass("is-invalid");
-      let valid = true;
-      let description = $("#description").val();
-      let tanggal = $("#tanggal").val()
-      let percent = $("#percent").val()
-      let category = $("#category").val()
-      // Validasi Activity
-   
-      // Validasi Start Date
-      if (description === "") {
-        $("#description").addClass("is-invalid");
-        valid = false;
-      }
-
-   
- // Validasi End Date
-      if (tanggal === "") {
-        $("#tanggal").addClass("is-invalid");
-        valid = false;
-      } 
-       // Validasi End Date
-       if (percent === "") {
-        $("#percent").addClass("is-invalid");
-        valid = false;
-      } 
-       if (category === "") {
-        $("#category").addClass("is-invalid");
-        valid = false;
-      } 
-
-if(valid == true){
-  console.log("masuk")
-  $.ajax({
-    url: "{{ route('s-curve-save') }}",
-    type: "POST",
-    data: {
-      _token: "{{ csrf_token() }}",
-      description : description,
-      percent : percent,
-      tanggal : tanggal,
-      category : category,
-    },
-    success: function (response,color) {
-      if (response.status == 'ok'){
-        msg_swal = "File Successfully Saved";
-        color = "btn btn-success";
-      }else{
-        msg_swal = "Failed";
-        color = "btn btn-success";
-      }
-            swal(msg_swal, {
-              buttons: {
-                confirm: {
-                  className: color,
-                },
-              },
-            });
-          
+    // Reset error messages
+    $(".is-invalid").removeClass("is-invalid");
+          let valid = true;
+          let description = $("#description").val();
+          let tanggal = $("#tanggal").val()
+          let percent = $("#percent").val()
+          let category = $("#category").val()
+          // Validasi Activity
       
-      location.reload();
-    },
-    error: function (xhr) {
-      alert('An error occurred: ' + xhr.responseText);
+          // Validasi Start Date
+          if (description === "") {
+            $("#description").addClass("is-invalid");
+            valid = false;
+          }
+
+      
+    // Validasi End Date
+          if (tanggal === "") {
+            $("#tanggal").addClass("is-invalid");
+            valid = false;
+          } 
+          // Validasi End Date
+          if (percent === "") {
+            $("#percent").addClass("is-invalid");
+            valid = false;
+          } 
+          if (category === "") {
+            $("#category").addClass("is-invalid");
+            valid = false;
+          } 
+
+    if(valid == true){
+      console.log("masuk")
+      $.ajax({
+        url: "{{ route('s-curve-save') }}",
+        type: "POST",
+        data: {
+          _token: "{{ csrf_token() }}",
+          description : description,
+          percent : percent,
+          tanggal : tanggal,
+          category : category,
+        },
+        success: function (response,color) {
+          if (response.status == 'ok'){
+            msg_swal = "File Successfully Saved";
+            color = "btn btn-success";
+          }else{
+            msg_swal = "Failed";
+            color = "btn btn-success";
+          }
+                swal(msg_swal, {
+                  buttons: {
+                    confirm: {
+                      className: color,
+                    },
+                  },
+                });
+              
+          
+          location.reload();
+        },
+        error: function (xhr) {
+          alert('An error occurred: ' + xhr.responseText);
+        }
+      });
     }
-  });
+  }); 
 }
 }); 
 

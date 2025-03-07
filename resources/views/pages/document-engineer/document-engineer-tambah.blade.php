@@ -123,7 +123,9 @@
               </select>
             </div>
             <div class="col-md-12 mb-3">
+              @can('add_doc_engineering')
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
+              @endcan
             </div>
           </div>  
         </div>

@@ -72,7 +72,9 @@
         </div> 
      
       <div class="ms-md-auto py-2 py-md-0">
+        @can('add_weekly_report')
         <a href="{{ route('report-weekly-tambah') }}"  class="btn btn-primary btn-round">Tambah</a>
+        @endcan
        </div>
     </div>
     <div class="row">
