@@ -6,7 +6,7 @@ use App\Http\Controllers\CorSuratKeluarController;
 use App\Http\Controllers\CorSuratMasukController;
 use App\Http\Controllers\CustomContractManagementController;
 use App\Http\Controllers\CustomController;
-
+use App\Http\Controllers\CustomDocumentManagementController;
 use App\Http\Controllers\CustomDrawingController;
 use App\Http\Controllers\CustomInvoiceRecordController;
 
@@ -517,5 +517,17 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 
     
+    Route::get('/custom-document-management', [CustomDocumentManagementController::class, 'index'])->name('custom-document-management');
+    Route::get('/get-custom-document-management', [CustomDocumentManagementController::class, 'getCustomDocumentManagement'])->name('get-custom-document-management');   
+    Route::get('/custom-document-management-tambah', [CustomDocumentManagementController::class, 'viewTambah'])->name('custom-document-management-tambah');
+    Route::post('/custom-document-management-upload-temp', [CustomDocumentManagementController::class, 'uploadTemp'])->name('custom-document-management-upload-temp');
+    Route::post('/custom-document-management-save-uploads', [CustomDocumentManagementController::class, 'saveUploads'])->name('custom-document-management-save-uploads');
+    Route::get('/custom-document-management-edit/{id}', [CustomDocumentManagementController::class, 'viewEdit'])->name('custom-document-management-edit');
+    Route::post('/custom-document-management-update-uploads/{id}', [CustomDocumentManagementController::class, 'updateUploads'])->name('custom-document-management-update-uploads');
+    Route::get('/custom-document-management-pdf/{id}', [CustomDocumentManagementController::class, 'pdf'])->name('custom-document-management-pdf');
+    Route::get('/custom-document-management-share/{id}', [CustomDocumentManagementController::class, 'share'])->name('custom-document-management-share');
+    Route::get('/custom-document-management-delete/{id}', [CustomDocumentManagementController::class, 'viewDelete'])->name('custom-document-management-delete');
+    Route::post('/custom-document-management-deleted/{id}', [CustomDocumentManagementController::class, 'deleted'])->name('custom-document-management-deleted');
+    Route::get('/custom-document-management-history/{id}', [CustomDocumentManagementController::class, 'history'])->name('custom-document-management-history');
 
 });

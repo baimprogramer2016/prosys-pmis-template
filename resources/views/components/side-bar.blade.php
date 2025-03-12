@@ -322,6 +322,7 @@
                 <x-custom-personnel-hr />
                 <x-custom-photographic />
                 <x-custom-drawings />
+                <x-custom-document-management />
 
                 {{-- end here --}}
 
