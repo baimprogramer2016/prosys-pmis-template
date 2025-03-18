@@ -160,7 +160,7 @@ Dropzone.options.myDropzone = {
   paramName: "file",
   maxFilesize: 100, 
   maxFiles: 1,
-  acceptedFiles: ".pdf,.jpg,.jpeg,.png,.ppt,.doc,.docx,.xls,.xlsx,.pptx",
+  acceptedFiles: ".pdf,.jpg,.jpeg,.png,.ppt,.doc,.docx,.xls,.xlsx,.pptx,.cad",
   addRemoveLinks: true,
   init: function () {
     this.on("success", function (file, response) {
