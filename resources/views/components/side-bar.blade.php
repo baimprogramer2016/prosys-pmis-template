@@ -352,7 +352,7 @@
               <p>Report</p>
               <span class="caret"></span>
             </a>
-            <div class="collapse  {{ Request::is('report*') || Request::is('rfi*') || Request::is('mvr*') || Request::is('mrr*')  ? 'show' : '' }}"" id="report">
+            <div class="collapse  {{ Request::is('custom-report*') || Request::is('report*') || Request::is('rfi*') || Request::is('mvr*') || Request::is('mrr*')  ? 'show' : '' }}"" id="report">
               <ul class="nav nav-collapse">
                 @can('view_daily_report')
                 <li class="nav-item-custom {{ Request::is('report-daily*') ? 'active' : '' }}">
