@@ -18,10 +18,59 @@ class SCurveController extends Controller
 {
     public function index(Request $request){
         try{
-        
+
+                $data_tanggal = SCurve::distinct()->pluck('tanggal');
+                $data_scurve = SCurve::when($request->has('filter_category') , function($query) use ($request){
+                    $query->where('description', $request->filter_category);
+                })
+                ->when($request->has('filter_tanggal') , function($query) use ($request){
+                    $query->where('tanggal', $request->filter_tanggal);
+                })
+                ->get();
+                $data_response_curve = [];
+
+                foreach ($data_tanggal as $tanggal_curve) {
+                    foreach (['Actual', 'Planned'] as $desc) {
+                        $item = [
+                            'tanggal' => $tanggal_curve,
+                            'description' => $desc,
+                            'engineering' => null,
+                            'procurement' => null,
+                            'construction' => null,
+                            'commissioning' => null,
+                        ];
+
+                        foreach ($data_scurve as $row) {
+                            if ($row->tanggal == $tanggal_curve && $row->description == $desc) {
+                                switch ($row->category) {
+                                    case 'Engineering':
+                                        $item['engineering'] = $row->percent;
+                                        break;
+                                    case 'Procurement':
+                                        $item['procurement'] = $row->percent;
+                                        break;
+                                    case 'Construction':
+                                        $item['construction'] = $row->percent;
+                                        break;
+                                    case 'Commissioning':
+                                        $item['commissioning'] = $row->percent;
+                                        break;
+                                }
+                            }
+                        }
+
+                        $data_response_curve[] = $item;
+                    }
+                }
+
+                
+            
+
+            // return $data_response_curve;
             return view('pages.s-curve.s-curve',[
                 "data_category" => MasterCategory::where('category','schedule_management')->get(),
-                "data_sub_category" => MasterCategory::where('category','s_curve')->get()
+                "data_sub_category" => MasterCategory::where('category','s_curve')->get(),
+                "data_scurve" => $data_response_curve
             ]);
         }catch (Throwable $e) {
             // Tangani error
@@ -101,13 +150,15 @@ class SCurveController extends Controller
     ]);
     }
 
-    public function viewEdit(Request $request, $id){
+    public function viewEdit(Request $request){
         
         try{
-            $document = SCurve::find($id);
-        
+            
           return view('pages.s-curve.s-curve-edit',[
-            "document" => $document
+            "category" => $request->category,
+            "tanggal" => $request->tanggal,
+            "description" => $request->description,
+            "percent" => $request->percent,
           ]);
            
         }catch (Throwable $e) {
@@ -118,22 +169,23 @@ class SCurveController extends Controller
             ], 500);
         }
     } 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-       
         $description = $request->input('description');
         $category = $request->input('category');
         $tanggal = $request->input('tanggal');
         $percent = $request->input('percent');
        
-        $doc = SCurve::find($id);
-        $doc->description = $description;
-        $doc->category = $category;
-        $doc->tanggal = $tanggal;
-        $doc->percent = $percent;
-        $doc->author = Auth::User()->name;
+        $doc = SCurve::where('description', $description)
+        ->where('category', $category)
+        ->where('tanggal', $tanggal)
+        ->first();
 
-        $doc->save();
+        if ($doc) {
+            $doc->percent = $percent;
+            $doc->save();
+        }
+
 
     return response()->json([
         'status' =>'ok',
@@ -171,8 +223,13 @@ class SCurveController extends Controller
     public function sCurveChart(Request $request){
         
         try{
+            
+            $minDate = DB::table('s_curve')->min('tanggal');
+            $maxDate = DB::table('s_curve')->max('tanggal');
           return view('pages.s-curve.s-curve-chart',[
-            "data_sub_category" => MasterCategory::where('category','s_curve')->get()
+            "data_sub_category" => MasterCategory::where('category','s_curve')->get(),
+            "min_date" => date("Y-m-d", strtotime($minDate)),
+            "max_date" => date("Y-m-d", strtotime($maxDate)),
           ]);
            
         }catch (Throwable $e) {
@@ -202,16 +259,17 @@ class SCurveController extends Controller
          // 1. Cari min dan max tanggal
        $minDate = DB::table('s_curve')->min('tanggal');
        $maxDate = DB::table('s_curve')->max('tanggal');
+       
         //jika ada filter
        $startDate = $request->query('start_date');
        $endDate = $request->query('end_date');
        $category = $request->query('category');
        
-       if($startDate !='' && $endDate !=''){
+       if($startDate != '' && $endDate != ''){
         $minDate = $startDate;
         $maxDate = $endDate;
-       }
-
+        }
+       
        // 2. Buat array tanggal mingguan, termasuk Week 0
        $currentDate = Carbon::parse($minDate)->startOfWeek();
        $endDate = Carbon::parse($maxDate);
@@ -279,8 +337,8 @@ class SCurveController extends Controller
            array_push($jsonWeek, $week['week_label']);
            array_push($jsonWeekLabel, $week['week_label_date']);
            array_push($jsonTanggal, $week['start_date']);
-           array_push($jsonPlanned, (int)str_replace('%','',$weekData['planned_total']));
-           array_push($jsonActual, (int)str_replace('%','',$weekData['actual_total']));
+           array_push($jsonPlanned, str_replace('%','',$weekData['planned_total']));
+           array_push($jsonActual, str_replace('%','',$weekData['actual_total']));
        }
 
        //result bentuknya 

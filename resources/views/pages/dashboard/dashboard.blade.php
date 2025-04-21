@@ -59,11 +59,11 @@
               </div>
               <div class="me-3 mb-2 mb-lg-0 d-flex align-items-center">
                 <label for="tanggal_awal" class="me-2 mb-0 fw-bold">Tanggal Awal:</label>
-                <input type="date" id="tanggal_awal" class="form-control form-control-sm" style="width: 150px;">
+                <input type="date" id="tanggal_awal" class="form-control form-control-sm" style="width: 150px;" value="{{ $min_date }}">
               </div>
               <div class="me-3 mb-2 mb-lg-0 d-flex align-items-center">
                 <label for="tanggal_akhir" class="me-2 mb-0 fw-bold">Tanggal Akhir:</label>
-                <input type="date" id="tanggal_akhir" class="form-control form-control-sm" style="width: 150px;">
+                <input type="date" id="tanggal_akhir" class="form-control form-control-sm" style="width: 150px;" value="{{ $max_date }}">
               </div>
               <div class="d-flex">
                 <button class="btn btn-primary btn-sm" id="filterBtnSCurve">Filter</button>
@@ -75,12 +75,15 @@
               <canvas id="sCurveChart" ></canvas>
             </div>
 
-            <table id="progressTable">
-              <thead>
-                <tr id="tableHeader"></tr>
-              </thead>
-              <tbody id="tableBody"></tbody>
-            </table>
+            <div class="table-wrapper bg-success" style="overflow-x: auto;">
+              <table id="progressTable">
+                <thead>
+                  <tr id="tableHeader"></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+            
           </div>
         </div>
       </div>

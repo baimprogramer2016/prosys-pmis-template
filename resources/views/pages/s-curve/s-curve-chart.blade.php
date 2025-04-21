@@ -95,12 +95,12 @@
                 </select>
               </div>
               <div class="me-3 mb-2 mb-lg-0 d-flex align-items-center">
-                <label for="tanggal_awal" class="me-2 mb-0 fw-bold">Tanggal Awal:</label>
-                <input type="date" id="tanggal_awal" class="form-control form-control-sm" style="width: 150px;">
+                <label for="tanggal_awal" class="me-2 mb-0 fw-bold">Tanggal Awal: {{ $min_date }}</label>
+                <input type="date" id="tanggal_awal" class="form-control form-control-sm" style="width: 150px;" value="{{ $min_date }}">
               </div>
               <div class="me-3 mb-2 mb-lg-0 d-flex align-items-center">
                 <label for="tanggal_akhir" class="me-2 mb-0 fw-bold">Tanggal Akhir:</label>
-                <input type="date" id="tanggal_akhir" class="form-control form-control-sm" style="width: 150px;">
+                <input type="date" id="tanggal_akhir" class="form-control form-control-sm" style="width: 150px;" value="{{ $max_date }}">
               </div>
               <div class="d-flex">
                 <button class="btn btn-primary btn-sm" id="filterBtn">Filter</button>
@@ -112,13 +112,17 @@
             <div class="chart-container" id="chart-container-1">
               <canvas id="multipleLineChart" ></canvas>
             </div>
+            <div class="table-wrapper bg-success" style="overflow-x: auto;">
+              <table id="progressTable">
+                <thead>
+                  <tr id="tableHeader"></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+            
 
-            <table id="progressTable">
-              <thead>
-                <tr id="tableHeader"></tr>
-              </thead>
-              <tbody id="tableBody"></tbody>
-            </table>
+            
           </div>
         </div>
       </div>
@@ -178,7 +182,7 @@ function showChart(param_tgl_awal, param_tgl_akhir,param_category){
     },
     method:"GET",
     success:function(response){
-     
+      // console.log(response)
       if(response.status == 'ok'){
         curveChart(response)
 
@@ -220,6 +224,7 @@ function resetTable() {
       tr.appendChild(tdLabel);
 
       data.forEach(value => {
+        console.log(value)
         const td = document.createElement("td");
         td.innerText = value;
         tr.appendChild(td);

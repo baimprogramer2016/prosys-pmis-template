@@ -22,8 +22,13 @@ class DashboardController extends Controller
         
 
         try{
+            $minDate = DB::table('s_curve')->min('tanggal');
+            $maxDate = DB::table('s_curve')->max('tanggal');
             return view('pages.dashboard.dashboard',[
-                "data_sub_category" => MasterCategory::where('category','s_curve')->get()
+                "data_sub_category" => MasterCategory::where('category','s_curve')->get(),
+                "min_date" => date("Y-m-d", strtotime($minDate)),
+                "max_date" => date("Y-m-d", strtotime($maxDate)),
+                
             ]);
         }catch (Throwable $e) {
             // Tangani error

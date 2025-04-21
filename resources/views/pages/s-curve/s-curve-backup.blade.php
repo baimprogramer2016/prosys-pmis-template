@@ -131,7 +131,7 @@ table.dataTable td {
                   </div>
       
                 
-                  <button type="submit" id="save" name="save" class="btn btn-sm btn-primary ms-2">Save</button>
+                  <button type="submit" id="save" name="save" class="btn btn-sm btn-primary ms-2">Update & Insert</button>
                 </div>
               </div>
             </div>
@@ -144,62 +144,18 @@ table.dataTable td {
       <div class="card ">
                
         <div class="card-body">
-          <form action="{{ route('s-curve') }}"  method="GET">
-          <div class="form-row d-flex align-items-end">
-                    
-            <!-- Dropdown -->
-          
-            <div class="form-group col-md-3">
-              <label for="optionSelect">Pilih Category</label>
-              <select class="form-control form-control-sm" id="filter_category" name="filter_category" >
-                <option>Pilih Category</option>
-                @foreach ($data_category as $item_category)
-                <option value="{{ $item_category->description }}"
-                    {{ request('filter_category') == $item_category->description ? 'selected' : '' }}>
-                    {{ $item_category->description }}
-                </option>
-                @endforeach
-              </select>
-              
-            </div>
-            <div class="form-group col-md-3">
-              <label for="dateInput">Tanggal</label>
-              <input type="date" class="form-control form-control-sm" id="filter_tanggal" name="filter_tanggal" value="{{ request('filter_tanggal') !='' ? request('filter_tanggal') : '' }}"> 
-            </div>
-            <div class="form-group col-md-3">
-            <button type="submit"  class="btn btn-sm btn-success ms-2 h-2">Filter</button>
-            </div>
-            
-          </div>
-        </form>
-
           <div class="table-responsive">
             <table class="table table-bordered" id="myTable">
               <thead>
                 <tr>  
-                  {{-- <th  class="bg-th">Week</th> --}}
-                  <th  class="bg-th">Description</th>
+                  <th  class="bg-th">Category</th>
+                  <th  class="bg-th">Sub Category</th>
                   <th  class="bg-th">Tanggal</th>
-                  <th  class="bg-th">Engineering</th>
-                  <th  class="bg-th">Procurument</th>
-                  <th  class="bg-th">Construction</th>
-                  <th  class="bg-th">Commissioning</th>
+                  <th  class="bg-th">Percent</th>
+                  <th  class="bg-th">Action</th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($data_scurve as $index => $item_curve)
-                  @if($item_curve['engineering'] != '' && $item_curve['procurement'] != '' && $item_curve['construction'] != '' && $item_curve['commissioning'] != '' )
-                  <tr>
-                    {{-- <td><strong>Week {{ $index }} </strong></td> --}}
-                    <td>{{ $item_curve['description'] }}</td>
-                    <td>{{ $item_curve['tanggal'] }}</td>
-                    <td><span data-bs-toggle="modal" data-bs-target="#modal" class="text-primary text-center" style="cursor: pointer;" onClick="viewEdit('Engineering','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['engineering'] }}')">{{ $item_curve['engineering'] }} <i class="fas fa-pen"></i></span></td>
-                    <td><span data-bs-toggle="modal" data-bs-target="#modal" class="text-primary" style="cursor: pointer;" onClick="viewEdit('Procurement','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['procurement'] }}')">{{ $item_curve['procurement'] }} <i class="fas fa-pen"></i></span></td>
-                    <td><span data-bs-toggle="modal" data-bs-target="#modal" class="text-primary" style="cursor: pointer;" onClick="viewEdit('Construction','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['construction'] }}')">{{ $item_curve['construction'] }} <i class="fas fa-pen"></i></span></td>
-                    <td><span data-bs-toggle="modal" data-bs-target="#modal" class="text-primary" style="cursor: pointer;" onClick="viewEdit('Commissioning','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['commissioning'] }}')">{{ $item_curve['commissioning'] }} <i class="fas fa-pen"></i></span></td>    
-                  </tr>
-                  @endif
-                @endforeach
               </tbody>
             </table>
           </div>
@@ -272,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
           } 
 
     if(valid == true){
-      
+      console.log("masuk")
       $.ajax({
         url: "{{ route('s-curve-save') }}",
         type: "POST",
@@ -331,77 +287,50 @@ $.ajax({
 });
 }
 
-function viewEdit(param_category, param_tanggal, param_description, param_value){
-  $(".modal-content").html("");
-  $.ajax({
-    url: "{{ route('s-curve-edit-value') }}", // Ganti dengan route yang sesuai
-      type: "POST",
-      data:{
-        _token: "{{ csrf_token() }}",
-          category : param_category,
-          tanggal : param_tanggal,
-          description : param_description,
-          percent : param_value,
-      },
-      headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      success: function(response) {
-      
-        $(".modal-content").html("");
-        $(".modal-content").html(response);
-        
-      },
-      error: function(xhr) {
-          alert('An error occurred: ' + xhr.responseText);
-      }
-  });
+function viewEdit(param){
+  $("#description").val(param["description"])
+  $("#tanggal").val(param["tanggal"])
+  $("#percent").val(param["percent"])
+  $("#category").val(param["category"])
 }
-
-// function viewEdit(param){
-//   $("#description").val(param["description"])
-//   $("#tanggal").val(param["tanggal"])
-//   $("#percent").val(param["percent"])
-//   $("#category").val(param["category"])
-// }
-//  $(document).ready(function() {
-//   var table = $('.table').DataTable({
-//           processing: true,
-//           serverSide: true,
-//           stateSave: true,
-//           pageLength: 30,  // Ini mengatur default jumlah data per halaman
-//           lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ], 
-//           language : {
-//                 sLengthMenu: "Show _MENU_"
-//             },
+ $(document).ready(function() {
+  var table = $('.table').DataTable({
+          processing: true,
+          serverSide: true,
+          stateSave: true,
+          pageLength: 30,  // Ini mengatur default jumlah data per halaman
+          lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ], 
+          language : {
+                sLengthMenu: "Show _MENU_"
+            },
       
-//           ajax: {
-//             //mdr tidak ada kondisi
-//             url : "{{ route('get-s-curve') }}",
-//           },
-//           dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
-//           buttons: [
-//             { extend: 'excelHtml5', text: 'Export Excel', className: 'btn btn-success btn-sm' },
-//             { extend: 'pdfHtml5', text: 'Export PDF', className: 'btn btn-danger btn-sm' },
-//             { extend: 'print', text: 'Print', className: 'btn btn-primary btn-sm' }
-//           ],
-//           columns: [
-//               { data: 'description', name: 'description' },
-//               { data: 'category', name: 'category' },
-//               { data: 'tanggal', name: 'tanggal',render: function(data, type, row) {
-//                 if (!data) return ""; // Jika data kosong, return string kosong
-//                 const date = new Date(data);
-//                 const day = String(date.getDate()).padStart(2, '0');
-//                 const month = String(date.getMonth() + 1).padStart(2, '0'); // Januari = 0
-//                 const year = date.getFullYear();
-//                 return `${year}-${month}-${day}`;
-//             }  },
-//               { data: 'percent', name: 'percent' },
-//               { data: 'action', name: 'action', orderable: false, searchable: false } ,
-//              ],
+          ajax: {
+            //mdr tidak ada kondisi
+            url : "{{ route('get-s-curve') }}",
+          },
+          dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
+          buttons: [
+            { extend: 'excelHtml5', text: 'Export Excel', className: 'btn btn-success btn-sm' },
+            { extend: 'pdfHtml5', text: 'Export PDF', className: 'btn btn-danger btn-sm' },
+            { extend: 'print', text: 'Print', className: 'btn btn-primary btn-sm' }
+          ],
+          columns: [
+              { data: 'description', name: 'description' },
+              { data: 'category', name: 'category' },
+              { data: 'tanggal', name: 'tanggal',render: function(data, type, row) {
+                if (!data) return ""; // Jika data kosong, return string kosong
+                const date = new Date(data);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Januari = 0
+                const year = date.getFullYear();
+                return `${year}-${month}-${day}`;
+            }  },
+              { data: 'percent', name: 'percent' },
+              { data: 'action', name: 'action', orderable: false, searchable: false } ,
+             ],
             
-//       });
-//     });
+      });
+    });
     </script>
 
   

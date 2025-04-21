@@ -71,6 +71,11 @@ Size
 
 ssh-keygen -t rsa -b 4096 -C "baimprogramer@gmail.com" 
 
+1. Done - Default Tanggal Agar Scurve langsung muncul dari awal input sampai tanggal akhir input
+2. Done - Dahsboard kunci tanggal
+3. Filter Pencarian
+4. Done - Tambah desimal pada tabel S-curve
+5. Edit tambah modal
 
 CREATE TABLE `ncr` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
