@@ -121,7 +121,6 @@ class SCurveController extends Controller
                 "data_sub_category" => MasterCategory::where('category','s_curve')->get(),
                 "data_scurve" => $data_response_curve,
                 "data_week" => $data_week
-              
             ]);
         }catch (Throwable $e) {
             // Tangani error
@@ -227,15 +226,27 @@ class SCurveController extends Controller
         $tanggal = $request->input('tanggal');
         $percent = $request->input('percent');
        
-        $doc = SCurve::where('description', $description)
-        ->where('category', $category)
-        ->where('tanggal', $tanggal)
-        ->first();
+        // $doc = SCurve::where('description', $description)
+        // ->where('category', $category)
+        // ->where('tanggal', $tanggal)
+        // ->first();
 
-        if ($doc) {
-            $doc->percent = $percent;
-            $doc->save();
-        }
+        $doc = SCurve::updateOrCreate(
+            [
+                'tanggal' => $request->input('tanggal'),   // Kondisi untuk mencocokkan data
+                'category' => $request->input('category'),
+                'description' => $request->input('description')
+            ],
+            [
+                'percent' => $request->input('percent'),  // Data yang akan di-update atau di-insert
+                'author' => Auth::user()->name
+            ]
+        );   
+
+        // if ($doc) {
+        //     $doc->percent = $percent;
+        //     $doc->save();
+        // }
 
 
     return response()->json([
