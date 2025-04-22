@@ -44,14 +44,14 @@ class SCurveController extends Controller
             }
             
           
-                $data_tanggal = SCurve::distinct()->pluck('tanggal');
+                $data_tanggal = SCurve::distinct()->orderBy('tanggal', 'asc')->pluck('tanggal');
                 $data_scurve = SCurve::when($request->has('filter_category') , function($query) use ($request){
                     $query->where('description', $request->filter_category);
                 })
                 ->when($request->has('filter_tanggal') , function($query) use ($request){
                     $query->where('tanggal', $request->filter_tanggal);
                 })
-                ->get();
+                ->orderBy('tanggal','ASC')->get();
                 $data_response_curve = [];
 
                 foreach ($data_tanggal as $tanggal_curve) {
