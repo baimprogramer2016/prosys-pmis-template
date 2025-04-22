@@ -184,9 +184,9 @@ table.dataTable td {
               </thead>
               <tbody>
                 @foreach ($data_scurve as $index => $item_curve)
-                  @if($item_curve['engineering'] != '' && $item_curve['procurement'] != '' && $item_curve['construction'] != '' && $item_curve['commissioning'] != '' )
+                @if( $item_curve['engineering'] != '' || $item_curve['procurement'] != '' || $item_curve['construction'] != '' || $item_curve['commissioning'] != '' )
                   <tr>
-                    {{-- <td><strong>Week {{ $index }} </strong></td> --}}
+               
                     <td>Week {{ $item_curve['week'] }}</td>
                     <td>{{ $item_curve['description'] }}</td>
                     <td>{{ $item_curve['tanggal'] }}</td>
@@ -195,6 +195,8 @@ table.dataTable td {
                     <td><span data-bs-toggle="modal" data-bs-target="#modal" class="text-primary" style="cursor: pointer;" onClick="viewEdit('Construction','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['construction'] }}')">{{ $item_curve['construction'] }} <i class="fas fa-pen"></i></span></td>
                     <td><span data-bs-toggle="modal" data-bs-target="#modal" class="text-primary" style="cursor: pointer;" onClick="viewEdit('Commissioning','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['commissioning'] }}')">{{ $item_curve['commissioning'] }} <i class="fas fa-pen"></i></span></td>    
                   </tr>
+                
+                  
                   @endif
                 @endforeach
               </tbody>

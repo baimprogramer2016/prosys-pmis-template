@@ -115,6 +115,7 @@ class SCurveController extends Controller
                 });
             }    
 
+            // return $data_response_curve;
             return view('pages.s-curve.s-curve',[
                 "data_category" => MasterCategory::where('category','schedule_management')->get(),
                 "data_sub_category" => MasterCategory::where('category','s_curve')->get(),
