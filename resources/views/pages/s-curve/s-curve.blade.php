@@ -150,34 +150,30 @@ table.dataTable td {
             <!-- Dropdown -->
           
             <div class="form-group col-md-3">
-              <label for="optionSelect">Pilih Category</label>
-              <select class="form-control form-control-sm" id="filter_category" name="filter_category" >
-                <option>Pilih Category</option>
-                @foreach ($data_category as $item_category)
-                <option value="{{ $item_category->description }}"
-                    {{ request('filter_category') == $item_category->description ? 'selected' : '' }}>
-                    {{ $item_category->description }}
+              <label for="optionSelect">Pilih Week</label>
+              <select class="form-control form-control-sm" id="filter_week" name="filter_week" >
+                <option>Pilih Week</option>
+                @foreach ($data_week as $item_week)
+                <option value="{{ $item_week['week'] }}"
+                    {{ request('filter_week') == $item_week['week'] ? 'selected' : '' }}>
+                    Week {{ $item_week['week'] }}
                 </option>
                 @endforeach
-              </select>
-              
+              </select>              
             </div>
-            <div class="form-group col-md-3">
-              <label for="dateInput">Tanggal</label>
-              <input type="date" class="form-control form-control-sm" id="filter_tanggal" name="filter_tanggal" value="{{ request('filter_tanggal') !='' ? request('filter_tanggal') : '' }}"> 
-            </div>
+           
             <div class="form-group col-md-3">
             <button type="submit"  class="btn btn-sm btn-success ms-2 h-2">Filter</button>
             </div>
             
           </div>
         </form>
-
+        
           <div class="table-responsive">
             <table class="table table-bordered" id="myTable">
               <thead>
                 <tr>  
-                  {{-- <th  class="bg-th">Week</th> --}}
+                  <th  class="bg-th">Week</th>
                   <th  class="bg-th">Description</th>
                   <th  class="bg-th">Tanggal</th>
                   <th  class="bg-th">Engineering</th>
@@ -191,6 +187,7 @@ table.dataTable td {
                   @if($item_curve['engineering'] != '' && $item_curve['procurement'] != '' && $item_curve['construction'] != '' && $item_curve['commissioning'] != '' )
                   <tr>
                     {{-- <td><strong>Week {{ $index }} </strong></td> --}}
+                    <td>Week {{ $item_curve['week'] }}</td>
                     <td>{{ $item_curve['description'] }}</td>
                     <td>{{ $item_curve['tanggal'] }}</td>
                     <td><span data-bs-toggle="modal" data-bs-target="#modal" class="text-primary text-center" style="cursor: pointer;" onClick="viewEdit('Engineering','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['engineering'] }}')">{{ $item_curve['engineering'] }} <i class="fas fa-pen"></i></span></td>

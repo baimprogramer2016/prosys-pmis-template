@@ -19,6 +19,31 @@ class SCurveController extends Controller
     public function index(Request $request){
         try{
 
+
+            $minDate = DB::table('s_curve')->min('tanggal');
+            $maxDate = DB::table('s_curve')->max('tanggal');
+
+            $currentDate = Carbon::parse($minDate)->startOfWeek();
+            $endDate = Carbon::parse($maxDate);
+            $weeks = [];
+            $weekIndex = 0;
+            
+            // cari misal week 1 dari tanggal berapa sampai tanggal berapa
+            while ($currentDate <= $endDate) {
+                $startOfWeek = $currentDate->copy();
+                $endOfWeek = $currentDate->copy()->endOfWeek();
+            
+                $weeks[] = [
+                    'week_label' =>  $weekIndex,                    
+                    'start_date' => $startOfWeek->format('Y-m-d'),
+                    'end_date' => $endOfWeek->format('Y-m-d'),
+                ];
+            
+                $currentDate->addWeek();
+                $weekIndex++;
+            }
+            
+          
                 $data_tanggal = SCurve::distinct()->pluck('tanggal');
                 $data_scurve = SCurve::when($request->has('filter_category') , function($query) use ($request){
                     $query->where('description', $request->filter_category);
@@ -32,6 +57,7 @@ class SCurveController extends Controller
                 foreach ($data_tanggal as $tanggal_curve) {
                     foreach (['Actual', 'Planned'] as $desc) {
                         $item = [
+                            'week' => "",
                             'tanggal' => $tanggal_curve,
                             'description' => $desc,
                             'engineering' => null,
@@ -56,6 +82,13 @@ class SCurveController extends Controller
                                         $item['commissioning'] = $row->percent;
                                         break;
                                 }
+                                
+                            }
+                            
+                            foreach($weeks as $week){
+                                if($tanggal_curve >= $week['start_date'] && $tanggal_curve <= $week['end_date']){
+                                    $item['week'] = $week['week_label'];
+                                }
                             }
                         }
 
@@ -63,14 +96,31 @@ class SCurveController extends Controller
                     }
                 }
 
-                
-            
+                //pada data yang sudah di labal week,, ambil dan disitinct week nya
+                $weeks_colom = array_column($data_response_curve, 'week');
 
-            // return $data_response_curve;
+                // Hapus duplikat
+                $uniqueWeeks = array_unique($weeks_colom);
+
+                // Bentuk ulang jadi array asosiatif ['week' => x]
+                $data_week = array_map(function($week) {
+                    return ['week' => $week];
+                }, $uniqueWeeks);
+
+            
+            //buat filter week
+            if($request->has('filter_week')){
+                $data_response_curve = array_filter($data_response_curve, function($item) use ($request) {
+                    return $item['week'] == $request->filter_week;
+                });
+            }    
+
             return view('pages.s-curve.s-curve',[
                 "data_category" => MasterCategory::where('category','schedule_management')->get(),
                 "data_sub_category" => MasterCategory::where('category','s_curve')->get(),
-                "data_scurve" => $data_response_curve
+                "data_scurve" => $data_response_curve,
+                "data_week" => $data_week
+              
             ]);
         }catch (Throwable $e) {
             // Tangani error
