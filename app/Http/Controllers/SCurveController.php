@@ -101,7 +101,7 @@ class SCurveController extends Controller
 
                 // Hapus duplikat
                 $uniqueWeeks = array_unique($weeks_colom);
-
+                sort($uniqueWeeks);
                 // Bentuk ulang jadi array asosiatif ['week' => x]
                 $data_week = array_map(function($week) {
                     return ['week' => $week];
