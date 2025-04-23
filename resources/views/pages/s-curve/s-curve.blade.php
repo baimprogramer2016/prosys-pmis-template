@@ -235,6 +235,7 @@ table.dataTable td {
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
+  
   let saveButton = document.getElementById("save");
     if (saveButton) {
     saveButton.addEventListener('click', function () {
@@ -260,6 +261,13 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#tanggal").addClass("is-invalid");
             valid = false;
           } 
+          const inputDate = new Date(tanggal);
+          const minYear = 2023;
+          if (inputDate.getFullYear() < minYear) {
+            alert(`Cek Tanggal, apakah sudah benar`);
+            $("#tanggal").addClass("is-invalid");
+            valid = false;
+          }
           // Validasi End Date
           if (percent === "") {
             $("#percent").addClass("is-invalid");

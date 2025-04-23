@@ -224,7 +224,7 @@ function resetTable() {
       tr.appendChild(tdLabel);
 
       data.forEach(value => {
-        console.log(value)
+        // console.log(value)
         const td = document.createElement("td");
         td.innerText = value;
         tr.appendChild(td);
