@@ -110,7 +110,7 @@ table.dataTable {
               <thead>
                 <tr>
                   <th  class="bg-th">Action</th>
-                  <th  class="bg-th">Status</th>
+                  {{-- <th  class="bg-th">Status</th> --}}
                   <th  class="bg-th">Document Number</th>
                   <th  class="bg-th">Title</th>
                   <th  class="bg-th">Category</th>
@@ -293,7 +293,7 @@ $.ajax({
           ],
           columns: [
             { data: 'action', name: 'action', orderable: false, searchable: false } ,
-            { data: 'status', name: 'status' },
+            // { data: 'status', name: 'status' },
               { data: 'document_number', name: 'document_number' },
               { data: 'description', name: 'description' },
               { data: 'category_desc', name: 'category_desc' },

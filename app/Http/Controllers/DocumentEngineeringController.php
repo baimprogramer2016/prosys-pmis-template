@@ -19,17 +19,17 @@ use Yajra\DataTables\Facades\DataTables ;
 
 class DocumentEngineeringController extends Controller
 {
-    public function index(Request $request){
-        try{
-            return view('pages.document-engineer.document-engineer');
-        }catch (Throwable $e) {
-            // Tangani error
-            return response()->json([
-                'message' => 'Terjadi kesalahan saat menyimpan data.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }   
+    // public function index(Request $request){
+    //     try{
+    //         return view('pages.document-engineer.document-engineer');
+    //     }catch (Throwable $e) {
+    //         // Tangani error
+    //         return response()->json([
+    //             'message' => 'Terjadi kesalahan saat menyimpan data.',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }   
   
     public function getDocumentEngineer(Request $request,$field, $status)
     {
@@ -183,7 +183,7 @@ class DocumentEngineeringController extends Controller
         $discipline = $request->input('discipline');
         $category = $request->input('category');
         $status = $request->input('status');
-        $email = $request->input('email');
+        // $email = $request->input('email');
 
         $savedFiles = [];
         foreach ($uploadedFiles as $file) {
@@ -210,15 +210,15 @@ class DocumentEngineeringController extends Controller
             $doc->ext = $file_ext;
             $doc->size = $fileSize;
             $doc->uploader =Auth::User()->name;
-            if($status == 'new'){
-                $doc->email_check = $email;
-            }
-            if($status == 'check'){
-                $doc->email_review =$email;
-            }
-            if($status == 'review'){
-                $doc->email_approve = $email;
-            }
+            // if($status == 'new'){
+            //     $doc->email_check = $email;
+            // }
+            // if($status == 'check'){
+            //     $doc->email_review =$email;
+            // }
+            // if($status == 'review'){
+            //     $doc->email_approve = $email;
+            // }
             $doc->save();
 
             $savedFiles[] = $doc;

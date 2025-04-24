@@ -77,6 +77,18 @@ ssh-keygen -t rsa -b 4096 -C "baimprogramer@gmail.com"
 4. Done - Tambah desimal pada tabel S-curve
 5. Edit tambah modal
 
+
+24/04/2025
+document mangement engineering set final Done
+construction langusng set final Done
+progress dalam persen nilainya Done
+round 100 persen pada tabel s-curve done
+scuurve yang masih nol dikanan dihilangkan saja done
+foto saat di view ada description
+Dashboard tambahin foto2 dari menu mana? 
+
+
+
 CREATE TABLE `ncr` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`document_number` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',

@@ -81,50 +81,27 @@ table.dataTable {
     </div>
     <div class="row">
       <div class="col-sm-12 col-md-12">
-        <div class="row">
-        @foreach ($documents_group_status as $item_group_status)
-        <div class="col-sm-6 col-md-3">
-          <div class="card card-stats card-round">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-icon">
-                  <div
-                    class="icon-big text-center {{ $item_group_status->color}} bubble-shadow-small"
-                  >
-                  @if($item_group_status->status == 'new')
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  @endif
-                  @if($item_group_status->status == 'check')
-                  <i class="fas fa-user-check"></i>
-                  @endif
-                  @if($item_group_status->status == 'review')
-                  <i class="fas fa-user-clock"></i>
-                  @endif
-                  @if($item_group_status->status == 'approve')
-                  <i class="fas fa-check"></i>
-                  @endif
-                  @if($item_group_status->status == 'notapprove')
-                  <i class="fas fa-user-times"></i>
-                  @endif
-                  </div>
-                </div>
-                <div class="col col-stats ms-3 ms-sm-0">
-                  <div class="numbers">
-                    <p class="card-category">{{ $item_group_status->status}}</p>
-                    <h4 class="card-title">{{$item_group_status->total }}</h4>
-                  </div>
+        <div class="card card-stats card-round">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-icon">
+                <div
+                  class="icon-big text-center icon-primary bubble-shadow-small"
+                >
+                <i class="fas fa-pen-square"></i>
                 </div>
               </div>
+              <div class="col col-stats ms-3 ms-sm-0 d-flex">
+                <div class="numbers">
+                  <h4 class="card-title">Field Instruction</h4>
+                </div>
+                
+              </div>
+            
             </div>
           </div>
         </div>
-        @endforeach
-        
-     
-          
-         
-        </div>
-      </div>    
+      </div>   
       <div class="col-sm-12 col-md-12">
       <div class="card ">
                
@@ -134,7 +111,7 @@ table.dataTable {
               <thead>
                 <tr>
                   <th  class="bg-th">Action</th>
-                  <th  class="bg-th">Status</th>
+                  {{-- <th  class="bg-th">Status</th> --}}
                   <th  class="bg-th">Document Number</th>
                   <th  class="bg-th">Title</th>
                   <th  class="bg-th">Category</th>
@@ -318,7 +295,7 @@ $.ajax({
           ],
           columns: [
             { data: 'action', name: 'action', orderable: false, searchable: false } ,
-            { data: 'status', name: 'status' },
+            // { data: 'status', name: 'status' },
               { data: 'document_number', name: 'document_number' },
               { data: 'description', name: 'description' },
               { data: 'category_desc', name: 'category_desc' },

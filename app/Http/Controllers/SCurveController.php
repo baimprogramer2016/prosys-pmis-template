@@ -384,16 +384,22 @@ class SCurveController extends Controller
                $date = Carbon::parse($row->tanggal);
                if ($date >= Carbon::parse($week['start_date']) && $date <= Carbon::parse($week['end_date'])) {
                    if ($row->description === 'Planned') {
-                       $weekData['planned_total'] += $row->percent;
+                       $weekData['planned_total'] += ROUND($row->percent,2);
                    } elseif ($row->description === 'Actual') {
-                       $weekData['actual_total'] += $row->percent;
+                       $weekData['actual_total'] += ROUND($row->percent,2);
                    }
                }
            }
-       
+
+           if($weekData['planned_total'] > 100 && $weekData['planned_total'] < 100.10){
+            $weekData['planned_total'] = 100;
+           }
+           if($weekData['actual_total'] > 100 && $weekData['actual_total'] < 100.10){
+            $weekData['actual_total'] = 100;
+           }
            // Pastikan nilai persentase ditampilkan dengan dua desimal
-           $weekData['planned_total'] = round($weekData['planned_total'], 2) . '%';
-           $weekData['actual_total'] = round($weekData['actual_total'], 2) . '%';
+           $weekData['planned_total'] = $weekData['planned_total'] . '%';
+           $weekData['actual_total'] = $weekData['actual_total'] . '%';
        
            $result[] = $weekData;
            array_push($jsonWeek, $week['week_label']);
@@ -453,8 +459,16 @@ class SCurveController extends Controller
 
        $planned = [];
        $actual = [];
-       array_push($planned, ROUND($data_planned->total,2));
-       array_push($actual, ROUND($data_actual->total),2);
+
+    
+       if ($data_planned->total > 0) {
+            $actual_percent = $data_actual->total / $data_planned->total * 100;
+        } else {
+            $actual_percent = 0; // atau null, atau ‘-’, tergantung kebutuhan
+        }
+    
+       array_push($planned, 100);
+       array_push($actual, ROUND($actual_percent),2);
 
     
       $final = [

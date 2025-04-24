@@ -107,7 +107,7 @@
                   @endforeach --}}
               </select>
             </div>
-            <div class="col-md-4 mb-3">
+            {{-- <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Status</label>
               <select class="form-select" id="status" name="status">
                   <option value="">---Pilih---</option>
@@ -121,7 +121,7 @@
               <select class="form-select"  id="email" name="email">
                  
               </select>
-            </div>
+            </div> --}}
             <div class="col-md-12 mb-3">
               @can('add_construction')
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
@@ -194,8 +194,8 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let tanggal = $("#tanggal").val()
         let discipline = $("#discipline").val()
         let category = $("#category").val()
-        let status = $("#status").val()
-        let email = $("#email").val()
+        let status = 'approve'//$("#status").val()
+        // let email = $("#email").val()
   
         // Validasi Activity
         if (document_number === "") {
@@ -234,10 +234,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         //   valid = false;
         // } 
   
-        if (status === "") {
-          $("#status").addClass("is-invalid");
-          valid = false;
-        } 
+        // if (status === "") {
+        //   $("#status").addClass("is-invalid");
+        //   valid = false;
+        // } 
 
 
   if (uploadedFiles.length === 0) {
@@ -260,7 +260,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         discipline : discipline,
         category : category,
         status:status,
-        email:email  
+        // email:email  
       },
       success: function (response,color) {
         if (response.status == 'ok'){
@@ -277,7 +277,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
                   },
                 },
               });
-        sendEmail(email,status,description)    
+        // sendEmail(email,status,description)    
         
         location.reload();
       },
@@ -305,40 +305,40 @@ function sendEmail(email,status, description){
     });
   }
 
-  document.getElementById('status').addEventListener('change', function () {
-  $("#email").prop("disabled", true);
-  if($("#status").val() == 'approve' || $("#status").val() == 'notapprove'){
-    $("#email").prop("disabled", true);
-    $("#email").html("")
-  }else{
-    $("#email").prop("disabled", false);
-    $.ajax({
-      url: "{{ route('assign') }}",
-      type: "POST",
-      data: {
-         status : $("#status").val(),
-        _token: "{{ csrf_token() }}",
-      },
-      success: function (response) {
+//   document.getElementById('status').addEventListener('change', function () {
+//   $("#email").prop("disabled", true);
+//   if($("#status").val() == 'approve' || $("#status").val() == 'notapprove'){
+//     $("#email").prop("disabled", true);
+//     $("#email").html("")
+//   }else{
+//     $("#email").prop("disabled", false);
+//     $.ajax({
+//       url: "{{ route('assign') }}",
+//       type: "POST",
+//       data: {
+//          status : $("#status").val(),
+//         _token: "{{ csrf_token() }}",
+//       },
+//       success: function (response) {
       
-        let options ='';
-        if(response.length > 0){
+//         let options ='';
+//         if(response.length > 0){
         
-          response.forEach((item) =>{
-            options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
-          })
-        }
+//           response.forEach((item) =>{
+//             options += `<option value="${item.email}">${item.name} Email : ${item.email}</option>`; 
+//           })
+//         }
 
      
-        $("#email").html(options);
+//         $("#email").html(options);
       
-      },
-      error: function (xhr) {
-        alert('An error occurred: ' + xhr.responseText);
-      }
-    });
-  }
+//       },
+//       error: function (xhr) {
+//         alert('An error occurred: ' + xhr.responseText);
+//       }
+//     });
+//   }
 
-})
+// })
 </script>
 @endpush

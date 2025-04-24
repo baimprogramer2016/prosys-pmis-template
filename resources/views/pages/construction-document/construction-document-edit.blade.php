@@ -108,7 +108,7 @@
                   @endforeach --}}
               </select>
             </div>
-            <div class="col-md-4 mb-3">
+            {{-- <div class="col-md-4 mb-3">
               <label for="start_date" class="form-label strong">Status</label>
               <select class="form-select" id="status" name="status">
                 <option value="{{ $document->status }}">{{ optional($document->r_status)->description }} </option>
@@ -117,7 +117,7 @@
                   <option value="{{ $item_status->code }}">{{ $item_status->description }} </option>
                   @endforeach
               </select>
-            </div>
+            </div> --}}
             <div class="col-md-12 mb-3">
               <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
             </div>
@@ -188,7 +188,7 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         let tanggal = $("#tanggal").val()
         let discipline = $("#discipline").val()
         let category = $("#category").val()
-        let status = $("#status").val()
+        let status = 'approve'//$("#status").val()
         let id_edit = $("#id_edit").val()
   
         // Validasi Activity
@@ -226,10 +226,10 @@ document.getElementById('saveUploads').addEventListener('click', function () {
         //   valid = false;
         // } 
   
-        if (status === "") {
-          $("#status").addClass("is-invalid");
-          valid = false;
-        } 
+        // if (status === "") {
+        //   $("#status").addClass("is-invalid");
+        //   valid = false;
+        // } 
 
   if(valid == true){
     $.ajax({
