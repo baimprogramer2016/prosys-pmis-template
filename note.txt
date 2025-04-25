@@ -84,6 +84,7 @@ construction langusng set final Done
 progress dalam persen nilainya Done
 round 100 persen pada tabel s-curve done
 scuurve yang masih nol dikanan dihilangkan saja done
+hilang kan approve, review, Check done
 foto saat di view ada description
 Dashboard tambahin foto2 dari menu mana? 
 

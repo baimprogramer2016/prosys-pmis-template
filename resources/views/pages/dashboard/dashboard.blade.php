@@ -477,6 +477,27 @@ $("#filterBtnDrawings").click(function() {
     function curveChart(param){
       var multipleLineChart;
       
+      
+    
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Menambahkan angka 1 karena getMonth() dimulai dari 0
+    const day = String(today.getDate()).padStart(2, '0'); // Menambahkan angka 0 di depan jika hanya satu digit
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const tanggalDibawahHariIni = param.tanggal.filter(date => date <= formattedDate);
+    const actualDibawahHariIni = param.actual.slice(0, tanggalDibawahHariIni.length)    
+    // Cari index terakhir yang bukan 0
+    let lastNonZeroIndex = actualDibawahHariIni.length - 1;
+    while (actualDibawahHariIni[lastNonZeroIndex] === "0") {
+      lastNonZeroIndex--;
+    }
+
+    // Potong array sampai index tersebut
+    const udahgknoldikanan = actualDibawahHariIni.slice(0, lastNonZeroIndex + 1);
+
+    
   
       multipleLineChart = document
       .getElementById('sCurveChart')
@@ -485,7 +506,7 @@ $("#filterBtnDrawings").click(function() {
       multipleLineChart = new Chart(multipleLineChart, {
       type: "line",
       data: {
-        labels: param.weeks,
+        labels: param.weeks.slice(0, udahgknoldikanan.length),
         datasets: [
           {
             label: "Planned",
@@ -499,7 +520,7 @@ $("#filterBtnDrawings").click(function() {
             backgroundColor: "transparent",
             fill: true,
             borderWidth: 4,
-            data: param.planned
+            data: param.planned.slice(0, udahgknoldikanan.length),
           },
           {
             label: "Actual",
@@ -513,7 +534,7 @@ $("#filterBtnDrawings").click(function() {
             backgroundColor: "transparent",
             fill: true,
             borderWidth: 4,
-            data: param.actual
+            data: param.actual.slice(0, udahgknoldikanan.length),
           }
         ]
       },
