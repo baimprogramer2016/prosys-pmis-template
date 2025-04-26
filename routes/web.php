@@ -36,6 +36,7 @@ use App\Http\Controllers\ReportWeeklyController;
 use App\Http\Controllers\RfiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleManagementController;
+use App\Http\Controllers\CustomQualityManagementController;
 use App\Http\Controllers\SCurveController;
 use App\Http\Controllers\SopController;
 use App\Http\Controllers\UserController;
@@ -535,4 +536,18 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/custom-document-management-deleted/{id}', [CustomDocumentManagementController::class, 'deleted'])->name('custom-document-management-deleted');
     Route::get('/custom-document-management-history/{id}', [CustomDocumentManagementController::class, 'history'])->name('custom-document-management-history');
 
+
+    
+    Route::get('/custom-quality-management', [CustomQualityManagementController::class, 'index'])->name('custom-quality-management');
+    Route::get('/get-custom-quality-management', [CustomQualityManagementController::class, 'getCustomQualityManagement'])->name('get-custom-quality-management');   
+    Route::get('/custom-quality-management-tambah', [CustomQualityManagementController::class, 'viewTambah'])->name('custom-quality-management-tambah');
+    Route::post('/custom-quality-management-upload-temp', [CustomQualityManagementController::class, 'uploadTemp'])->name('custom-quality-management-upload-temp');
+    Route::post('/custom-quality-management-save-uploads', [CustomQualityManagementController::class, 'saveUploads'])->name('custom-quality-management-save-uploads');
+    Route::get('/custom-quality-management-edit/{id}', [CustomQualityManagementController::class, 'viewEdit'])->name('custom-quality-management-edit');
+    Route::post('/custom-quality-management-update-uploads/{id}', [CustomQualityManagementController::class, 'updateUploads'])->name('custom-quality-management-update-uploads');
+    Route::get('/custom-quality-management-pdf/{id}', [CustomQualityManagementController::class, 'pdf'])->name('custom-quality-management-pdf');
+    Route::get('/custom-quality-management-share/{id}', [CustomQualityManagementController::class, 'share'])->name('custom-quality-management-share');
+    Route::get('/custom-quality-management-delete/{id}', [CustomQualityManagementController::class, 'viewDelete'])->name('custom-quality-management-delete');
+    Route::post('/custom-quality-management-deleted/{id}', [CustomQualityManagementController::class, 'deleted'])->name('custom-quality-management-deleted');
+    Route::get('/custom-quality-management-history/{id}', [CustomQualityManagementController::class, 'history'])->name('custom-quality-management-history');
 });

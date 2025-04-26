@@ -444,6 +444,7 @@
                   </a>
                 </li>
                 @endcan
+                <x-custom-quality-management />
               </ul>
             </div>
             
