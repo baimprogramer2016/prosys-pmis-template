@@ -1,4 +1,4 @@
-@can('view_custom_report')
+@can('view_custom_quality_management')
 @foreach ($sidebar_quality_management as $item_sidebar)
     {{-- <li class="nav-item">
         <a data-bs-toggle="collapse" href="#{{ $item_sidebar->id }}">
