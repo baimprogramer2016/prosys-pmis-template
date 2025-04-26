@@ -10,4 +10,6 @@ class MasterCategory extends Model
     use HasFactory;
 
     protected $table = 'master_category';
+
+    public  $timestamps = false;
 }

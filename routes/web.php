@@ -152,6 +152,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/s-curve-deleted/{id}', [SCurveController::class, 'deleted'])->name('s-curve-deleted');
     Route::post('/s-curve-edit-value', [SCurveController::class, 'viewEdit'])->name('s-curve-edit-value');
     Route::post('/s-curve-edit-update', [SCurveController::class, 'update'])->name('s-curve-edit-update');
+
+    Route::post('/s-curve-weight', [SCurveController::class, 'viewWeight'])->name('s-curve-weight');
+    Route::post('/s-curve-weight-update', [SCurveController::class, 'weightUpdate'])->name('s-curve-weight-update');
   
     Route::get('/s-curve-chart', [SCurveController::class, 'sCurveChart'])->name('s-curve-chart');
     Route::get('/s-curve-chart-data', [SCurveController::class, 'dataScurve'])->name('s-curve-chart-data');

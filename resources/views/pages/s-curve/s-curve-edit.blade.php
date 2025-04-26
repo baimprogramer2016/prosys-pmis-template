@@ -31,7 +31,7 @@
 
   // Update data
   $("#updateData").on("click", function() {
-    console.log($("#percent").val() +"HELO")
+    
 
       let description_edit = $("#description_edit").val();
       let tanggal_edit = $("#tanggal_edit").val();

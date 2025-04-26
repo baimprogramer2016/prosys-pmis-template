@@ -254,6 +254,38 @@ class SCurveController extends Controller
     ]);
     }
 
+    public function viewWeight(){
+        try{
+           
+          return view('pages.s-curve.s-curve-weight',[
+            "data_weight"  => MasterCategory::where('category','s_curve')->get()
+          ]);
+           
+        }catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    } 
+    
+    public function weightUpdate(Request $request)
+    {
+        $inputs = $request->except('_token');
+
+        foreach ($inputs as $key => $value) {
+            $doc = MasterCategory::where('category', 's_curve')
+                ->where('description', ucfirst($key))->first(); // 'engineering' → 'Engineering'
+             $doc->weight = $value;   
+             $doc->save();
+        }
+
+        return response()->json([
+                'status' =>'ok',
+        ]);
+    }
+
     
     public function viewDelete(Request $request, $id){
       
@@ -391,6 +423,7 @@ class SCurveController extends Controller
                }
            }
 
+           //paksa 100
            if($weekData['planned_total'] > 100 && $weekData['planned_total'] < 100.10){
             $weekData['planned_total'] = 100;
            }

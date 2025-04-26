@@ -79,11 +79,15 @@ table.dataTable td {
         <h6 class="op-7 mb-2">Schedule Management / Input S-Curve</h6>
        
         </div> 
-     
+       
+        <div class="ms-md-auto py-2 py-md-0">
+          <span onclick="viewWeight()" class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modal" class="text-primary text-center" style="cursor: pointer;" >Weight</span>
+        </div>
     </div>
     <div class="row">
       @can('add_input_s_curve')
       <div class="col-sm-12 col-md-12">
+    
         <div class="row">
           <div class="col-sm-12 col-md-12">
             <div class="card card-stats card-round">
@@ -349,6 +353,33 @@ function viewEdit(param_category, param_tanggal, param_description, param_value)
           tanggal : param_tanggal,
           description : param_description,
           percent : param_value,
+      },
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function(response) {
+      
+        $(".modal-content").html("");
+        $(".modal-content").html(response);
+        
+      },
+      error: function(xhr) {
+          alert('An error occurred: ' + xhr.responseText);
+      }
+  });
+}
+
+function viewWeight(){
+  $(".modal-content").html("");
+  $.ajax({
+    url: "{{ route('s-curve-weight') }}", // Ganti dengan route yang sesuai
+      type: "POST",
+      data:{
+        _token: "{{ csrf_token() }}",
+          engineering : $("#engineering_input").val(),
+          procurement : $("#procurement_input").val(),
+          construction : $("#construction_input").val(),
+          commissioning : $("#commissioning_input").val(),
       },
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
