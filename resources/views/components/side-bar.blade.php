@@ -426,7 +426,7 @@
               <p>Quality Management</p>
               <span class="caret"></span>
             </a>
-            <div class="collapse  {{ Request::is('ncr*') || Request::is('issue*')  ? 'show' : '' }}"" id="quality_management">
+            <div class="collapse  {{ Request::is('custom-quality-management*') || Request::is('ncr*') || Request::is('issue*')  ? 'show' : '' }}"" id="quality_management">
               <ul class="nav nav-collapse">
                 @can('view_ncr')
                 <li class="nav-item-custom {{ Request::is('ncr*') ? 'active' : '' }}">
