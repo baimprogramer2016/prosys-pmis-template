@@ -10,8 +10,9 @@ class Task extends Model
     use HasFactory;
 
     protected $appends = ["open"];
- 
-    public function getOpenAttribute(){
+
+    public function getOpenAttribute()
+    {
         return true;
     }
     protected $table = 'Tasks';
