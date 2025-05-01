@@ -197,6 +197,8 @@
 @push('bottom')
     <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
     <script>
         function resetChartContainer(container, id_canvas) {
             const chartContainer = document.getElementById(container);
@@ -507,6 +509,7 @@
 
             multipleLineChart = new Chart(multipleLineChart, {
                 type: "line",
+
                 data: {
                     labels: param.weeks,
                     datasets: [{
@@ -517,11 +520,12 @@
                             pointBorderWidth: 2,
                             pointHoverRadius: 6,
                             pointHoverBorderWidth: 1,
-                            pointRadius: 4,
+                            pointRadius: 0,
                             backgroundColor: "transparent",
                             fill: true,
                             borderWidth: 4,
                             data: param.planned,
+
                         },
                         {
                             label: "Actual",
@@ -531,7 +535,7 @@
                             pointBorderWidth: 2,
                             pointHoverRadius: 6,
                             pointHoverBorderWidth: 1,
-                            pointRadius: 4,
+                            pointRadius: 0,
                             backgroundColor: "transparent",
                             fill: true,
                             borderWidth: 4,
@@ -542,6 +546,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+
                     legend: {
                         position: "top",
                         labels: {
