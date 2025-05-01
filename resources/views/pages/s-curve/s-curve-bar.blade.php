@@ -159,7 +159,7 @@
                 },
                 method: "GET",
                 success: function(response) {
-
+                    // console.log(response)
                     if (response.status == 'ok') {
                         curveChart(response)
 

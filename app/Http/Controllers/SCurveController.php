@@ -498,13 +498,14 @@ class SCurveController extends Controller
                 $query->where('tanggal', '<=', $end_date);
             })
             ->where('description', 'Actual')
+            ->where('percent', '!=', 0)
             ->groupBy('tanggal')
             ->orderBy('tanggal', 'desc')
             ->first();
         $planned = [];
         $actual = [];
 
-        // return $data_actual->total;
+
 
         // if ($data_planned->total > 0) {
         //     $actual_percent = $data_actual->total / $data_planned->total * 100;
