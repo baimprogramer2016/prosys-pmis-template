@@ -520,14 +520,14 @@
                           </a>
                       </li>
                   @endif
-                  @if (Auth::user()->hasAnyRole(['superadmin']))
+                  @can('view_custom')
                       <li class="nav-item nav-item-custom {{ Request::is('master-*') ? 'active' : '' }}">
                           <a href="{{ route('master-custom') }}">
                               <i class="fab fa-whmcs"></i>
                               <p>Custom</p>
                           </a>
                       </li>
-                  @endif
+                  @endcan
 
 
               </ul>
