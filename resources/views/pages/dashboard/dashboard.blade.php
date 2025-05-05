@@ -92,6 +92,9 @@
                     </div>
                 </div>
             </div>
+            {{-- photograpich --}}
+            <x-new-dashboard-image />
+            {{-- end photograpich --}}
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">

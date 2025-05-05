@@ -23,15 +23,15 @@ class CustomReport extends Component
      */
     public function render(): View|Closure|string
     {
-        $sidebar_report = MasterCustom::where("template",'report')->where('type','parent')->get();
+        $sidebar_report = MasterCustom::where("template", 'report')->where('type', 'parent')->get();
 
-        foreach($sidebar_report as $item_parent){
-        
-            foreach($item_parent->r_child as $item_child){
-                $item_child->jml_doc = (new DynamicCustom())->setTableName('custom_'.$item_child->tab)->count();
+        foreach ($sidebar_report as $item_parent) {
+
+            foreach ($item_parent->r_child as $item_child) {
+                $item_child->jml_doc = (new DynamicCustom())->setTableName('custom_' . $item_child->tab)->count();
             }
         }
-        return view('components.custom-report',[
+        return view('components.custom-report', [
             "sidebar_report" => $sidebar_report
         ]);
     }
