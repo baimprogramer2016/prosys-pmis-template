@@ -12,6 +12,7 @@ use App\Http\Controllers\CustomInvoiceRecordController;
 
 use App\Http\Controllers\CustomPersonnelHrController;
 use App\Http\Controllers\CustomPhotographicController;
+use App\Http\Controllers\CustomPilingController;
 use App\Http\Controllers\CustomProcurementLogisticController;
 use App\Http\Controllers\CustomReportController;
 use Illuminate\Support\Facades\Route;
@@ -59,16 +60,16 @@ use App\Mail\SendEmail;
 // Route::get("/insert", [LoginController::class,'insertAdmin']);
 
 
-Route::get('/', [LoginController::class,'index']);
-Route::get('/login', [LoginController::class,'index']);
+Route::get('/', [LoginController::class, 'index']);
+Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'prosesLogin'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/change-password', [LoginController::class, 'changePassword'])->name('change-password');
     Route::post('/update-password', [LoginController::class, 'updatePassword'])->name('update-password');
-    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
-    Route::get('/slide', [DashboardController::class,'slide'])->name('slide');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/slide', [DashboardController::class, 'slide'])->name('slide');
 
 
     Route::get('/master-schedule', [ScheduleController::class, 'index'])->name('master-schedule');
@@ -80,7 +81,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::POST('/master-schedule-destroy/{id}', [ScheduleController::class, 'destroy'])->name('master-schedule-destroy');
     Route::get('/get-schedule', [ScheduleController::class, 'getSchedule'])->name('get-schedule');
 
-    Route::get('/gantt-chart', [GanttController::class,'view'])->name('gantt-chart');
+    Route::get('/gantt-chart', [GanttController::class, 'view'])->name('gantt-chart');
 
     Route::get('/surat', [SuratController::class, 'index'])->name('surat');
     Route::get('/get-surat', [SuratController::class, 'getSurat'])->name('get-surat');
@@ -97,9 +98,9 @@ Route::middleware(['web', 'auth'])->group(function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
 
-    Route::get("/file-manager", [FileManagerController::class,'index'])->name('file-manager');
+    Route::get("/file-manager", [FileManagerController::class, 'index'])->name('file-manager');
 
-    Route::get("/document", [DocumentController::class,'index'])->name('document');
+    Route::get("/document", [DocumentController::class, 'index'])->name('document');
 
 
     Route::get('/document-engineer', [DocumentEngineeringController::class, 'index'])->name('document-engineer');
@@ -115,11 +116,11 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/document-engineer-pdf/{id}', [DocumentEngineeringController::class, 'pdf'])->name('document-engineer-pdf');
     Route::get('/document-engineer-delete/{id}', [DocumentEngineeringController::class, 'viewDelete'])->name('document-engineer-delete');
     Route::post('/document-engineer-deleted/{id}', [DocumentEngineeringController::class, 'deleted'])->name('document-engineer-deleted');
-  
+
     Route::get('/document-engineer-check', [DocumentEngineeringController::class, 'check'])->name('document-engineer-check');
     Route::get('/document-engineer-check-modal/{id}', [DocumentEngineeringController::class, 'viewCheckModal'])->name('document-engineer-check-modal');
     Route::post('/document-engineer-check-update/{id}', [DocumentEngineeringController::class, 'updateCheck'])->name('document-engineer-check-update');
- 
+
     Route::get('/document-engineer-review', [DocumentEngineeringController::class, 'review'])->name('document-engineer-review');
     Route::get('/document-engineer-review-modal/{id}', [DocumentEngineeringController::class, 'viewReviewModal'])->name('document-engineer-review-modal');
     Route::post('/document-engineer-review-update/{id}', [DocumentEngineeringController::class, 'updateReview'])->name('document-engineer-review-update');
@@ -128,24 +129,24 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/document-engineer-approve-modal/{id}', [DocumentEngineeringController::class, 'viewApproveModal'])->name('document-engineer-approve-modal');
     Route::post('/document-engineer-approve-update/{id}', [DocumentEngineeringController::class, 'updateApprove'])->name('document-engineer-approve-update');
 
-    
+
     Route::get('/document-engineer-basic-design', [DocumentEngineeringController::class, 'basicDesign'])->name('document-engineer-basic-design');
     Route::get('/document-engineer-detail-engineering-design', [DocumentEngineeringController::class, 'ded'])->name('document-engineer-detail-engineering-design');
     Route::get('/document-engineer-master-deliverables-register', [DocumentEngineeringController::class, 'mdr'])->name('document-engineer-master-deliverables-register');
-    
+
     Route::get('/schedule-management', [ScheduleManagementController::class, 'index'])->name('schedule-management');
     Route::get('/get-schedule-management', [ScheduleManagementController::class, 'getScheduleManagement'])->name('get-schedule-management');
     Route::get('/schedule-management-tambah', [ScheduleManagementController::class, 'tambah'])->name('schedule-management-tambah');
     Route::post('/schedule-management-upload-temp', [ScheduleManagementController::class, 'uploadTemp'])->name('schedule-management-upload-temp');
     Route::post('/schedule-management-save-uploads', [ScheduleManagementController::class, 'saveUploads'])->name('schedule-management-save-uploads');
-   
+
     Route::get('/schedule-management-edit/{id}', [ScheduleManagementController::class, 'viewEdit'])->name('schedule-management-edit');
     Route::post('/schedule-management-update/{id}', [ScheduleManagementController::class, 'update'])->name('schedule-management-update');
     Route::get('/schedule-management-share/{id}', [ScheduleManagementController::class, 'share'])->name('schedule-management-share');
     Route::get('/schedule-management-pdf/{id}', [ScheduleManagementController::class, 'pdf'])->name('schedule-management-pdf');
     Route::get('/schedule-management-delete/{id}', [ScheduleManagementController::class, 'viewDelete'])->name('schedule-management-delete');
     Route::post('/schedule-management-deleted/{id}', [ScheduleManagementController::class, 'deleted'])->name('schedule-management-deleted');
-  
+
     Route::get('/s-curve', [SCurveController::class, 'index'])->name('s-curve');
     Route::get('/get-s-curve', [SCurveController::class, 'getSCurve'])->name('get-s-curve');
     Route::post('/s-curve-save', [SCurveController::class, 'save'])->name('s-curve-save');
@@ -156,20 +157,20 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::post('/s-curve-weight', [SCurveController::class, 'viewWeight'])->name('s-curve-weight');
     Route::post('/s-curve-weight-update', [SCurveController::class, 'weightUpdate'])->name('s-curve-weight-update');
-  
+
     Route::get('/s-curve-chart', [SCurveController::class, 'sCurveChart'])->name('s-curve-chart');
     Route::get('/s-curve-chart-data', [SCurveController::class, 'dataScurve'])->name('s-curve-chart-data');
     Route::get('/s-curve-bar', [SCurveController::class, 'sCurveBar'])->name('s-curve-bar');
     Route::get('/s-curve-bar-data', [SCurveController::class, 'dataScurveBar'])->name('s-curve-bar-data');
 
-    Route::get("/users", [UserController::class,'index'])->name('users');
-    
+    Route::get("/users", [UserController::class, 'index'])->name('users');
+
     Route::get('/report-daily', [ReportDailyController::class, 'index'])->name('report-daily');
     Route::get('/get-report-daily', [ReportDailyController::class, 'getReport'])->name('get-report-daily');
     Route::get('/report-daily-tambah', [ReportDailyController::class, 'tambah'])->name('report-daily-tambah');
     Route::post('/report-daily-upload-temp', [ReportDailyController::class, 'uploadTemp'])->name('report-daily-upload-temp');
     Route::post('/report-daily-save-uploads', [ReportDailyController::class, 'saveUploads'])->name('report-daily-save-uploads');
-   
+
     Route::get('/report-daily-edit/{id}', [ReportDailyController::class, 'viewEdit'])->name('report-daily-edit');
     Route::post('/report-daily-update/{id}', [ReportDailyController::class, 'update'])->name('report-daily-update');
     Route::get('/report-daily-share/{id}', [ReportDailyController::class, 'share'])->name('report-daily-share');
@@ -177,13 +178,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/report-daily-delete/{id}', [ReportDailyController::class, 'viewDelete'])->name('report-daily-delete');
     Route::post('/report-daily-deleted/{id}', [ReportDailyController::class, 'deleted'])->name('report-daily-deleted');
     Route::get('/report-daily-history/{id}', [ReportDailyController::class, 'history'])->name('report-daily-history');
-  
+
     Route::get('/report-weekly', [ReportWeeklyController::class, 'index'])->name('report-weekly');
     Route::get('/get-report-weekly', [ReportWeeklyController::class, 'getReport'])->name('get-report-weekly');
     Route::get('/report-weekly-tambah', [ReportWeeklyController::class, 'tambah'])->name('report-weekly-tambah');
     Route::post('/report-weekly-upload-temp', [ReportWeeklyController::class, 'uploadTemp'])->name('report-weekly-upload-temp');
     Route::post('/report-weekly-save-uploads', [ReportWeeklyController::class, 'saveUploads'])->name('report-weekly-save-uploads');
-   
+
     Route::get('/report-weekly-edit/{id}', [ReportWeeklyController::class, 'viewEdit'])->name('report-weekly-edit');
     Route::post('/report-weekly-update/{id}', [ReportWeeklyController::class, 'update'])->name('report-weekly-update');
     Route::get('/report-weekly-share/{id}', [ReportWeeklyController::class, 'share'])->name('report-weekly-share');
@@ -191,13 +192,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/report-weekly-delete/{id}', [ReportWeeklyController::class, 'viewDelete'])->name('report-weekly-delete');
     Route::post('/report-weekly-deleted/{id}', [ReportWeeklyController::class, 'deleted'])->name('report-weekly-deleted');
     Route::get('/report-weekly-history/{id}', [ReportWeeklyController::class, 'history'])->name('report-weekly-history');
-  
+
     Route::get('/report-monthly', [ReportMonthlyController::class, 'index'])->name('report-monthly');
     Route::get('/get-report-monthly', [ReportMonthlyController::class, 'getReport'])->name('get-report-monthly');
     Route::get('/report-monthly-tambah', [ReportMonthlyController::class, 'tambah'])->name('report-monthly-tambah');
     Route::post('/report-monthly-upload-temp', [ReportMonthlyController::class, 'uploadTemp'])->name('report-monthly-upload-temp');
     Route::post('/report-monthly-save-uploads', [ReportMonthlyController::class, 'saveUploads'])->name('report-monthly-save-uploads');
-   
+
     Route::get('/report-monthly-edit/{id}', [ReportMonthlyController::class, 'viewEdit'])->name('report-monthly-edit');
     Route::post('/report-monthly-update/{id}', [ReportMonthlyController::class, 'update'])->name('report-monthly-update');
     Route::get('/report-monthly-share/{id}', [ReportMonthlyController::class, 'share'])->name('report-monthly-share');
@@ -211,20 +212,20 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/mom-tambah', [MomController::class, 'tambah'])->name('mom-tambah');
     Route::post('/mom-upload-temp', [MomController::class, 'uploadTemp'])->name('mom-upload-temp');
     Route::post('/mom-save-uploads', [MomController::class, 'saveUploads'])->name('mom-save-uploads');
-   
+
     Route::get('/mom-edit/{id}', [MomController::class, 'viewEdit'])->name('mom-edit');
     Route::post('/mom-update/{id}', [MomController::class, 'update'])->name('mom-update');
     Route::get('/mom-share/{id}', [MomController::class, 'share'])->name('mom-share');
     Route::get('/mom-pdf/{id}', [MomController::class, 'pdf'])->name('mom-pdf');
     Route::get('/mom-delete/{id}', [MomController::class, 'viewDelete'])->name('mom-delete');
     Route::post('/mom-deleted/{id}', [MomController::class, 'deleted'])->name('mom-deleted');
-  
+
     Route::get('/sop', [SopController::class, 'index'])->name('sop');
     Route::get('/get-sop', [SopController::class, 'getReport'])->name('get-sop');
     Route::get('/sop-tambah', [SopController::class, 'tambah'])->name('sop-tambah');
     Route::post('/sop-upload-temp', [SopController::class, 'uploadTemp'])->name('sop-upload-temp');
     Route::post('/sop-save-uploads', [SopController::class, 'saveUploads'])->name('sop-save-uploads');
-   
+
     Route::get('/sop-edit/{id}', [SopController::class, 'viewEdit'])->name('sop-edit');
     Route::post('/sop-update/{id}', [SopController::class, 'update'])->name('sop-update');
     Route::get('/sop-share/{id}', [SopController::class, 'share'])->name('sop-share');
@@ -232,13 +233,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/sop-delete/{id}', [SopController::class, 'viewDelete'])->name('sop-delete');
     Route::post('/sop-deleted/{id}', [SopController::class, 'deleted'])->name('sop-deleted');
     Route::get('/sop-history/{id}', [SopController::class, 'history'])->name('sop-history');
-    
+
     Route::get('/surat-masuk', [CorSuratMasukController::class, 'index'])->name('surat-masuk');
     Route::get('/get-surat-masuk', [CorSuratMasukController::class, 'getSuratMasuk'])->name('get-surat-masuk');
     Route::get('/surat-masuk-tambah', [CorSuratMasukController::class, 'tambah'])->name('surat-masuk-tambah');
     Route::post('/surat-masuk-upload-temp', [CorSuratMasukController::class, 'uploadTemp'])->name('surat-masuk-upload-temp');
     Route::post('/surat-masuk-save-uploads', [CorSuratMasukController::class, 'saveUploads'])->name('surat-masuk-save-uploads');
-   
+
     Route::get('/surat-masuk-edit/{id}', [CorSuratMasukController::class, 'viewEdit'])->name('surat-masuk-edit');
     Route::post('/surat-masuk-update/{id}', [CorSuratMasukController::class, 'update'])->name('surat-masuk-update');
     Route::get('/surat-masuk-share/{id}', [CorSuratMasukController::class, 'share'])->name('surat-masuk-share');
@@ -254,7 +255,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/surat-keluar-tambah', [CorSuratKeluarController::class, 'tambah'])->name('surat-keluar-tambah');
     Route::post('/surat-keluar-upload-temp', [CorSuratKeluarController::class, 'uploadTemp'])->name('surat-keluar-upload-temp');
     Route::post('/surat-keluar-save-uploads', [CorSuratKeluarController::class, 'saveUploads'])->name('surat-keluar-save-uploads');
-   
+
     Route::get('/surat-keluar-edit/{id}', [CorSuratKeluarController::class, 'viewEdit'])->name('surat-keluar-edit');
     Route::post('/surat-keluar-update/{id}', [CorSuratKeluarController::class, 'update'])->name('surat-keluar-update');
     Route::get('/surat-keluar-share/{id}', [CorSuratKeluarController::class, 'share'])->name('surat-keluar-share');
@@ -279,11 +280,11 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/construction-document-pdf/{id}', [ConstructionDocumentController::class, 'pdf'])->name('construction-document-pdf');
     Route::get('/construction-document-delete/{id}', [ConstructionDocumentController::class, 'viewDelete'])->name('construction-document-delete');
     Route::post('/construction-document-deleted/{id}', [ConstructionDocumentController::class, 'deleted'])->name('construction-document-deleted');
-  
+
     Route::get('/construction-document-check', [ConstructionDocumentController::class, 'check'])->name('construction-document-check');
     Route::get('/construction-document-check-modal/{id}', [ConstructionDocumentController::class, 'viewCheckModal'])->name('construction-document-check-modal');
     Route::post('/construction-document-check-update/{id}', [ConstructionDocumentController::class, 'updateCheck'])->name('construction-document-check-update');
- 
+
     Route::get('/construction-document-review', [ConstructionDocumentController::class, 'review'])->name('construction-document-review');
     Route::get('/construction-document-review-modal/{id}', [ConstructionDocumentController::class, 'viewReviewModal'])->name('construction-document-review-modal');
     Route::post('/construction-document-review-update/{id}', [ConstructionDocumentController::class, 'updateReview'])->name('construction-document-review-update');
@@ -292,7 +293,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/construction-document-approve-modal/{id}', [ConstructionDocumentController::class, 'viewApproveModal'])->name('construction-document-approve-modal');
     Route::post('/construction-document-approve-update/{id}', [ConstructionDocumentController::class, 'updateApprove'])->name('construction-document-approve-update');
 
-    
+
     Route::get('/field-instruction', [FieldInstructionController::class, 'cdr'])->name('field-instruction');
     Route::get('/get-field-instruction/{field}/{status}', [FieldInstructionController::class, 'getFieldInstruction'])->name('get-field-instruction');
     Route::get('/field-instruction-tambah', [FieldInstructionController::class, 'viewTambah'])->name('field-instruction-tambah');
@@ -306,11 +307,11 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/field-instruction-pdf/{id}', [FieldInstructionController::class, 'pdf'])->name('field-instruction-pdf');
     Route::get('/field-instruction-delete/{id}', [FieldInstructionController::class, 'viewDelete'])->name('field-instruction-delete');
     Route::post('/field-instruction-deleted/{id}', [FieldInstructionController::class, 'deleted'])->name('field-instruction-deleted');
-  
+
     Route::get('/field-instruction-check', [FieldInstructionController::class, 'check'])->name('field-instruction-check');
     Route::get('/field-instruction-check-modal/{id}', [FieldInstructionController::class, 'viewCheckModal'])->name('field-instruction-check-modal');
     Route::post('/field-instruction-check-update/{id}', [FieldInstructionController::class, 'updateCheck'])->name('field-instruction-check-update');
- 
+
     Route::get('/field-instruction-review', [FieldInstructionController::class, 'review'])->name('field-instruction-review');
     Route::get('/field-instruction-review-modal/{id}', [FieldInstructionController::class, 'viewReviewModal'])->name('field-instruction-review-modal');
     Route::post('/field-instruction-review-update/{id}', [FieldInstructionController::class, 'updateReview'])->name('field-instruction-review-update');
@@ -319,13 +320,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/field-instruction-approve-modal/{id}', [FieldInstructionController::class, 'viewApproveModal'])->name('field-instruction-approve-modal');
     Route::post('/field-instruction-approve-update/{id}', [FieldInstructionController::class, 'updateApprove'])->name('field-instruction-approve-update');
 
-    
+
     Route::get('/rfi', [RfiController::class, 'index'])->name('rfi');
     Route::get('/get-rfi', [RfiController::class, 'getRfi'])->name('get-rfi');
     Route::get('/rfi-tambah', [RfiController::class, 'tambah'])->name('rfi-tambah');
     Route::post('/rfi-upload-temp', [RfiController::class, 'uploadTemp'])->name('rfi-upload-temp');
     Route::post('/rfi-save-uploads', [RfiController::class, 'saveUploads'])->name('rfi-save-uploads');
-   
+
     Route::get('/rfi-edit/{id}', [RfiController::class, 'viewEdit'])->name('rfi-edit');
     Route::post('/rfi-update/{id}', [RfiController::class, 'update'])->name('rfi-update');
     Route::get('/rfi-share/{id}', [RfiController::class, 'share'])->name('rfi-share');
@@ -334,13 +335,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/rfi-deleted/{id}', [RfiController::class, 'deleted'])->name('rfi-deleted');
     Route::get('/rfi-history/{id}', [RfiController::class, 'history'])->name('rfi-history');
 
-    
+
     Route::get('/mvr', [MvrController::class, 'index'])->name('mvr');
     Route::get('/get-mvr', [MvrController::class, 'getMvr'])->name('get-mvr');
     Route::get('/mvr-tambah', [MvrController::class, 'tambah'])->name('mvr-tambah');
     Route::post('/mvr-upload-temp', [MvrController::class, 'uploadTemp'])->name('mvr-upload-temp');
     Route::post('/mvr-save-uploads', [MvrController::class, 'saveUploads'])->name('mvr-save-uploads');
-   
+
     Route::get('/mvr-edit/{id}', [MvrController::class, 'viewEdit'])->name('mvr-edit');
     Route::post('/mvr-update/{id}', [MvrController::class, 'update'])->name('mvr-update');
     Route::get('/mvr-share/{id}', [MvrController::class, 'share'])->name('mvr-share');
@@ -348,14 +349,14 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/mvr-delete/{id}', [MvrController::class, 'viewDelete'])->name('mvr-delete');
     Route::post('/mvr-deleted/{id}', [MvrController::class, 'deleted'])->name('mvr-deleted');
     Route::get('/mvr-history/{id}', [MvrController::class, 'history'])->name('mvr-history');
-  
-  
+
+
     Route::get('/mrr', [MrrController::class, 'index'])->name('mrr');
     Route::get('/get-mrr', [MrrController::class, 'getMrr'])->name('get-mrr');
     Route::get('/mrr-tambah', [MrrController::class, 'tambah'])->name('mrr-tambah');
     Route::post('/mrr-upload-temp', [MrrController::class, 'uploadTemp'])->name('mrr-upload-temp');
     Route::post('/mrr-save-uploads', [MrrController::class, 'saveUploads'])->name('mrr-save-uploads');
-   
+
     Route::get('/mrr-edit/{id}', [MrrController::class, 'viewEdit'])->name('mrr-edit');
     Route::post('/mrr-update/{id}', [MrrController::class, 'update'])->name('mrr-update');
     Route::get('/mrr-share/{id}', [MrrController::class, 'share'])->name('mrr-share');
@@ -363,11 +364,11 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/mrr-delete/{id}', [MrrController::class, 'viewDelete'])->name('mrr-delete');
     Route::post('/mrr-deleted/{id}', [MrrController::class, 'deleted'])->name('mrr-deleted');
     Route::get('/mrr-history/{id}', [MrrController::class, 'history'])->name('mrr-history');
-  
 
-    
-    
-    
+
+
+
+
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::get('/get-user', [UserController::class, 'getUser'])->name('get-user');
     Route::post('/user-save', [UserController::class, 'save'])->name('user-save');
@@ -380,7 +381,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/permission-deleted/{id}', [PermissionController::class, 'deleted'])->name('role-deleted');
 
     Route::get('/role', [RoleController::class, 'index'])->name('role');
-    Route::get('/get-role', [RoleController::class, 'getRole'])->name('get-role');   
+    Route::get('/get-role', [RoleController::class, 'getRole'])->name('get-role');
     Route::get('/role-delete/{id}', [RoleController::class, 'viewDelete'])->name('role-delete');
     Route::post('/role-deleted/{id}', [RoleController::class, 'deleted'])->name('role-deleted');
     Route::get('/role-tambah', [RoleController::class, 'viewAdd'])->name('role-tambah');
@@ -389,19 +390,19 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/role-update/{id}', [RoleController::class, 'update'])->name('role-update');
     Route::get('/role-permission/{id}', [RoleController::class, 'viewPermission'])->name('role-permission');
     Route::post('/role-permission-update', [RoleController::class, 'updatePermission'])->name('role-permission-update');
-    
+
     Route::post('/assign', [AssignController::class, 'index'])->name('assign');
-    
-    
+
+
     Route::get('/master-custom', [CustomController::class, 'index'])->name('master-custom');
     Route::post('/master-custom-save', [CustomController::class, 'save'])->name('master-custom-save');
-    Route::get('/get-master-custom', [CustomController::class, 'getMasterCustom'])->name('get-master-custom');   
+    Route::get('/get-master-custom', [CustomController::class, 'getMasterCustom'])->name('get-master-custom');
     Route::get('/master-custom-delete/{id}', [CustomController::class, 'viewDelete'])->name('master-custom-delete');
     Route::post('/master-custom-deleted/{id}', [CustomController::class, 'deleted'])->name('master-custom-deleted');
 
 
     Route::get('/custom-personnel-hr', [CustomPersonnelHrController::class, 'index'])->name('custom-personnel-hr');
-    Route::get('/get-custom-personnel-hr', [CustomPersonnelHrController::class, 'getCustomPersonnelHr'])->name('get-custom-personnel-hr');   
+    Route::get('/get-custom-personnel-hr', [CustomPersonnelHrController::class, 'getCustomPersonnelHr'])->name('get-custom-personnel-hr');
     Route::get('/custom-personnel-hr-tambah', [CustomPersonnelHrController::class, 'viewTambah'])->name('custom-personnel-hr-tambah');
     Route::post('/custom-personnel-hr-upload-temp', [CustomPersonnelHrController::class, 'uploadTemp'])->name('custom-personnel-hr-upload-temp');
     Route::post('/custom-personnel-hr-save-uploads', [CustomPersonnelHrController::class, 'saveUploads'])->name('custom-personnel-hr-save-uploads');
@@ -412,11 +413,11 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-personnel-hr-delete/{id}', [CustomPersonnelHrController::class, 'viewDelete'])->name('custom-personnel-hr-delete');
     Route::post('/custom-personnel-hr-deleted/{id}', [CustomPersonnelHrController::class, 'deleted'])->name('custom-personnel-hr-deleted');
     Route::get('/custom-personnel-hr-history/{id}', [CustomPersonnelHrController::class, 'history'])->name('custom-personnel-hr-history');
-  
 
-  
+
+
     Route::get('/custom-drawing', [CustomDrawingController::class, 'index'])->name('custom-drawing');
-    Route::get('/get-custom-drawing', [CustomDrawingController::class, 'getCustomDrawing'])->name('get-custom-drawing');   
+    Route::get('/get-custom-drawing', [CustomDrawingController::class, 'getCustomDrawing'])->name('get-custom-drawing');
     Route::get('/custom-drawing-tambah', [CustomDrawingController::class, 'viewTambah'])->name('custom-drawing-tambah');
     Route::post('/custom-drawing-upload-temp', [CustomDrawingController::class, 'uploadTemp'])->name('custom-drawing-upload-temp');
     Route::post('/custom-drawing-save-uploads', [CustomDrawingController::class, 'saveUploads'])->name('custom-drawing-save-uploads');
@@ -429,7 +430,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-drawing-history/{id}', [CustomDrawingController::class, 'history'])->name('custom-drawing-history');
 
     Route::get('/custom-photographic', [CustomPhotographicController::class, 'index'])->name('custom-photographic');
-    Route::get('/get-custom-photographic', [CustomPhotographicController::class, 'getCustomPhotographic'])->name('get-custom-photographic');   
+    Route::get('/get-custom-photographic', [CustomPhotographicController::class, 'getCustomPhotographic'])->name('get-custom-photographic');
     Route::get('/custom-photographic-tambah', [CustomPhotographicController::class, 'viewTambah'])->name('custom-photographic-tambah');
     Route::post('/custom-photographic-upload-temp', [CustomPhotographicController::class, 'uploadTemp'])->name('custom-photographic-upload-temp');
     Route::post('/custom-photographic-save-uploads', [CustomPhotographicController::class, 'saveUploads'])->name('custom-photographic-save-uploads');
@@ -442,7 +443,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-photographic-history/{id}', [CustomPhotographicController::class, 'history'])->name('custom-photographic-history');
 
     Route::get('/custom-procurement-logistic', [CustomProcurementLogisticController::class, 'index'])->name('custom-procurement-logistic');
-    Route::get('/get-custom-procurement-logistic', [CustomProcurementLogisticController::class, 'getCustomProcurementLogistic'])->name('get-custom-procurement-logistic');   
+    Route::get('/get-custom-procurement-logistic', [CustomProcurementLogisticController::class, 'getCustomProcurementLogistic'])->name('get-custom-procurement-logistic');
     Route::get('/custom-procurement-logistic-tambah', [CustomProcurementLogisticController::class, 'viewTambah'])->name('custom-procurement-logistic-tambah');
     Route::post('/custom-procurement-logistic-upload-temp', [CustomProcurementLogisticController::class, 'uploadTemp'])->name('custom-procurement-logistic-upload-temp');
     Route::post('/custom-procurement-logistic-save-uploads', [CustomProcurementLogisticController::class, 'saveUploads'])->name('custom-procurement-logistic-save-uploads');
@@ -455,7 +456,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-procurement-logistic-history/{id}', [CustomProcurementLogisticController::class, 'history'])->name('custom-procurement-logistic-history');
 
     Route::get('/custom-report', [CustomReportController::class, 'index'])->name('custom-report');
-    Route::get('/get-custom-report', [CustomReportController::class, 'getCustomReport'])->name('get-custom-report');   
+    Route::get('/get-custom-report', [CustomReportController::class, 'getCustomReport'])->name('get-custom-report');
     Route::get('/custom-report-tambah', [CustomReportController::class, 'viewTambah'])->name('custom-report-tambah');
     Route::post('/custom-report-upload-temp', [CustomReportController::class, 'uploadTemp'])->name('custom-report-upload-temp');
     Route::post('/custom-report-save-uploads', [CustomReportController::class, 'saveUploads'])->name('custom-report-save-uploads');
@@ -468,7 +469,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-report-history/{id}', [CustomReportController::class, 'history'])->name('custom-report-history');
 
     Route::get('/custom-invoice-record', [CustomInvoiceRecordController::class, 'index'])->name('custom-invoice-record');
-    Route::get('/get-custom-invoice-record', [CustomInvoiceRecordController::class, 'getCustomInvoiceRecord'])->name('get-custom-invoice-record');   
+    Route::get('/get-custom-invoice-record', [CustomInvoiceRecordController::class, 'getCustomInvoiceRecord'])->name('get-custom-invoice-record');
     Route::get('/custom-invoice-record-tambah', [CustomInvoiceRecordController::class, 'viewTambah'])->name('custom-invoice-record-tambah');
     Route::post('/custom-invoice-record-upload-temp', [CustomInvoiceRecordController::class, 'uploadTemp'])->name('custom-invoice-record-upload-temp');
     Route::post('/custom-invoice-record-save-uploads', [CustomInvoiceRecordController::class, 'saveUploads'])->name('custom-invoice-record-save-uploads');
@@ -481,7 +482,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-invoice-record-history/{id}', [CustomInvoiceRecordController::class, 'history'])->name('custom-invoice-record-history');
 
     Route::get('/custom-contract-management', [CustomContractManagementController::class, 'index'])->name('custom-contract-management');
-    Route::get('/get-custom-contract-management', [CustomContractManagementController::class, 'getCustomContractManagement'])->name('get-custom-contract-management');   
+    Route::get('/get-custom-contract-management', [CustomContractManagementController::class, 'getCustomContractManagement'])->name('get-custom-contract-management');
     Route::get('/custom-contract-management-tambah', [CustomContractManagementController::class, 'viewTambah'])->name('custom-contract-management-tambah');
     Route::post('/custom-contract-management-upload-temp', [CustomContractManagementController::class, 'uploadTemp'])->name('custom-contract-management-upload-temp');
     Route::post('/custom-contract-management-save-uploads', [CustomContractManagementController::class, 'saveUploads'])->name('custom-contract-management-save-uploads');
@@ -494,13 +495,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-contract-management-history/{id}', [CustomContractManagementController::class, 'history'])->name('custom-contract-management-history');
 
 
-    
+
     Route::get('/ncr', [NcrController::class, 'index'])->name('ncr');
     Route::get('/get-ncr', [NcrController::class, 'getNcr'])->name('get-ncr');
     Route::get('/ncr-tambah', [NcrController::class, 'tambah'])->name('ncr-tambah');
     Route::post('/ncr-upload-temp', [NcrController::class, 'uploadTemp'])->name('ncr-upload-temp');
     Route::post('/ncr-save-uploads', [NcrController::class, 'saveUploads'])->name('ncr-save-uploads');
-   
+
     Route::get('/ncr-edit/{id}', [NcrController::class, 'viewEdit'])->name('ncr-edit');
     Route::post('/ncr-update/{id}', [NcrController::class, 'update'])->name('ncr-update');
     Route::get('/ncr-share/{id}', [NcrController::class, 'share'])->name('ncr-share');
@@ -513,7 +514,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/issue-log-tambah', [IssueLogController::class, 'tambah'])->name('issue-log-tambah');
     Route::post('/issue-log-upload-temp', [IssueLogController::class, 'uploadTemp'])->name('issue-log-upload-temp');
     Route::post('/issue-log-save-uploads', [IssueLogController::class, 'saveUploads'])->name('issue-log-save-uploads');
-   
+
     Route::get('/issue-log-edit/{id}', [IssueLogController::class, 'viewEdit'])->name('issue-log-edit');
     Route::post('/issue-log-update/{id}', [IssueLogController::class, 'update'])->name('issue-log-update');
     Route::get('/issue-log-share/{id}', [IssueLogController::class, 'share'])->name('issue-log-share');
@@ -522,9 +523,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/issue-log-deleted/{id}', [IssueLogController::class, 'deleted'])->name('issue-log-deleted');
 
 
-    
+
     Route::get('/custom-document-management', [CustomDocumentManagementController::class, 'index'])->name('custom-document-management');
-    Route::get('/get-custom-document-management', [CustomDocumentManagementController::class, 'getCustomDocumentManagement'])->name('get-custom-document-management');   
+    Route::get('/get-custom-document-management', [CustomDocumentManagementController::class, 'getCustomDocumentManagement'])->name('get-custom-document-management');
     Route::get('/custom-document-management-tambah', [CustomDocumentManagementController::class, 'viewTambah'])->name('custom-document-management-tambah');
     Route::post('/custom-document-management-upload-temp', [CustomDocumentManagementController::class, 'uploadTemp'])->name('custom-document-management-upload-temp');
     Route::post('/custom-document-management-save-uploads', [CustomDocumentManagementController::class, 'saveUploads'])->name('custom-document-management-save-uploads');
@@ -537,9 +538,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-document-management-history/{id}', [CustomDocumentManagementController::class, 'history'])->name('custom-document-management-history');
 
 
-    
+
     Route::get('/custom-quality-management', [CustomQualityManagementController::class, 'index'])->name('custom-quality-management');
-    Route::get('/get-custom-quality-management', [CustomQualityManagementController::class, 'getCustomQualityManagement'])->name('get-custom-quality-management');   
+    Route::get('/get-custom-quality-management', [CustomQualityManagementController::class, 'getCustomQualityManagement'])->name('get-custom-quality-management');
     Route::get('/custom-quality-management-tambah', [CustomQualityManagementController::class, 'viewTambah'])->name('custom-quality-management-tambah');
     Route::post('/custom-quality-management-upload-temp', [CustomQualityManagementController::class, 'uploadTemp'])->name('custom-quality-management-upload-temp');
     Route::post('/custom-quality-management-save-uploads', [CustomQualityManagementController::class, 'saveUploads'])->name('custom-quality-management-save-uploads');
@@ -550,4 +551,19 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-quality-management-delete/{id}', [CustomQualityManagementController::class, 'viewDelete'])->name('custom-quality-management-delete');
     Route::post('/custom-quality-management-deleted/{id}', [CustomQualityManagementController::class, 'deleted'])->name('custom-quality-management-deleted');
     Route::get('/custom-quality-management-history/{id}', [CustomQualityManagementController::class, 'history'])->name('custom-quality-management-history');
+
+
+
+    Route::get('/custom-piling', [CustomPilingController::class, 'index'])->name('custom-piling');
+    Route::get('/get-custom-piling', [CustomPilingController::class, 'getCustomPiling'])->name('get-custom-piling');
+    Route::get('/custom-piling-tambah', [CustomPilingController::class, 'viewTambah'])->name('custom-piling-tambah');
+    Route::post('/custom-piling-upload-temp', [CustomPilingController::class, 'uploadTemp'])->name('custom-piling-upload-temp');
+    Route::post('/custom-piling-save-uploads', [CustomPilingController::class, 'saveUploads'])->name('custom-piling-save-uploads');
+    Route::get('/custom-piling-edit/{id}', [CustomPilingController::class, 'viewEdit'])->name('custom-piling-edit');
+    Route::post('/custom-piling-update-uploads/{id}', [CustomPilingController::class, 'updateUploads'])->name('custom-piling-update-uploads');
+    Route::get('/custom-piling-pdf/{id}', [CustomPilingController::class, 'pdf'])->name('custom-piling-pdf');
+    Route::get('/custom-piling-share/{id}', [CustomPilingController::class, 'share'])->name('custom-piling-share');
+    Route::get('/custom-piling-delete/{id}', [CustomPilingController::class, 'viewDelete'])->name('custom-piling-delete');
+    Route::post('/custom-piling-deleted/{id}', [CustomPilingController::class, 'deleted'])->name('custom-piling-deleted');
+    Route::get('/custom-piling-history/{id}', [CustomPilingController::class, 'history'])->name('custom-piling-history');
 });
