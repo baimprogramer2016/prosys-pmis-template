@@ -202,6 +202,9 @@
                                         <th class="bg-th">Procurument</th>
                                         <th class="bg-th">Construction</th>
                                         <th class="bg-th">Commissioning</th>
+                                        <th class="bg-th">Delete</th>
+                                        <th class="bg-th">Upload</th>
+                                        <th class="bg-th">View</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -215,7 +218,10 @@
 
                                                 <td>Week {{ $item_curve['week'] }}</td>
                                                 <td>{{ $item_curve['description'] }}</td>
-                                                <td>{{ $item_curve['tanggal'] }}</td>
+                                                <td><span data-bs-toggle="modal" data-bs-target="#modal"
+                                                        class="text-primary text-center" style="cursor: pointer;"
+                                                        onClick="viewEditTanggal('{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}')">{{ $item_curve['tanggal'] }}
+                                                        <i class="fas fa-pen"></i></span></td>
                                                 <td><span data-bs-toggle="modal" data-bs-target="#modal"
                                                         class="text-primary text-center" style="cursor: pointer;"
                                                         onClick="viewEdit('Engineering','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['engineering'] }}')">{{ $item_curve['engineering'] }}
@@ -232,6 +238,22 @@
                                                         class="text-primary" style="cursor: pointer;"
                                                         onClick="viewEdit('Commissioning','{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}','{{ $item_curve['commissioning'] }}')">{{ $item_curve['commissioning'] }}
                                                         <i class="fas fa-pen"></i></span></td>
+                                                <td><span data-bs-toggle="modal" data-bs-target="#modal"
+                                                        class="text-danger" style="cursor: pointer;"
+                                                        onClick="viewHapusTanggal('{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}')">
+                                                        <i class="fas fa-trash-alt"></i> Delete</span></td>
+                                                <td><span data-bs-toggle="modal" data-bs-target="#modal"
+                                                        class="text-success" style="cursor: pointer;"
+                                                        onClick="viewUploadTanggal('{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}')">
+                                                        <i class="fas fa-upload"></i> Upload </span></td>
+                                                <td>
+                                                    @if ($item_curve['path'] != null)
+                                                        <span data-bs-toggle="modal" data-bs-target="#modal-pdf"
+                                                            class="text-secondary" style="cursor: pointer;"
+                                                            onClick="viewLihatFile('{{ $item_curve['tanggal'] }}','{{ $item_curve['description'] }}')">
+                                                            <i class="fas fa-eye"></i> File </span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @endif
                                     @endforeach
@@ -246,6 +268,13 @@
 
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
         <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-pdf" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen"> <!-- Tambahkan modal-lg di sini -->
             <div class="modal-content">
 
             </div>
@@ -427,6 +456,122 @@
                 }
             });
         }
+
+        function viewEditTanggal(param_tanggal, param_description) {
+
+            $(".modal-content").html("");
+            $.ajax({
+                url: "{{ route('s-curve-edit-tanggal') }}", // Ganti dengan route yang sesuai
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tanggal: param_tanggal,
+                    description: param_description,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    $(".modal-content").html("");
+                    $(".modal-content").html(response);
+
+                },
+                error: function(xhr) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
+        }
+
+        function viewHapusTanggal(param_tanggal, param_description) {
+
+            $(".modal-content").html("");
+            $.ajax({
+                url: "{{ route('s-curve-hapus-tanggal') }}", // Ganti dengan route yang sesuai
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tanggal: param_tanggal,
+                    description: param_description,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    $(".modal-content").html("");
+                    $(".modal-content").html(response);
+
+                },
+                error: function(xhr) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
+        }
+
+        function viewUploadTanggal(param_tanggal, param_description) {
+
+            $(".modal-content").html("");
+            $.ajax({
+                url: "{{ route('s-curve-upload-tanggal') }}", // Ganti dengan route yang sesuai
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tanggal: param_tanggal,
+                    description: param_description,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    $(".modal-content").html("");
+                    $(".modal-content").html(response);
+
+                },
+                error: function(xhr) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
+        }
+
+        function viewLihatFile(param_tanggal, param_description) {
+
+            $(".modal-content").html("");
+            $.ajax({
+                url: "{{ route('s-curve-view-file') }}", // Ganti dengan route yang sesuai
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tanggal: param_tanggal,
+                    description: param_description,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    if (response.status == "notok") {
+                        $(".modal-content").html(`
+        <div class="modal-body">
+            <p>Belum Upload File</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    `);
+                        return;
+                    }
+                    $(".modal-content").html("");
+                    $(".modal-content").html(response);
+
+                },
+                error: function(xhr) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
+        }
+
 
         // function viewEdit(param){
         //   $("#description").val(param["description"])

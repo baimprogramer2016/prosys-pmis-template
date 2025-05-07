@@ -137,6 +137,13 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal-pdf" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen"> <!-- Tambahkan modal-lg di sini -->
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('bottom')
@@ -189,7 +196,7 @@
                 },
                 method: "GET",
                 success: function(response) {
-                    // console.log(response)
+                    // console.log(JSON.stringify(response))
                     if (response.status == 'ok') {
                         curveChart(response)
 
@@ -207,8 +214,8 @@
 
                         const tableBody = document.getElementById("tableBody");
                         // Add rows for Physical and Plan
-                        createRow("Planned", response.planned, "row-physical");
-                        createRow("Actual", response.actual, "row-plan");
+                        createRow("Planned", response.planned, response.path_planned, "row-physical");
+                        createRow("Actual", response.actual, response.path_actual, "row-plan");
 
                     } else {
                         alert("Terjadi Kesalahan")
@@ -222,23 +229,47 @@
             document.getElementById("tableBody").innerHTML = ""; // Kosongkan body tabel
         }
 
-        function createRow(label, data, className) {
-            const tr = document.createElement("tr");
-            tr.classList.add(className);
+
+
+        function createRow(label, data, path, className) {
+            // Baris pertama
+            const tr1 = document.createElement("tr");
+            tr1.classList.add(className);
 
             const tdLabel = document.createElement("td");
             tdLabel.innerText = label;
-            tr.appendChild(tdLabel);
+            tdLabel.setAttribute("rowspan", "2");
+            tr1.appendChild(tdLabel);
 
             data.forEach(value => {
-                // console.log(value)
                 const td = document.createElement("td");
                 td.innerText = value;
-                tr.appendChild(td);
+                tr1.appendChild(td);
             });
 
-            tableBody.appendChild(tr);
+            // Baris kedua
+            const tr2 = document.createElement("tr");
+            tr2.classList.add(className);
+
+            path.forEach(value => {
+                const td = document.createElement("td");
+                const span = document.createElement("span");
+                span.setAttribute("data-bs-toggle", "modal");
+                span.setAttribute("data-bs-target", "#modal-pdf");
+                span.className = "text-white";
+
+                span.style.cursor = "pointer";
+                span.setAttribute("onclick", `viewLihatFile('${value}')`);
+                span.innerHTML = value ? `<i class="fas fa-file"></i>` : ``;
+
+                td.appendChild(span);
+                tr2.appendChild(td);
+            });
+
+            tableBody.appendChild(tr1);
+            tableBody.appendChild(tr2);
         }
+
 
         function curveChart(param) {
             var multipleLineChart;
@@ -366,6 +397,42 @@
                             bottom: 15
                         }
                     }
+                }
+            });
+        }
+
+        function viewLihatFile(path) {
+
+            $(".modal-content").html("");
+            $.ajax({
+                url: "{{ route('s-curve-view-file-2') }}", // Ganti dengan route yang sesuai
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    path: path,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+
+                    if (response.status == "notok") {
+                        $(".modal-content").html(`
+<div class="modal-body">
+<p>Belum Upload File</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>
+`);
+                        return;
+                    }
+                    $(".modal-content").html("");
+                    $(".modal-content").html(response);
+
+                },
+                error: function(xhr) {
+                    alert('An error occurred: ' + xhr.responseText);
                 }
             });
         }

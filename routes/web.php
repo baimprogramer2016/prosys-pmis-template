@@ -158,6 +158,16 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/s-curve-weight', [SCurveController::class, 'viewWeight'])->name('s-curve-weight');
     Route::post('/s-curve-weight-update', [SCurveController::class, 'weightUpdate'])->name('s-curve-weight-update');
 
+    Route::post('/s-curve-edit-tanggal', [SCurveController::class, 'viewEditTanggal'])->name('s-curve-edit-tanggal');
+    Route::post('/s-curve-edit-tanggal-update', [SCurveController::class, 'viewEditTanggalUpdate'])->name('s-curve-edit-tanggal-update');
+    Route::post('/s-curve-hapus-tanggal', [SCurveController::class, 'viewHapusTanggal'])->name('s-curve-hapus-tanggal');
+    Route::post('/s-curve-hapus-tanggal-delete', [SCurveController::class, 'viewHapusTanggalDelete'])->name('s-curve-hapus-tanggal-delete');
+
+    Route::post('/s-curve-upload-tanggal', [SCurveController::class, 'viewUploadTanggal'])->name('s-curve-upload-tanggal');
+    Route::post('/s-curve-upload-tanggal-upload', [SCurveController::class, 'viewUploadTanggalUpload'])->name('s-curve-upload-tanggal-upload');
+    Route::post('/s-curve-view-file', [SCurveController::class, 'viewFile'])->name('s-curve-view-file');
+    Route::post('/s-curve-view-file-2', [SCurveController::class, 'viewFile2'])->name('s-curve-view-file-2');
+
     Route::get('/s-curve-chart', [SCurveController::class, 'sCurveChart'])->name('s-curve-chart');
     Route::get('/s-curve-chart-data', [SCurveController::class, 'dataScurve'])->name('s-curve-chart-data');
     Route::get('/s-curve-bar', [SCurveController::class, 'sCurveBar'])->name('s-curve-bar');

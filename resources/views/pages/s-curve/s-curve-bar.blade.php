@@ -201,7 +201,7 @@
             var myBarChart = new Chart(ctx, {
                 type: "bar",
                 data: {
-                    // labels: param.title,
+                    labels: param.title, // aktifkan jika sebelumnya dikomentari
                     datasets: [{
                             label: "Planned",
                             backgroundColor: "#f3545d",
@@ -222,44 +222,49 @@
                     plugins: {
                         tooltip: {
                             enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}%`;
+                                },
+                            },
                         },
                         datalabels: {
-
                             anchor: 'end',
                             align: 'top',
                             color: '#000',
                             font: {
                                 weight: 'bold',
                             },
-                            formatter: function(value, context) {
-                                const index = context.dataIndex;
-                                const plannedValue = param.planned[index];
-                                if (!plannedValue || plannedValue === 0) return "0%";
-                                const percent = (value / plannedValue) * 100;
-                                return percent.toFixed(1) + "%";
-                            },
+                            formatter: function(value) {
+                                return value + '%';
+                            }
                         },
                     },
-                    scaleShowValues: true,
                     scales: {
-
                         xAxes: [{
-                                stacked: false, // Pastikan ini false agar bar tidak ditumpuk
-                                barPercentage: 0.9, // Mengatur lebar setiap bar
-                                categoryPercentage: 0.5, // Memberi jarak antar kategori
+                            stacked: false,
+                            barPercentage: 0.9,
+                            categoryPercentage: 0.5,
+                            ticks: {
+                                display: false // ini menyembunyikan label bawah
                             },
-
-                        ],
+                            gridLines: {
+                                drawTicks: false // hilangkan garis kecil di bawah label
+                            }
+                        }],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                            },
-                        }, ],
-                    },
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }]
+                    }
 
                 },
-
             });
+
 
 
         }

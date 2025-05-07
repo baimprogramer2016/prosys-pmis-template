@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MasterCategory;
 use App\Models\ScheduleManagement;
 use App\Models\SCurve;
+use App\Models\SCurveFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,7 @@ class SCurveController extends Controller
                         'procurement' => null,
                         'construction' => null,
                         'commissioning' => null,
+                        'path' => null
                     ];
 
                     foreach ($data_scurve as $row) {
@@ -90,6 +92,11 @@ class SCurveController extends Controller
                                 $item['week'] = $week['week_label'];
                             }
                         }
+                    }
+                    //check file
+                    $check_file = SCurveFile::where('tanggal', $tanggal_curve)->where('description', $desc)->first();
+                    if ($check_file) {
+                        $item['path'] = $check_file->path;
                     }
 
                     $data_response_curve[] = $item;
@@ -390,6 +397,7 @@ class SCurveController extends Controller
             $weekIndex++;
         }
 
+
         // 3. Ambil dan kelompokkan data per minggu
         $data = DB::table('s_curve')->select('description', 'tanggal', 'percent')
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
@@ -398,12 +406,16 @@ class SCurveController extends Controller
                 $query->where('category', $category);
             })->get();
 
+        $data_path = SCurveFile::select('description', 'tanggal', 'path')->get();
+
         $result = [];
         $jsonWeek = [];
         $jsonWeekLabel = [];
         $jsonTanggal = [];
         $jsonPlanned = [];
         $jsonActual = [];
+        $jsonPathPlanned = [];
+        $jsonPathActual = [];
 
         //setelah itu cari di db, data yang dianatara tanggal per weeknya
         foreach ($weeks as $week) {
@@ -413,6 +425,8 @@ class SCurveController extends Controller
                 'end_date' => $week['end_date'],
                 'planned_total' => 0,
                 'actual_total' => 0,
+                'planned_path' => "",
+                'actual_path' => ""
             ];
 
             //jika ke data, jika tanggal pada data ada di antara week update data masing sesuai planned atau actual
@@ -438,12 +452,27 @@ class SCurveController extends Controller
             $weekData['planned_total'] = $weekData['planned_total'] . '%';
             $weekData['actual_total'] = $weekData['actual_total'] . '%';
 
+            //cari path
+            foreach ($data_path as $row_path) {
+                $date = Carbon::parse($row_path->tanggal);
+                if ($date >= Carbon::parse($week['start_date']) && $date <= Carbon::parse($week['end_date'])) {
+                    if ($row_path->description === 'Planned') {
+                        $weekData['planned_path'] = $row_path->path;
+                    } elseif ($row_path->description === 'Actual') {
+                        $weekData['actual_path'] = $row_path->path;
+                    }
+                }
+            }
+
+
             $result[] = $weekData;
             array_push($jsonWeek, $week['week_label']);
             array_push($jsonWeekLabel, $week['week_label_date']);
             array_push($jsonTanggal, $week['start_date']);
             array_push($jsonPlanned, str_replace('%', '', $weekData['planned_total']));
             array_push($jsonActual, str_replace('%', '', $weekData['actual_total']));
+            array_push($jsonPathPlanned, $weekData['planned_path']);
+            array_push($jsonPathActual, $weekData['actual_path']);
         }
 
         //result bentuknya 
@@ -471,7 +500,9 @@ class SCurveController extends Controller
             "tanggal" => $jsonTanggal,
             "planned" => $jsonPlanned,
             "actual" => $jsonActual,
-            "data" => $result
+            "data" => $result,
+            "path_planned" => $jsonPathPlanned,
+            "path_actual" => $jsonPathActual,
         ];
 
         // 4. Return hasil dalam JSON
@@ -493,6 +524,15 @@ class SCurveController extends Controller
         //         $query->whereBetween('tanggal', [$end_date]);
         //     })->where('description', 'Actual')->first();
 
+        $data_planned = DB::table('s_curve')->select(DB::raw('tanggal,sum(percent) as total'))
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->where('tanggal', '<=', $end_date);
+            })
+            ->where('description', 'Planned')
+            ->where('percent', '!=', 0)
+            ->groupBy('tanggal')
+            ->orderBy('tanggal', 'desc')
+            ->first();
         $data_actual = DB::table('s_curve')->select(DB::raw('tanggal,sum(percent) as total'))
             ->when($end_date, function ($query) use ($end_date) {
                 $query->where('tanggal', '<=', $end_date);
@@ -513,7 +553,13 @@ class SCurveController extends Controller
         //     $actual_percent = 0; // atau null, atau ‘-’, tergantung kebutuhan
         // }
 
-        array_push($planned, 100);
+        if ($data_planned->total > 100 && $data_planned->total < 100.10) {
+            $data_planned->total = 100;
+        }
+        if ($data_actual->total > 100 && $data_actual->total < 100.10) {
+            $data_actual->total = 100;
+        }
+        array_push($planned, round(($data_planned->total != null ? $data_planned->total : 0), 2));
         array_push($actual, round(($data_actual->total != null ? $data_actual->total : 0), 2));
 
 
@@ -526,6 +572,145 @@ class SCurveController extends Controller
 
         // 4. Return hasil dalam JSON
         return response()->json($final);
+    }
+
+
+
+    public function viewEditTanggal(Request $request)
+    {
+        return view('pages.s-curve.s-curve-edit-tanggal', [
+            "description" => $request->description,
+            "tanggal" => Carbon::parse($request->tanggal)->format('Y-m-d'),
+        ]);
+    }
+
+    public function viewEditTanggalUpdate(Request $request)
+    {
+
+        $check = SCurve::where('description', $request->description)
+            ->where('tanggal', $request->tanggal_baru)
+            ->first();
+
+        if ($check) {
+            return response()->json([
+                'status' => 'Tanggal Sudah Ada, silahkan edit langsung di Tabel',
+            ]);
+        }
+
+
+        SCurve::where('description', $request->description)
+            ->where('tanggal', $request->tanggal_lama)
+            ->update(['tanggal' => $request->tanggal_baru]);
+
+        return response()->json([
+            'status' => 'ok',
+        ]);
+    }
+
+    public function viewHapusTanggal(Request $request)
+    {
+        return view('pages.s-curve.s-curve-hapus-tanggal', [
+            "description" => $request->description,
+            "tanggal" => Carbon::parse($request->tanggal)->format('Y-m-d'),
+        ]);
+    }
+    public function viewHapusTanggalDelete(Request $request)
+    {
+
+        try {
+            SCurve::where('description', $request->description)
+                ->where('tanggal', $request->tanggal)
+                ->delete();
+
+
+            return response()->json([
+                'status' => 'ok',
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => 'Terjadi Kesalahan',
+            ]);
+        }
+    }
+
+
+    public function viewUploadTanggal(Request $request)
+    {
+        return view('pages.s-curve.s-curve-upload-tanggal', [
+            "description" => $request->description,
+            "tanggal" => Carbon::parse($request->tanggal)->format('Y-m-d'),
+        ]);
+    }
+
+    public function viewUploadTanggalUpload(Request $request)
+    {
+
+        $file = $request->file('file');
+        // Cek apakah ada file
+        if (!$file) {
+            return response()->json([
+                "status" => "File belum di pilih",
+            ]);
+        }
+        // Cek ekstensi file yang diizinkan
+        $allowedExtensions = ['pdf', 'xls', 'xlsx', 'jpg', 'jpeg', 'png', 'ppt', 'doc', 'docx', 'pptx', 'cad', 'dwg'];
+        $extension = $file->getClientOriginalExtension();
+
+        if (!in_array(strtolower($extension), $allowedExtensions)) {
+            return response()->json([
+                "status" => "File tidak diizinkan",
+            ]);
+        }
+
+        $folder = 'public/s-curve-files';
+        $filePath = $request->file('file')->store($folder);
+        SCurveFile::updateOrCreate(
+
+            [
+                'description' => $request->description,
+                'tanggal' => $request->tanggal,
+            ], // Data yang akan disimpan/diupdate
+            [
+                'path' => str_replace("public/", "", $filePath),
+            ]
+        );
+
+
+        return response()->json([
+            "status" => "ok",
+        ]);
+    }
+
+    public function viewFile(Request $request)
+    {
+
+        try {
+            $data_scurve_file = SCurveFile::where('description', $request->description)
+                ->where('tanggal', $request->tanggal)
+                ->first();
+
+            return view('pages.s-curve.s-curve-pdf', [
+                "ext" => explode(".", $data_scurve_file->path)[1] ?? null,
+                "path" => $data_scurve_file->path ?? null,
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => "notok",
+            ]);
+        }
+    }
+    public function viewFile2(Request $request)
+    {
+        try {
+            return view('pages.s-curve.s-curve-pdf', [
+                "ext" => explode(".", $request->path)[1] ?? null,
+                "path" => $request->path ?? null,
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => "notok",
+            ]);
+        }
     }
 }
 
