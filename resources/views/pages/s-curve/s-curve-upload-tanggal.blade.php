@@ -39,6 +39,7 @@
             return;
         }
 
+        $("#uploadTanggal").html('Proses Upload...');
         let formData = new FormData();
         formData.append('description', upload_description);
         formData.append('tanggal', upload_tanggal);
@@ -64,6 +65,7 @@
                             },
                         },
                     });
+                    $("#uploadTanggal").html('Upload');
                     $("#modal").modal('hide');
                     location.reload();
                 }
