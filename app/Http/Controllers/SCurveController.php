@@ -524,20 +524,24 @@ class SCurveController extends Controller
         //         $query->whereBetween('tanggal', [$end_date]);
         //     })->where('description', 'Actual')->first();
 
-        $data_planned = DB::table('s_curve')->select(DB::raw('tanggal,sum(percent) as total'))
-            ->when($end_date, function ($query) use ($end_date) {
-                $query->where('tanggal', '<=', $end_date);
-            })
-            ->where('description', 'Planned')
-            ->where('percent', '!=', 0)
-            ->groupBy('tanggal')
-            ->orderBy('tanggal', 'desc')
-            ->first();
+
         $data_actual = DB::table('s_curve')->select(DB::raw('tanggal,sum(percent) as total'))
             ->when($end_date, function ($query) use ($end_date) {
                 $query->where('tanggal', '<=', $end_date);
             })
             ->where('description', 'Actual')
+            ->where('percent', '!=', 0)
+            ->groupBy('tanggal')
+            ->orderBy('tanggal', 'desc')
+            ->first();
+
+
+        $data_planned = DB::table('s_curve')->select(DB::raw('tanggal,sum(percent) as total'))
+            ->when($end_date, function ($query) use ($end_date) {
+                $query->where('tanggal', '<=', $end_date);
+            })
+            ->where('description', 'Planned')
+            ->where('tanggal', $data_actual->tanggal)
             ->where('percent', '!=', 0)
             ->groupBy('tanggal')
             ->orderBy('tanggal', 'desc')
