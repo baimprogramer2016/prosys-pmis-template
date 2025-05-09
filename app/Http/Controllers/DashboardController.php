@@ -18,37 +18,39 @@ use Throwable;
 
 class DashboardController extends Controller
 {
-    public function index (Request $request){
-        
+    public function index(Request $request)
+    {
 
-        try{
+
+        try {
             $minDate = DB::table('s_curve')->min('tanggal');
             $maxDate = DB::table('s_curve')->max('tanggal');
-            return view('pages.dashboard.dashboard',[
-                "data_sub_category" => MasterCategory::where('category','s_curve')->get(),
+            return view('pages.dashboard.dashboard', [
+                "data_sub_category" => MasterCategory::where('category', 's_curve')->get(),
                 "min_date" => date("Y-m-d", strtotime($minDate)),
                 "max_date" => date("Y-m-d", strtotime($maxDate)),
-                
+
             ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
-           
-    
+
+
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
-    public function slide (Request $request){
-        
+    public function slide(Request $request)
+    {
 
-        try{
+
+        try {
             return view('pages.dashboard.slide');
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
-           
-    
+
+
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
@@ -56,7 +58,8 @@ class DashboardController extends Controller
         }
     }
 
-    public function dashboardPieSurat(Request $request){
+    public function dashboardPieSurat(Request $request)
+    {
 
         $startDate = $request->start_date;
         $endDate = $request->end_date;
@@ -64,76 +67,76 @@ class DashboardController extends Controller
         $surat_masuk_count = CorSuratMasuk::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
         })
-        ->count();
-       $surat_keluar_count = CorSuratKeluar::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-           $query->whereBetween('created_at', [$startDate, $endDate]);
-       })
-       ->count();;
+            ->count();
+        $surat_keluar_count = CorSuratKeluar::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        })
+            ->count();;
 
-       $surat_masuk_open = CorSuratMasuk::where('status','open')
-       ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        })->count();
-       $surat_masuk_close = CorSuratMasuk::where('status','close')
-       ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        })->count();
+        $surat_masuk_open = CorSuratMasuk::where('status', 'open')
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
+        $surat_masuk_close = CorSuratMasuk::where('status', 'close')
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
 
-       $surat_keluar_open = CorSuratKeluar::where('status','open')
-       ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        })->count();
-       $surat_keluar_close = CorSuratKeluar::where('status','close')
-       ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        })->count();
+        $surat_keluar_open = CorSuratKeluar::where('status', 'open')
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
+        $surat_keluar_close = CorSuratKeluar::where('status', 'close')
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
 
- 
+
 
         return response()->json([
             "status" => "ok",
             "data_pie_surat" => [
                 [
                     "id" => "pieChart1",
-                    "title" =>"Surat Masuk & Keluar",
+                    "title" => "Surat Masuk & Keluar",
                     "color" => ["#e25668", "#e256ae"],
-                    "value" =>[$surat_masuk_count, $surat_keluar_count],
-                    "legend" =>["Masuk", "Keluar"],
+                    "value" => [$surat_masuk_count, $surat_keluar_count],
+                    "legend" => ["Masuk", "Keluar"],
                 ],
                 [
                     "id" => "pieChart2",
-                    "title" =>"Surat Masuk",
+                    "title" => "Surat Masuk",
                     "color" => ["#8a56e2", "#5668e2"],
                     "value" => [$surat_masuk_open, $surat_masuk_close],
-                    "legend" =>["Open", "Close"],
+                    "legend" => ["Open", "Close"],
                 ],
                 [
                     "id" => "pieChart3",
-                    "title" =>"Surat Keluar",
+                    "title" => "Surat Keluar",
                     "color" => ["#57aee2", "#6de257"],
-                    "value" =>[$surat_keluar_open, $surat_keluar_close],
-                    "legend" =>["Open", "Close"],
+                    "value" => [$surat_keluar_open, $surat_keluar_close],
+                    "legend" => ["Open", "Close"],
                 ]
-                ]
-                ]);
-
+            ]
+        ]);
     }
-    public function dashboardDrawings(Request $request){
+    public function dashboardDrawings(Request $request)
+    {
         $startDate = $request->start_date;
         $endDate = $request->end_date;
 
-        $tabel_drawings = MasterCustom::where('template','drawings')->whereNotNull('tab')->get();
+        $tabel_drawings = MasterCustom::where('template', 'drawings')->whereNotNull('tab')->get();
         $array_drawings = [];
 
         // return $tabel_drawings;
 
-        foreach($tabel_drawings as $item_drawing) {
+        foreach ($tabel_drawings as $item_drawing) {
             $drawing['title'] = $item_drawing->name;
 
             //jumlah ambil dari dynamic model
-            $model = (new DynamicCustom())->setTableName('custom_'.$item_drawing->tab);
+            $model = (new DynamicCustom())->setTableName('custom_' . $item_drawing->tab);
             $drawing['jumlah'] = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('created_at', [$startDate, $endDate]);
+                $query->whereBetween('created_at', [$startDate, $endDate]);
             })->count();
 
             array_push($array_drawings, $drawing);
@@ -142,22 +145,23 @@ class DashboardController extends Controller
         return response()->json($array_drawings);
     }
 
-    public function dashboardProcurementLogistic(Request $request){
+    public function dashboardProcurementLogistic(Request $request)
+    {
         $startDate = $request->start_date;
         $endDate = $request->end_date;
 
-        $tabel_procurement_logistic = MasterCustom::where('template','procurement_logistic')->whereNotNull('tab')->get();
+        $tabel_procurement_logistic = MasterCustom::where('template', 'procurement_logistic')->whereNotNull('tab')->get();
         $array_tab = [];
 
         // return $tabel_drawings;
 
-        foreach($tabel_procurement_logistic as $item) {
+        foreach ($tabel_procurement_logistic as $item) {
             $data['label'] = $item->name;
 
             //jumlah ambil dari dynamic model
-            $model = (new DynamicCustom())->setTableName('custom_'.$item->tab);
+            $model = (new DynamicCustom())->setTableName('custom_' . $item->tab);
             $data['value'] = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('created_at', [$startDate, $endDate]);
+                $query->whereBetween('created_at', [$startDate, $endDate]);
             })->count();
 
             $data['color'] = (optional($item->r_parent)->name == 'Procurement') ? "#245069" : "#9dd9e8";
@@ -166,7 +170,8 @@ class DashboardController extends Controller
 
         return response()->json($array_tab);
     }
-    public function dashboardDocumentManagement(Request $request){
+    public function dashboardDocumentManagement(Request $request)
+    {
         $startDate = $request->start_date;
         $endDate = $request->end_date;
 
@@ -179,7 +184,7 @@ class DashboardController extends Controller
         $data_engineer['label'] = "Engineer";
         $data_engineer['value'] = $jumlah_engineer;
 
-        array_push($array_tab,$data_engineer);
+        array_push($array_tab, $data_engineer);
 
         $jumlah_contruction = ConstructionDocument::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
             $query->whereBetween('tanggal', [$startDate, $endDate]);
@@ -187,7 +192,7 @@ class DashboardController extends Controller
         $data_construction['label'] = "Construction";
         $data_construction['value'] = $jumlah_contruction;
 
-        array_push($array_tab,$data_construction);
+        array_push($array_tab, $data_construction);
 
         $jumlah_field = FieldInstruction::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
             $query->whereBetween('tanggal', [$startDate, $endDate]);
@@ -195,27 +200,27 @@ class DashboardController extends Controller
         $data_field['label'] = "Field Instruction";
         $data_field['value'] = $jumlah_field;
 
-        array_push($array_tab,$data_field);
+        array_push($array_tab, $data_field);
 
         $jumlah_sop = Sop::when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
         })->count();
-        
+
         $data_sop['label'] = "Project Procedure";
         $data_sop['value'] = $jumlah_sop;
 
-        array_push($array_tab,$data_sop);
+        array_push($array_tab, $data_sop);
 
-        $tabel_document_management = MasterCustom::where('template','document_management')->whereNotNull('tab')->get();
+        $tabel_document_management = MasterCustom::where('template', 'document_management')->whereNotNull('tab')->get();
 
         // return $array_tab;
-        foreach($tabel_document_management as $item) {
+        foreach ($tabel_document_management as $item) {
             $data['label'] = $item->name;
 
             //jumlah ambil dari dynamic model
-            $model = (new DynamicCustom())->setTableName('custom_'.$item->tab);
+            $model = (new DynamicCustom())->setTableName('custom_' . $item->tab);
             $data['value'] = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('created_at', [$startDate, $endDate]);
+                $query->whereBetween('created_at', [$startDate, $endDate]);
             })->count();
 
             $data['color'] = (optional($item->r_parent)->name == 'Procurement') ? "#245069" : "#9dd9e8";
@@ -223,22 +228,47 @@ class DashboardController extends Controller
         }
 
         ///drawing
-        $tabel_drawing = MasterCustom::where('template','drawings')->whereNotNull('tab')->get();
+        $tabel_drawing = MasterCustom::where('template', 'drawings')->whereNotNull('tab')->get();
         $data_drawing['label'] = 'Drawings';
         // return $array_tab;
         $total_drawing = 0;
-        foreach($tabel_drawing as $item_drawing) {
+        foreach ($tabel_drawing as $item_drawing) {
             //jumlah ambil dari dynamic model
-            $model = (new DynamicCustom())->setTableName('custom_'.$item_drawing->tab);
+            $model = (new DynamicCustom())->setTableName('custom_' . $item_drawing->tab);
             $total = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('created_at', [$startDate, $endDate]);
+                $query->whereBetween('created_at', [$startDate, $endDate]);
             })->count();
-            
-            $total_drawing +=$total;
+
+            $total_drawing += $total;
         }
         $data_drawing['value'] = $total_drawing;
         array_push($array_tab, $data_drawing);
 
         return response()->json($array_tab);
+    }
+
+    public function dashboardPillings(Request $request)
+    {
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $tabel_piling = MasterCustom::where('template', 'piling')->whereNotNull('tab')->get();
+        $array_piling = [];
+
+        // return $tabel_drawings;
+
+        foreach ($tabel_piling as $item_piling) {
+            $piling['title'] = $item_piling->name;
+
+            //jumlah ambil dari dynamic model
+            $model = (new DynamicCustom())->setTableName('custom_' . $item_piling->tab);
+            $piling['jumlah'] = $model->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            })->count();
+
+            array_push($array_piling, $piling);
+        }
+
+        return response()->json($array_piling);
     }
 }
