@@ -53,7 +53,7 @@
         </div>
         <div class="card-body row">
             <div class="container py-4">
-                <div class="scroll-container" id="imageScroller">
+                <div class="scroll-container d-flex justify-content-center " id="imageScroller">
                     <!-- Card Start -->
                     @foreach ($data_photographics as $item_photographic)
                         <div class="profile-card d-flex flex-column" style="height: 100%;">
@@ -133,5 +133,56 @@
             }
             isScrolling = !isScrolling;
         });
+
+
+        $("#filterBtnPhotographic").click(function() {
+            start_date_p = document.getElementById('start_date_photographic').value;
+            end_date_p = document.getElementById('end_date_photographic').value;
+            imageScrollerContainer = document.getElementById('imageScroller');
+
+            if (start_date_p == "" || end_date_p == "") {
+                alert("Tanggal tidak boleh kosong");
+                return
+            }
+
+
+            $.ajax({
+                url: "{{ route('dashboard-new-image') }}",
+                data: {
+                    start_date: start_date_p,
+                    end_date: end_date_p,
+                },
+                method: "GET",
+                success: function(response) {
+
+                    if (response.length == 0) {
+                        alert('Data tidak ditemukan')
+                        return
+                    }
+
+                    imageScrollerContainer.innerHTML = "";
+
+                    response.forEach((item) => {
+                        createImageElement(item.description, item.path)
+                    })
+
+                }
+            })
+        })
+
+        function createImageElement(description, path) {
+            imageScrollerContainer = document.getElementById('imageScroller');
+            imageScrollerContainer.innerHTML += `
+            <div class="profile-card d-flex flex-column" style="height: 100%;">
+                <img src="/storage/${path}" class="profile-img" alt="Profile Photo">
+                <div class="profile-body d-flex flex-column flex-grow-1">
+                    <p class="profile-desc mb-2">${description}</p>
+                    <i class="far fa-eye" style="color: rgb(137, 135, 135); cursor: pointer"
+                        data-bs-toggle="modal" data-bs-target="#modal"
+                        onClick="return viewImage({description:'${description}',path:'${path}'})"></i>
+                </div>
+            </div>
+            `
+        }
     </script>
 @endpush

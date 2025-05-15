@@ -271,4 +271,25 @@ class DashboardController extends Controller
 
         return response()->json($array_piling);
     }
+
+    public function newDashboardImage(Request $request)
+    {
+        $result = collect();
+        $table_photographics = MasterCustom::select('tab')->where("template", 'photographic')->whereNotNull('tab')->get();
+
+        foreach ($table_photographics as $item_tab) {
+            $data_photographics = (new DynamicCustom())
+                ->setTableName('custom_' . $item_tab->tab)
+                ->select('description', 'path')
+                ->when($request->start_date && $request->end_date, function ($query) use ($request) {
+                    $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
+                })
+                ->get();
+            if ($data_photographics->isNotEmpty()) {
+                $result = $result->merge($data_photographics);
+            }
+        }
+
+        return response()->json($result);
+    }
 }

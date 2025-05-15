@@ -37,3 +37,4 @@ Route::get("/dashboard-document-management", [DashboardController::class, 'dashb
 Route::get('/new-dashboard-gantt', [GanttController::class, 'newDashboarGantt'])->name('new-dashboard-gantt');
 
 Route::get("/dashboard-pillings", [DashboardController::class, 'dashboardPillings'])->name('dashboard-pillings');
+Route::get("/dashboard-new-image", [DashboardController::class, 'newDashboardImage'])->name('dashboard-new-image');
