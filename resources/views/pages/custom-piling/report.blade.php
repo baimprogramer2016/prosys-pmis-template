@@ -98,7 +98,7 @@
                                     <div class="col col-stats ms-3 ms-sm-0 d-flex">
                                         <div class="numbers">
                                             <h4 class="card-title">
-                                                {{ Ucwords(str_replace('piling', '', str_replace('_', ' ', request('tab')))) }}
+                                                {{ Ucwords(str_replace('Piling', '', str_replace('piling', '', str_replace('_', ' ', request('tab'))))) }}
                                             </h4>
                                         </div>
 
