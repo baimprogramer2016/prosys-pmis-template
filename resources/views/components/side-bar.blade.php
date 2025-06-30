@@ -457,7 +457,7 @@
                           <p>Quality Management</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse  {{ Request::is('custom-quality-management*') || Request::is('ncr*') || Request::is('issue*') ? 'show' : '' }}""
+                      <div class="collapse  {{ Request::is('custom-rfi*') || Request::is('custom-quality-management*') || Request::is('ncr*') || Request::is('issue*') ? 'show' : '' }}""
                           id="quality_management">
                           <ul class="nav nav-collapse">
                               @can('view_ncr')
@@ -477,6 +477,7 @@
                                   </li>
                               @endcan
                               <x-custom-quality-management />
+                              <x-custom-rfi />
                           </ul>
                       </div>
 

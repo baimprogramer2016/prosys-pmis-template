@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
 
-class CustomPilingController extends Controller
+class CustomRfiController extends Controller
 {
     public function index(Request $request)
     {
@@ -28,19 +28,20 @@ class CustomPilingController extends Controller
 
             // Sekarang $model sudah pakai table custom_xxx
             $title = MasterCustom::where('tab', $request->tab)->first();
-            return view('pages.custom-piling.report', [
-                "title" => $title->name
+
+            return view('pages.custom-rfi.report', [
+                'title' => $title->name ?? 'Untitled'
             ]);
-        } catch (Throwable $e) {
-            // Tangani error
+        } catch (\Throwable $e) {
             return response()->json([
-                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'message' => 'Terjadi kesalahan saat mengambil data.',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
-    public function getCustomPiling(Request $request)
+
+    public function getCustomRfi(Request $request)
     {
 
         if ($request->ajax()) {
@@ -66,13 +67,13 @@ class CustomPilingController extends Controller
                         $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                     }
                     $editBtn = '';
-                    if (Gate::allows('edit_piling')) {
-                        $editBtn = ' <a class="dropdown-item" href="' . route('custom-piling-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
+                    if (Gate::allows('edit_rfi_in_quality_management')) {
+                        $editBtn = ' <a class="dropdown-item" href="' . route('custom-rfi-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
                     }
 
                     // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
                     $deleteBtn = '';
-                    if (Gate::allows('delete_piling')) {
+                    if (Gate::allows('delete_rfi_in_quality_management')) {
                         $deleteBtn = ' <a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
                     }
                     $btn = '<div class="dropdown">
@@ -128,11 +129,11 @@ class CustomPilingController extends Controller
             $data_category = MasterCategory::where('category', 'engineering')->get();
             $data_discipline = MasterDiscipline::get();
             $title = MasterCustom::where('tab', $request->tab)->first();
-            return view('pages.custom-piling.report-tambah', [
+            return view('pages.custom-rfi.report-tambah', [
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline,
-                "title" =>  $title->name
+                "title" => $title->name,
             ]);
         } catch (Throwable $e) {
             // Tangani error
@@ -206,12 +207,12 @@ class CustomPilingController extends Controller
             $data_category = MasterCategory::where('category', 'engineering')->get();
             $data_discipline = MasterDiscipline::get();
             $title = MasterCustom::where('tab', $request->tab)->first();
-            return view('pages.custom-piling.report-edit', [
+            return view('pages.custom-rfi.report-edit', [
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline,
                 "document" => $document,
-                "title" => $title->name,
+                "title" => $title->name
             ]);
         } catch (Throwable $e) {
             // Tangani error
@@ -290,7 +291,7 @@ class CustomPilingController extends Controller
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
             $document = $tableCustom->find($id);
-            return view('pages.custom-piling.report-pdf', [
+            return view('pages.custom-rfi.report-pdf', [
                 "document" => $document,
             ]);
         } catch (Throwable $e) {
@@ -312,7 +313,7 @@ class CustomPilingController extends Controller
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
             $document = $tableCustom->find($id);
-            return view('pages.custom-piling.report-share', [
+            return view('pages.custom-rfi.report-share', [
                 "document" => $document,
             ]);
         } catch (Throwable $e) {
@@ -333,13 +334,12 @@ class CustomPilingController extends Controller
             $tableName = 'custom_' . $tab;
 
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
-            $title = MasterCustom::where('tab', $request->tab)->first();
+
             $document = $tableCustom->find($id);
 
-            return view('pages.custom-piling.report-delete', [
+            return view('pages.custom-rfi.report-delete', [
                 "document" => $document,
-                "tab" => $tab,
-                "title" => $title->name
+                "tab" => $tab
             ]);
         } catch (Throwable $e) {
             // Tangani error
@@ -379,7 +379,7 @@ class CustomPilingController extends Controller
 
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
             $document = $tableCustom->where('custom_id', $id)->get();
-            return view('pages.custom-piling.report-history', [
+            return view('pages.custom-rfi.report-history', [
                 "documents" => $document,
             ]);
         } catch (Throwable $e) {

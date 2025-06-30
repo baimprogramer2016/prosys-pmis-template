@@ -38,6 +38,7 @@ use App\Http\Controllers\RfiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleManagementController;
 use App\Http\Controllers\CustomQualityManagementController;
+use App\Http\Controllers\CustomRfiController;
 use App\Http\Controllers\SCurveController;
 use App\Http\Controllers\SopController;
 use App\Http\Controllers\UserController;
@@ -576,4 +577,17 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-piling-delete/{id}', [CustomPilingController::class, 'viewDelete'])->name('custom-piling-delete');
     Route::post('/custom-piling-deleted/{id}', [CustomPilingController::class, 'deleted'])->name('custom-piling-deleted');
     Route::get('/custom-piling-history/{id}', [CustomPilingController::class, 'history'])->name('custom-piling-history');
+
+    Route::get('/custom-rfi', [CustomRfiController::class, 'index'])->name('custom-rfi');
+    Route::get('/get-custom-rfi', [CustomRfiController::class, 'getCustomRfi'])->name('get-custom-rfi');
+    Route::get('/custom-rfi-tambah', [CustomRfiController::class, 'viewTambah'])->name('custom-rfi-tambah');
+    Route::post('/custom-rfi-upload-temp', [CustomRfiController::class, 'uploadTemp'])->name('custom-rfi-upload-temp');
+    Route::post('/custom-rfi-save-uploads', [CustomRfiController::class, 'saveUploads'])->name('custom-rfi-save-uploads');
+    Route::get('/custom-rfi-edit/{id}', [CustomRfiController::class, 'viewEdit'])->name('custom-rfi-edit');
+    Route::post('/custom-rfi-update-uploads/{id}', [CustomRfiController::class, 'updateUploads'])->name('custom-rfi-update-uploads');
+    Route::get('/custom-rfi-pdf/{id}', [CustomRfiController::class, 'pdf'])->name('custom-rfi-pdf');
+    Route::get('/custom-rfi-share/{id}', [CustomRfiController::class, 'share'])->name('custom-rfi-share');
+    Route::get('/custom-rfi-delete/{id}', [CustomRfiController::class, 'viewDelete'])->name('custom-rfi-delete');
+    Route::post('/custom-rfi-deleted/{id}', [CustomRfiController::class, 'deleted'])->name('custom-rfi-deleted');
+    Route::get('/custom-rfi-history/{id}', [CustomRfiController::class, 'history'])->name('custom-rfi-history');
 });
