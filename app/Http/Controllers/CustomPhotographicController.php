@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DynamicCustom;
 use App\Models\DynamicCustomHistory;
 use App\Models\MasterCategory;
+use App\Models\MasterCustom;
 use App\Models\MasterDiscipline;
 use App\Models\MasterStatus;
 use Illuminate\Http\Request;
@@ -17,10 +18,18 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CustomPhotographicController extends Controller
 {
-    public function index(Request $request){
-        try{
-            return view('pages.custom-photographic.report');
-        }catch (Throwable $e) {
+    public function index(Request $request)
+    {
+        try {
+            if (!$request->has('tab')) {
+                return abort(400, 'Parameter "tab" wajib diisi');
+            }
+            // Sekarang $model sudah pakai table custom_xxx
+            $title = MasterCustom::where('tab', $request->tab)->first();
+            return view('pages.custom-photographic.report', [
+                'title' => $title->name ?? 'Untitled'
+            ]);
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
@@ -35,34 +44,35 @@ class CustomPhotographicController extends Controller
         if ($request->ajax()) {
             $tableName = 'custom_' . $request->tab;
             $data = (new DynamicCustom())->setTableName($tableName)
-            ->select(['id',
-                'description', 
-                'author',
-                DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
-                'path',
-                'ext',
-                'size',
-            ]);
-            
+                ->select([
+                    'id',
+                    'description',
+                    'author',
+                    DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"),
+                    'path',
+                    'ext',
+                    'size',
+                ]);
+
             return DataTables::of($data)
-            ->addColumn('action', function($row) use($request){
-                $fileUrl = asset('storage/' . $row->path);
-                $addDropdown = "";
-                if(in_array($row->ext,['pdf','jpg','png','jpeg','docx','doc','xls','xlsx','ppt','pptx'])){
-                    $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
-                }
-                 // Tombol Edit (Hanya tampil jika user memiliki izin 'edit_schedule')
-                 $editBtn = '';
-                 if (Gate::allows('edit_photographic')) {
-                     $editBtn = '<a class="dropdown-item" href="' . route('custom-photographic-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
-                 }
-             
-                 // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
-                 $deleteBtn = '';
-                 if (Gate::allows('delete_photographic')) {
-                     $deleteBtn = '<a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
-                 }
-                $btn = '<div class="dropdown">
+                ->addColumn('action', function ($row) use ($request) {
+                    $fileUrl = asset('storage/' . $row->path);
+                    $addDropdown = "";
+                    if (in_array($row->ext, ['pdf', 'jpg', 'png', 'jpeg', 'docx', 'doc', 'xls', 'xlsx', 'ppt', 'pptx'])) {
+                        $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
+                    }
+                    // Tombol Edit (Hanya tampil jika user memiliki izin 'edit_schedule')
+                    $editBtn = '';
+                    if (Gate::allows('edit_photographic')) {
+                        $editBtn = '<a class="dropdown-item" href="' . route('custom-photographic-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
+                    }
+
+                    // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
+                    $deleteBtn = '';
+                    if (Gate::allows('delete_photographic')) {
+                        $deleteBtn = '<a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
+                    }
+                    $btn = '<div class="dropdown">
                             <button
                                 class="btn btn-icon btn-clean me-0"
                                 type="button"
@@ -81,40 +91,42 @@ class CustomPhotographicController extends Controller
                                 ' . $addDropdown . '                        
                             </div>
                         </div>';
-                return $btn;
-    
-            }) 
-        
-            
-                ->rawColumns(['action' ]) // Agar HTML di kolom 'action' dirender
+                    return $btn;
+                })
+
+
+                ->rawColumns(['action']) // Agar HTML di kolom 'action' dirender
                 ->make(true);
         }
     }
 
-    public function viewTambah(Request $request){
-        try{
+    public function viewTambah(Request $request)
+    {
+        try {
             $data_status = MasterStatus::get();
-            $data_category = MasterCategory::where('category','engineering')->get();
+            $data_category = MasterCategory::where('category', 'engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-photographic.report-tambah',[
+            $title = MasterCustom::where('tab', $request->tab)->first();
+            return view('pages.custom-photographic.report-tambah', [
                 "data_status" => $data_status,
                 "data_category" => $data_category,
-                "data_discipline" => $data_discipline
+                "data_discipline" => $data_discipline,
+                "title" => $title->name,
             ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
-    } 
+    }
 
     public function uploadTemp(Request $request)
     {
         $file = $request->file('file');
         $path = $file->store('temp');  // Simpan sementara di folder 'temp'
-        
+
         return response()->json([
             'path' => $path,
             'name' => $file->getClientOriginalName(),
@@ -127,23 +139,23 @@ class CustomPhotographicController extends Controller
         $description = $request->input('description');
         $tanggal = $request->input('tanggal');
         $tab = $request->input('tab');
-        $tableName = 'custom_'.$request->input('tab');
+        $tableName = 'custom_' . $request->input('tab');
 
         $savedFiles = [];
         foreach ($uploadedFiles as $file) {
             // Split nama file berdasarkan "~"
             $fileName = $file['fileName'];
             $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileSize =0; // dalam byte
-           
+            $fileSize = 0; // dalam byte
+
             // Pindahkan file dari 'temp' ke 'public/engineer'
-            $newPath = str_replace('temp', 'public/'.$tab, $file['path']);
+            $newPath = str_replace('temp', 'public/' . $tab, $file['path']);
             Storage::move($file['path'], $newPath);
 
             // Simpan ke database atau proses lainnya
             $doc = (new DynamicCustom())->setTableName($tableName);
             $doc->description = trim($description);
-            $doc->author =Auth::User()->name;
+            $doc->author = Auth::User()->name;
             $doc->tanggal = $tanggal;
             $doc->path = str_replace('public/', '', $newPath);
             $doc->ext = $file_ext;
@@ -153,38 +165,40 @@ class CustomPhotographicController extends Controller
             $savedFiles[] = $doc;
         }
 
-    return response()->json([
-        'status' =>'ok',
-        'data' => $savedFiles
-    ]);
+        return response()->json([
+            'status' => 'ok',
+            'data' => $savedFiles
+        ]);
     }
 
-    public function viewEdit(Request $request, $id){
-        
-        try{
+    public function viewEdit(Request $request, $id)
+    {
+
+        try {
             $tab = $request->tab;
-            $tableName = 'custom_'.$tab;
+            $tableName = 'custom_' . $tab;
             $doc = (new DynamicCustom())->setTableName($tableName);
-            $document =$doc->find($id);
-          
+            $document = $doc->find($id);
+
             $data_status = MasterStatus::get();
-            $data_category = MasterCategory::where('category','engineering')->get();
+            $data_category = MasterCategory::where('category', 'engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-photographic.report-edit',[
+            $title = MasterCustom::where('tab', $request->tab)->first();
+            return view('pages.custom-photographic.report-edit', [
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline,
                 "document" => $document,
+                "title" => $title->name
             ]);
-           
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
-    } 
+    }
 
     public function updateUploads(Request $request, $id)
     {
@@ -192,8 +206,8 @@ class CustomPhotographicController extends Controller
         $description = $request->input('description');
         $tanggal = $request->input('tanggal');
         $tab = $request->input('tab');
-        $tableName = 'custom_'.$tab;
-     
+        $tableName = 'custom_' . $tab;
+
 
         $tableCustom = (new DynamicCustom())->setTableName($tableName);
         $doc = $tableCustom->find($id);
@@ -204,62 +218,42 @@ class CustomPhotographicController extends Controller
             // Split nama file berdasarkan "~"
             $fileName = $uploadedFiles[0]['fileName'];
             $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileSize =0; // dalam byte
+            $fileSize = 0; // dalam byte
 
             // Pindahkan file dari 'temp' ke 'public/engineer'
-            $newPath = str_replace('temp', 'public/'.$tab, $uploadedFiles[0]['path']);
+            $newPath = str_replace('temp', 'public/' . $tab, $uploadedFiles[0]['path']);
             Storage::move($uploadedFiles[0]['path'], $newPath);
             $path = str_replace('public/', '', $newPath);
         }
-            // Simpan ke database atau proses lainnya
-            $doc->description = trim($description);
-            $doc->author = Auth::User()->name;
-            $doc->tanggal = $tanggal;
-            $doc->path = $path;
-            $doc->ext = $file_ext;
-            $doc->size = $fileSize;
-            $doc->save();
+        // Simpan ke database atau proses lainnya
+        $doc->description = trim($description);
+        $doc->author = Auth::User()->name;
+        $doc->tanggal = $tanggal;
+        $doc->path = $path;
+        $doc->ext = $file_ext;
+        $doc->size = $fileSize;
+        $doc->save();
 
-    return response()->json([
-        'status' =>'ok',
-    ]);
+        return response()->json([
+            'status' => 'ok',
+        ]);
     }
 
-    
-    public function pdf(Request $request, $id){ 
-        try{
 
-        $tab = $request->input('tab');
-        $tableName = 'custom_'.$tab;
-           
-        $tableCustom = (new DynamicCustom())->setTableName($tableName);
+    public function pdf(Request $request, $id)
+    {
+        try {
 
-            $document =$tableCustom->find($id);
+            $tab = $request->input('tab');
+            $tableName = 'custom_' . $tab;
+
+            $tableCustom = (new DynamicCustom())->setTableName($tableName);
+
+            $document = $tableCustom->find($id);
             return view('pages.custom-photographic.report-pdf', [
                 "document" => $document,
             ]);
-        }catch (Throwable $e) {
-            // Tangani error
-            return response()->json([
-                'message' => 'Terjadi kesalahan saat menyimpan data.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    } 
-
-    public function share(Request $request, $id){
-      
-        try{
-            $tab = $request->input('tab');
-            $tableName = 'custom_'.$tab;
-            
-            $tableCustom = (new DynamicCustom())->setTableName($tableName);
-
-            $document =$tableCustom->find($id);
-            return view('pages.custom-photographic.report-share', [
-                "document" => $document,
-            ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
@@ -267,44 +261,67 @@ class CustomPhotographicController extends Controller
             ], 500);
         }
     }
-    
-    
-    public function viewDelete(Request $request, $id){
-      
-        try{
+
+    public function share(Request $request, $id)
+    {
+
+        try {
             $tab = $request->input('tab');
-            $tableName = 'custom_'.$tab;
-            
+            $tableName = 'custom_' . $tab;
+
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
-            $document =$tableCustom->find($id);
-      
+            $document = $tableCustom->find($id);
+            return view('pages.custom-photographic.report-share', [
+                "document" => $document,
+            ]);
+        } catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    public function viewDelete(Request $request, $id)
+    {
+
+        try {
+            $tab = $request->input('tab');
+            $tableName = 'custom_' . $tab;
+
+            $tableCustom = (new DynamicCustom())->setTableName($tableName);
+
+            $document = $tableCustom->find($id);
+
             return view('pages.custom-photographic.report-delete', [
                 "document" => $document,
                 "tab" => $tab
             ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
-    } 
-    
-    public function deleted(Request $request,$id){
+    }
+
+    public function deleted(Request $request, $id)
+    {
         $tab = $request->input('tab');
-        $tableName = 'custom_'.$tab;
-        $tableNameHistory = 'custom_'.$tab.'_history';
-        
+        $tableName = 'custom_' . $tab;
+        $tableNameHistory = 'custom_' . $tab . '_history';
+
         $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
-        $task =$tableCustom->find($id);
+        $task = $tableCustom->find($id);
         $task->delete();
- 
+
         return response()->json([
-            "action"=> "deleted"
+            "action" => "deleted"
         ]);
-    } 
-    
+    }
 }
