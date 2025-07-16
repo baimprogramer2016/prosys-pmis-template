@@ -65,7 +65,7 @@
                           <p>Schedule Management</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse  {{ Request::is('schedule-management*') || Request::is('s-curve*') ? 'show' : '' }}""
+                      <div class="collapse  {{ Request::is('schedule-management*') || Request::is('s-curve*') ? 'show' : '' }}"
                           id="schedule">
                           <ul class="nav nav-collapse">
                               @can('view_doc_schedule')
@@ -131,7 +131,7 @@
                                       <p>Engineering</p>
                                       <span class="caret"></span>
                                   </a>
-                                  <div class="collapse  {{ Request::is('document-engineer*') || Request::is('document-engineer') ? 'show' : '' }}""
+                                  <div class="collapse  {{ Request::is('document-engineer*') || Request::is('document-engineer') ? 'show' : '' }}"
                                       id="engineering">
                                       <ul class="nav nav-collapse">
                                           @can('view_doc_engineering_upload')
@@ -203,7 +203,7 @@
                                       <p>Construction</p>
                                       <span class="caret"></span>
                                   </a>
-                                  <div class="collapse  {{ Request::is('construction-document*') || Request::is('construction-document') ? 'show' : '' }}""
+                                  <div class="collapse  {{ Request::is('construction-document*') || Request::is('construction-document') ? 'show' : '' }}"
                                       id="constructiondocument">
                                       <ul class="nav nav-collapse">
                                           @can('view_construction_upload')
@@ -257,7 +257,7 @@
                                       <p>Field Instructions</p>
                                       <span class="caret"></span>
                                   </a>
-                                  <div class="collapse  {{ Request::is('field-instruction*') || Request::is('field-instruction') ? 'show' : '' }}""
+                                  <div class="collapse  {{ Request::is('field-instruction*') || Request::is('field-instruction') ? 'show' : '' }}"
                                       id="fieldinstruction">
                                       <ul class="nav nav-collapse">
                                           @can('view_field_instruction_upload')
@@ -315,7 +315,7 @@
                                       <p>Correspondence </p>
                                       <span class="caret"></span>
                                   </a>
-                                  <div class="collapse  {{ Request::is('surat-masuk*') || Request::is('surat-keluar*') ? 'show' : '' }}""
+                                  <div class="collapse  {{ Request::is('surat-masuk*') || Request::is('surat-keluar*') ? 'show' : '' }}"
                                       id="correspondence">
                                       <ul class="nav nav-collapse">
                                           @can('view_correspondence_surat_masuk')
@@ -381,7 +381,7 @@
                           <p>Report</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse  {{ Request::is('custom-report*') || Request::is('report*') || Request::is('rfi*') || Request::is('mvr*') || Request::is('mrr*') ? 'show' : '' }}""
+                      <div class="collapse  {{ Request::is('custom-report*') || Request::is('report*') || Request::is('rfi*') || Request::is('mvr*') || Request::is('mrr*') ? 'show' : '' }}"
                           id="report">
                           <ul class="nav nav-collapse">
                               @can('view_daily_report')
@@ -457,7 +457,7 @@
                           <p>Quality Management</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse  {{ Request::is('custom-rfi*') || Request::is('custom-quality-management*') || Request::is('ncr*') || Request::is('issue*') ? 'show' : '' }}""
+                      <div class="collapse  {{ Request::is('custom-rfi*') || Request::is('custom-quality-management*') || Request::is('ncr*') || Request::is('issue*') ? 'show' : '' }}"
                           id="quality_management">
                           <ul class="nav nav-collapse">
                               @can('view_ncr')
@@ -483,12 +483,29 @@
 
                   </li>
                   @can('view_minutes_of_meeting')
-                      <li class="nav-item nav-item-custom {{ Request::is('mom*') ? 'active' : '' }}">
-                          <a href="{{ route('mom') }}">
+                      <li class="nav-item">
+                          <a data-bs-toggle="collapse" href="#mom">
                               <i class="fas fa-pen"></i>
-                              <p>Minutes Of Meeting</p>
-                              <span class="badge badge-success">{{ $jml_mom }}</span>
+
+                              <p>MOM</p>
+                              <span class="caret"></span>
                           </a>
+                          <div class="collapse  {{ Request::is('custom-mom*') || Request::is('mom*') || Request::is('rfi*') || Request::is('mvr*') || Request::is('mrr*') ? 'show' : '' }}"
+                              id="mom">
+                              <ul class="nav nav-collapse">
+
+                                  <li class="nav-item-custom {{ Request::is('mom*') ? 'active' : '' }}">
+                                      <a href="{{ route('mom') }}">
+                                          <span class="sub-item">Minutes Of Meeting</span>
+                                          <span class="badge badge-success">{{ $jml_mom }}</span>
+                                      </a>
+                                  </li>
+
+
+                                  <x-custom-mom />
+                              </ul>
+                          </div>
+
                       </li>
                   @endcan
                   <li class="nav-item active">

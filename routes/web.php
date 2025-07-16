@@ -9,7 +9,7 @@ use App\Http\Controllers\CustomController;
 use App\Http\Controllers\CustomDocumentManagementController;
 use App\Http\Controllers\CustomDrawingController;
 use App\Http\Controllers\CustomInvoiceRecordController;
-
+use App\Http\Controllers\CustomMomController;
 use App\Http\Controllers\CustomPersonnelHrController;
 use App\Http\Controllers\CustomPhotographicController;
 use App\Http\Controllers\CustomPilingController;
@@ -590,4 +590,17 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-rfi-delete/{id}', [CustomRfiController::class, 'viewDelete'])->name('custom-rfi-delete');
     Route::post('/custom-rfi-deleted/{id}', [CustomRfiController::class, 'deleted'])->name('custom-rfi-deleted');
     Route::get('/custom-rfi-history/{id}', [CustomRfiController::class, 'history'])->name('custom-rfi-history');
+
+    Route::get('/custom-mom', [CustomMomController::class, 'index'])->name('custom-mom');
+    Route::get('/get-custom-mom', [CustomMomController::class, 'getCustomMom'])->name('get-custom-mom');
+    Route::get('/custom-mom-tambah', [CustomMomController::class, 'viewTambah'])->name('custom-mom-tambah');
+    Route::post('/custom-mom-upload-temp', [CustomMomController::class, 'uploadTemp'])->name('custom-mom-upload-temp');
+    Route::post('/custom-mom-save-uploads', [CustomMomController::class, 'saveUploads'])->name('custom-mom-save-uploads');
+    Route::get('/custom-mom-edit/{id}', [CustomMomController::class, 'viewEdit'])->name('custom-mom-edit');
+    Route::post('/custom-mom-update-uploads/{id}', [CustomMomController::class, 'updateUploads'])->name('custom-mom-update-uploads');
+    Route::get('/custom-mom-pdf/{id}', [CustomMomController::class, 'pdf'])->name('custom-mom-pdf');
+    Route::get('/custom-mom-share/{id}', [CustomMomController::class, 'share'])->name('custom-mom-share');
+    Route::get('/custom-mom-delete/{id}', [CustomMomController::class, 'viewDelete'])->name('custom-mom-delete');
+    Route::post('/custom-mom-deleted/{id}', [CustomMomController::class, 'deleted'])->name('custom-mom-deleted');
+    Route::get('/custom-mom-history/{id}', [CustomMomController::class, 'history'])->name('custom-mom-history');
 });
