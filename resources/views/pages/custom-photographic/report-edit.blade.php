@@ -64,34 +64,39 @@
             <div class="col-sm-12 col-md-12">
                 <div class="card ">
                     <div class="card-body">
-                        <div class="alert-warning text-center">Hanya bisa Upload 1 File <strong>Kosongkan jika Document
-                                tidak dirubah</strong></div>
-                        <form action="{{ route('custom-photographic-upload-temp') }}" class="dropzone mt-3" id="myDropzone">
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="alert-warning text-center">Hanya bisa Upload 1 File <strong>Kosongkan jika
+                                        Document
+                                        tidak dirubah</strong></div>
+                                <form action="{{ route('custom-photographic-upload-temp') }}" class="dropzone mt-3"
+                                    id="myDropzone">
 
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        </form>
-                        <div class="align-items-center mb-3 mt-3   p-3 row">
-                            <input type="hidden" class="form-control" id="id_edit" name="id_edit"
-                                value="{{ $document->id }}">
-                            <div class="col-md mb-3">
-                                <label for="start_date" class="form-label strong">Description</label>
-                                <input type="text" class="form-control" id="description" name="description"
-                                    value="{{ $document->description }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                </form>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="start_date" class="form-label strong">Tanggal</label>
-                                <input type="date" class="form-control" id="tanggal" name="tanggal"
-                                    value="{{ \Carbon\Carbon::parse($document->tanggal)->format('Y-m-d') }}">
-                            </div>
+                            <div class="col-md-9">
 
-                            <div class="col-md-12 mb-3">
-                                <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
-                            </div>
 
+                                <input type="hidden" class="form-control" id="id_edit" name="id_edit"
+                                    value="{{ $document->id }}">
+                                <div class="mb-3">
+                                    <label for="start_date" class="form-label strong">Description</label>
+                                    <textarea class="form-control" id="description" name="description">{{ $document->description }}</textarea>
+
+                                </div>
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Tanggal</label>
+                                    <input type="date" class="form-control" id="tanggal" name="tanggal"
+                                        value="{{ \Carbon\Carbon::parse($document->tanggal)->format('Y-m-d') }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
+                                </div>
+
+                            </div>
                         </div>
-
-
-
                     </div>
 
                 </div>

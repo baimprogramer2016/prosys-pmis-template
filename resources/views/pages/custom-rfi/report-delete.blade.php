@@ -35,7 +35,7 @@
         };
 
         $.ajax({
-            url: "{{ route('custom-piling-deleted', ':id') }}".replace(':id',
+            url: "{{ route('custom-rfi-deleted', ':id') }}".replace(':id',
                 dataId), // Ganti dengan route yang sesuai
 
             type: "POST", // HTTP PUT untuk update

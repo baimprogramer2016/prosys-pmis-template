@@ -78,7 +78,7 @@
 
             <div class="ms-md-auto py-2 py-md-0">
                 @can('add_rfi_in_quality_management')
-                    <a href="{{ route('custom-piling-tambah', ['tab' => request('tab')]) }}"
+                    <a href="{{ route('custom-rfi-tambah', ['tab' => request('tab')]) }}"
                         class="btn btn-primary btn-round">Tambah</a>
                 @endcan
             </div>
@@ -181,7 +181,7 @@
             const tab = urlParams.get('tab');
             $(".modal-content").html("");
             $.ajax({
-                url: "{{ route('custom-piling-delete', ':id') }}".replace(':id',
+                url: "{{ route('custom-rfi-delete', ':id') }}".replace(':id',
                     param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {
@@ -207,7 +207,7 @@
             const tab = urlParams.get('tab');
             $(".modal-content").html("");
             $.ajax({
-                url: "{{ route('custom-piling-share', ':id') }}".replace(':id',
+                url: "{{ route('custom-rfi-share', ':id') }}".replace(':id',
                     param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {
@@ -233,7 +233,7 @@
             const tab = urlParams.get('tab');
             $(".modal-content").html("");
             $.ajax({
-                url: "{{ route('custom-piling-pdf', ':id') }}".replace(':id',
+                url: "{{ route('custom-rfi-pdf', ':id') }}".replace(':id',
                     param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {
@@ -272,7 +272,7 @@
                 },
 
                 ajax: {
-                    url: "{{ route('get-custom-piling', ['tab' => request('tab')]) }}",
+                    url: "{{ route('get-custom-rfi', ['tab' => request('tab')]) }}",
                 },
                 dom: '<"d-flex flex-column"<"mb-2"B><"d-flex justify-content-between"lf>>rtip',
                 buttons: [{
@@ -343,7 +343,7 @@
             const tab = urlParams.get('tab');
             $(".modal-content").html("");
             $.ajax({
-                url: "{{ route('custom-piling-history', ':id') }}".replace(':id',
+                url: "{{ route('custom-rfi-history', ':id') }}".replace(':id',
                     param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {

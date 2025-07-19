@@ -64,33 +64,42 @@
             <div class="col-sm-12 col-md-12">
                 <div class="card ">
                     <div class="card-body">
-                        <div class="alert-warning text-center">Hanya bisa Upload 1 File</div>
-                        <form action="{{ route('custom-mom-upload-temp') }}" class="dropzone mt-3" id="myDropzone">
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="alert-warning text-center">Hanya bisa Upload 1 File</div>
+                                <form action="{{ route('custom-mom-upload-temp') }}" class="dropzone mt-3" id="myDropzone">
 
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        </form>
-                        <div class="align-items-center mb-3 mt-3   p-3 row">
-                            <div class="col-md-6 mb-3">
-                                <label for="start_date" class="form-label strong">Document Number</label>
-                                <input type="text" class="form-control" id="document_number" name="document_number">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                </form>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="start_date" class="form-label strong">Title</label>
-                                <input type="text" class="form-control" id="description" name="description">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="start_date" class="form-label strong">Type Of Meeting</label>
-                                <input type="text" class="form-control" id="typeofmeeting" name="typeofmeeting">
+                            <div class="col-md-9">
+
+
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Document Number</label>
+                                    <textarea class="form-control" id="document_number" name="document_number"></textarea>
+
+                                </div>
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Title</label>
+                                    <textarea class="form-control" id="description" name="description"></textarea>
+
+                                </div>
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Type Of Meeting</label>
+                                    <input type="text" class="form-control" id="typeofmeeting" name="typeofmeeting">
+                                </div>
+
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Meeting Location</label>
+                                    <input type="text" class="form-control" id="meetinglocation" name="meetinglocation">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
+                                </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label for="start_date" class="form-label strong">Meeting Location</label>
-                                <input type="text" class="form-control" id="meetinglocation" name="meetinglocation">
-                            </div>
-
-                            <div class="col-md-12 mb-3">
-                                <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Submit</button>
-                            </div>
                         </div>
                     </div>
 

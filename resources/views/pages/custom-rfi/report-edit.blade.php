@@ -64,39 +64,44 @@
             <div class="col-sm-12 col-md-12">
                 <div class="card ">
                     <div class="card-body">
-                        <div class="alert-warning text-center">Hanya bisa Upload 1 File <strong>Kosongkan jika Document
-                                tidak dirubah</strong></div>
-                        <form action="{{ route('custom-piling-upload-temp') }}" class="dropzone mt-3" id="myDropzone">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="alert-warning text-center">Hanya bisa Upload 1 File <strong>Kosongkan jika
+                                        Document
+                                        tidak dirubah</strong></div>
+                                <form action="{{ route('custom-rfi-upload-temp') }}" class="dropzone mt-3" id="myDropzone">
 
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        </form>
-                        <div class="align-items-center mb-3 mt-3   p-3 row">
-                            <input type="hidden" class="form-control" id="id_edit" name="id_edit"
-                                value="{{ $document->id }}">
-                            <div class="col-md-4 mb-3">
-                                <label for="start_date" class="form-label strong">Document Number</label>
-                                <input type="text" class="form-control" id="document_number" name="document_number"
-                                    value="{{ $document->document_number }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                </form>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="start_date" class="form-label strong">Title</label>
-                                <input type="text" class="form-control" id="description" name="description"
-                                    value="{{ $document->description }}">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="start_date" class="form-label strong">Version</label>
-                                <input type="text" class="form-control" id="version" name="version"
-                                    value="{{ $document->version }}">
-                            </div>
+                            <div class="col-md-9">
 
-                            <div class="col-md-12 mb-3">
-                                <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
-                            </div>
 
+                                <input type="hidden" class="form-control" id="id_edit" name="id_edit"
+                                    value="{{ $document->id }}">
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Document Number</label>
+                                    <textarea class="form-control" id="document_number" name="document_number" placeholder="Document Number">{{ $document->document_number }}</textarea>
+
+                                </div>
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Title</label>
+                                    <textarea class="form-control" id="description" name="description" placeholder="Description">{{ $document->description }}</textarea>
+
+                                </div>
+                                <div class=" mb-3">
+                                    <label for="start_date" class="form-label strong">Version</label>
+                                    <input type="text" class="form-control" id="version" name="version"
+                                        value="{{ $document->version }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <button id="saveUploads" class="btn btn-success mt-3 w-100 ">Update</button>
+                                </div>
+
+
+                            </div>
                         </div>
-
-
-
                     </div>
 
                 </div>
@@ -179,7 +184,7 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const tab = urlParams.get('tab');
                 $.ajax({
-                    url: "{{ route('custom-piling-update-uploads', ':id') }}".replace(':id', id_edit),
+                    url: "{{ route('custom-rfi-update-uploads', ':id') }}".replace(':id', id_edit),
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
