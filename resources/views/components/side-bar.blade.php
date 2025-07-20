@@ -206,14 +206,14 @@
                                   <div class="collapse  {{ Request::is('construction-document*') || Request::is('construction-document') ? 'show' : '' }}"
                                       id="constructiondocument">
                                       <ul class="nav nav-collapse">
-                                          @can('view_construction_upload')
+                                          {{-- @can('view_construction_upload')
                                               <li
                                                   class="nav-item-custom {{ Request::is('construction-document-tambah') ? 'active' : '' }}">
                                                   <a href="{{ route('construction-document-tambah') }}">
                                                       <span class="sub-item">Upload Document</span>
                                                   </a>
                                               </li>
-                                          @endcan
+                                          @endcan --}}
                                           @can('view_construction_check')
                                               <li
                                                   class="nav-item-custom {{ Request::is('construction-document-check') ? 'active' : '' }}">
@@ -240,7 +240,7 @@
                                           @endcan
                                           @can('view_construction_document')
                                               <li
-                                                  class="nav-item-custom {{ Request::is('construction-document') ? 'active' : '' }}">
+                                                  class="nav-item-custom {{ Request::is('construction-document*') ? 'active' : '' }}">
                                                   <a href="{{ route('construction-document') }}">
                                                       <span class="sub-item">Construction Document</span>
                                                       <span class="badge badge-success">{{ $jml_construction }}</span>
