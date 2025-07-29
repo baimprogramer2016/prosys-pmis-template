@@ -247,6 +247,7 @@
                                                   </a>
                                               </li>
                                           @endcan
+
                                       </ul>
                                   </div>
                               </li>

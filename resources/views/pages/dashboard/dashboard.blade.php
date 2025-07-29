@@ -170,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            {{-- <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="card-title">Drawings</div>
@@ -188,10 +188,10 @@
                     </div>
                 </div>
                 <div class="row d-flex justify-content-between p-0" id="drawing-container">
-                    {{-- Drawing disini --}}
+                    
                 </div>
 
-            </div>
+            </div> --}}
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex align-items-center justify-content-between">
