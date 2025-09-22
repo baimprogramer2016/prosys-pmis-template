@@ -1,4 +1,11 @@
 
+new
+ssh pmispro1@202.155.132.41 -p 64000
+X6(R06b]XzLj7pVP
+
+
+
+old
 ssh pmispros@36.50.77.55 -p 64000
 baGfZg2Z27P[1b!x
 
