@@ -24,9 +24,11 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
-        'name'
+        'departement',
+        'nik',
+        'position',
     ];
-    protected $guard_name = 'web'; 
+    protected $guard_name = 'web';
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id');
@@ -51,6 +53,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    
 }

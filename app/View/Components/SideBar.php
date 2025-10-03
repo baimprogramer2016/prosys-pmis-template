@@ -5,6 +5,7 @@ namespace App\View\Components;
 use App\Models\ConstructionDocument;
 use App\Models\CorSuratKeluar;
 use App\Models\CorSuratMasuk;
+use App\Models\Cv;
 use App\Models\DocumentEngineering;
 use App\Models\FieldInstruction;
 use App\Models\IssueLog;
@@ -38,16 +39,14 @@ class SideBar extends Component
      */
     public function render(): View|Closure|string
     {
-        $data = [
-
-        ];
-        return view('components.side-bar',[
+        $data = [];
+        return view('components.side-bar', [
             "jml_schedule" => ScheduleManagement::count(),
             "jml_scurve" => SCurve::count(),
             "jml_sop" => Sop::count(),
             "jml_mdr" => DocumentEngineering::count(),
-            "jml_bd" => DocumentEngineering::where('category','1')->count(),
-            "jml_ded" => DocumentEngineering::where('category','2')->count(),
+            "jml_bd" => DocumentEngineering::where('category', '1')->count(),
+            "jml_ded" => DocumentEngineering::where('category', '2')->count(),
             "jml_construction" => ConstructionDocument::count(),
             "jml_field_construction" => FieldInstruction::count(),
             "jml_cor_masuk" => CorSuratMasuk::count(),
@@ -60,6 +59,7 @@ class SideBar extends Component
             "jml_mrr" => Mrr::count(),
             "jml_mom" => Mom::count(),
             "jml_ncr" => Ncr::count(),
+            "jml_cv" => Cv::count(),
             "jml_issue_log" => IssueLog::count(),
         ]);
     }

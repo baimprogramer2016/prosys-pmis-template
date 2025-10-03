@@ -111,9 +111,10 @@
                           <p>Document Management</p>
                           <span class="caret"></span>
                       </a>
-                      <div class="collapse {{ Request::is('*custom-piling*') || Request::is('*drawing*') || Request::is('*custom-photo*') || Request::is('*personnel-hr*') || Request::is('*document-management*') || Request::is('document-engineer*') || Request::is('sop*') || Request::is('construction-document*') || Request::is('field-instruction*') || Request::is('surat*') ? 'show' : '' }}"
+                      <div class="collapse {{ Request::is('time-sheet*') || Request::is('presensi*') || Request::is('cv*') || Request::is('*custom-piling*') || Request::is('*drawing*') || Request::is('*custom-photo*') || Request::is('*personnel-hr*') || Request::is('*document-management*') || Request::is('document-engineer*') || Request::is('sop*') || Request::is('construction-document*') || Request::is('field-instruction*') || Request::is('surat*') ? 'show' : '' }}"
                           id="document_management">
                           <ul class="nav nav-collapse subnav">
+
                               @can('view_sop')
                                   <li
                                       class="nav-item nav-item-custom nav-item-custom {{ Request::is('sop*') ? 'active' : '' }}">
@@ -509,6 +510,9 @@
 
                       </li>
                   @endcan
+
+
+
                   <li class="nav-item active">
                       <a href="#">
 

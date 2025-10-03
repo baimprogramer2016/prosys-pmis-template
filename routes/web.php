@@ -39,9 +39,11 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ScheduleManagementController;
 use App\Http\Controllers\CustomQualityManagementController;
 use App\Http\Controllers\CustomRfiController;
+use App\Http\Controllers\CvController;
 use App\Http\Controllers\SCurveController;
 use App\Http\Controllers\SopController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PresensiController;
 use App\Models\ReportMonthlyHistory;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendEmail;
@@ -603,4 +605,31 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/custom-mom-delete/{id}', [CustomMomController::class, 'viewDelete'])->name('custom-mom-delete');
     Route::post('/custom-mom-deleted/{id}', [CustomMomController::class, 'deleted'])->name('custom-mom-deleted');
     Route::get('/custom-mom-history/{id}', [CustomMomController::class, 'history'])->name('custom-mom-history');
+
+    Route::get('/presensi', [PresensiController::class, 'index'])->name('presensi');
+    Route::post('/presensi-add', [PresensiController::class, 'absen'])->name('presensi-add');
+    Route::get('/get-presensi', [PresensiController::class, 'getPresensi'])->name('get-presensi');
+    Route::get('/time-sheet', [PresensiController::class, 'timeSheet'])->name('time-sheet');
+    Route::get('/get-time-sheet', [PresensiController::class, 'getTimeSheet'])->name('get-time-sheet');
+
+
+    Route::get('/cv-list', [CvController::class, 'index'])->name('cv-list');
+    Route::get('/get-cv', [CvController::class, 'getReport'])->name('get-cv');
+    Route::get('/cv-tambah', [CvController::class, 'tambah'])->name('cv-tambah');
+    Route::post('/cv-upload-temp', [CvController::class, 'uploadTemp'])->name('cv-upload-temp');
+    Route::post('/cv-save-uploads', [CvController::class, 'saveUploads'])->name('cv-save-uploads');
+    Route::get('/cv-edit/{id}', [CvController::class, 'viewEdit'])->name('cv-edit');
+    Route::post('/cv-update/{id}', [CvController::class, 'update'])->name('cv-update');
+    Route::get('/cv-share/{id}', [CvController::class, 'share'])->name('cv-share');
+    Route::get('/cv-pdf/{id}', [CvController::class, 'pdf'])->name('cv-pdf');
+    Route::get('/cv-delete/{id}', [CvController::class, 'viewDelete'])->name('cv-delete');
+
+    Route::post('/cv-deleted/{id}', [CvController::class, 'deleted'])->name('cv-deleted');
+    Route::get('/cv-pengajuan', [CvController::class, 'pengajuan'])->name('cv-pengajuan');
+    Route::post('/cv-search', [CvController::class, 'getName'])->name('cv-search');
+    Route::post('/cv-search-reviewer', [CvController::class, 'getNameUser'])->name('cv-search-reviewer');
+    Route::post('/cv-pengajuan-save', [CvController::class, 'cvPengajuanSave'])->name('cv-pengajuan-save');
+    Route::get('/get-cv-pengajuan', [CvController::class, 'getCvPengajuan'])->name('get-cv-pengajuan');
+    Route::get('/cv-pengajuan-delete/{id}', [CvController::class, 'viewDeletePengajuan'])->name('cv-pengajuan-delete');
+    Route::post('/cv-pengajuan-deleted/{id}', [CvController::class, 'pengajuanDeleted'])->name('cv-pengajuan-deleted');
 });
