@@ -122,13 +122,14 @@
                                         <th class="bg-th">Departement</th>
                                         <th class="bg-th">Date</th>
                                         <th class="bg-th">Day</th>
-                                        <th class="bg-th">Check In</th>
-                                        <th class="bg-th">Check_In_Address</th>
+                                        <th class="bg-th">Clock In</th>
+                                        <th class="bg-th">Clock_In_Address</th>
                                         <th class="bg-th">Lat, Long</th>
-                                        <th class="bg-th">Check Out</th>
-                                        <th class="bg-th">Check_Out_Address</th>
+                                        <th class="bg-th">Clock Out</th>
+                                        <th class="bg-th">Clock_Out_Address</th>
                                         <th class="bg-th">Lat, Long</th>
                                         <th class="bg-th">Work_Desciption</th>
+                                        <th class="bg-th">Detail</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -223,7 +224,8 @@
         function viewPdf(param) {
             $(".modal-content").html("");
             $.ajax({
-                url: "{{ route('mom-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
+                url: "{{ route('presensi-detail', ':id') }}".replace(':id',
+                    param), // Ganti dengan route yang sesuai
                 type: "GET",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -340,6 +342,11 @@
                         data: 'work_description',
                         name: 'work_description'
                     },
+                    {
+                        data: 'detail',
+                        name: 'detail'
+                    },
+
 
                 ],
 

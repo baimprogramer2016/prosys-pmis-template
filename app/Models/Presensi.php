@@ -27,5 +27,13 @@ class Presensi extends Model
         'position',
         'departement',
         'work_description',
+        'photo_in',
+        'photo_out',
     ];
+
+
+    public function r_presensi_break()
+    {
+        return $this->hasMany(PresensiBreak::class, 'presensi_id', 'id');
+    }
 }

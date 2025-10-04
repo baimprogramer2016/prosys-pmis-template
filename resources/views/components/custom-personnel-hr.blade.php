@@ -18,7 +18,7 @@
                 @can('view_presensi')
                     <li class="nav-item nav-item-custom nav-item-custom {{ Request::is('presensi*') ? 'active' : '' }}">
                         <a href="{{ route('presensi') }}">
-                            <span class="sub-item">Attendance</span>
+                            <span class="sub-item">Live Attendance</span>
 
                         </a>
                     </li>

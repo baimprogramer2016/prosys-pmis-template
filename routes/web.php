@@ -611,6 +611,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/get-presensi', [PresensiController::class, 'getPresensi'])->name('get-presensi');
     Route::get('/time-sheet', [PresensiController::class, 'timeSheet'])->name('time-sheet');
     Route::get('/get-time-sheet', [PresensiController::class, 'getTimeSheet'])->name('get-time-sheet');
+    Route::get('/presensi-detail/{id}', [PresensiController::class, 'detailPresensi'])->name('presensi-detail');
+    Route::get('/presensi-status-break', [PresensiController::class, 'presensiBreak'])->name('presensi-status-break');
+    Route::post('/presensi-update-break', [PresensiController::class, 'updatePresensiBreak'])->name('presensi-update-break');
 
 
     Route::get('/cv-list', [CvController::class, 'index'])->name('cv-list');

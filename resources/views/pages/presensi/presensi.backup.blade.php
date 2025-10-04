@@ -65,82 +65,8 @@
                 display: block;
                 margin: 0 auto;
             }
-
-            /*SLIDE*/
-            .toggle-container {
-                width: 100%;
-                max-width: 100%;
-                height: 40px;
-                background: #cbd3ceff;
-                border-radius: 6px;
-                position: relative;
-                cursor: pointer;
-                transition: background 0.3s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
-
-            .toggle-container.active {
-                background: #e82323ff;
-                /* merah jika break */
-            }
-
-            .toggle-knob {
-                width: 12%;
-                /* 🔥 proporsional agar ikut lebar container */
-                min-width: 40px;
-                max-width: 58px;
-                height: calc(100% - 4px);
-                background: linear-gradient(145deg, #ffffff, #e6e6e6);
-                /* 🌈 gradasi elegan */
-                border-radius: 10px;
-                position: absolute;
-                top: 2px;
-                left: 5px;
-                transition: all 0.3s ease;
-                box-shadow:
-                    0 3px 6px rgba(0, 0, 0, 0.15),
-                    inset 0 2px 2px rgba(255, 255, 255, 0.7);
-                /* efek muncul & depth */
-            }
-
-            /* Saat toggle aktif, knob sedikit “menyala” */
-            .toggle-container.active .toggle-knob {
-                background: linear-gradient(145deg, #fefefe, #f1f1f1);
-                box-shadow:
-                    0 3px 10px rgba(0, 0, 0, 0.25),
-                    0 0 8px rgba(255, 255, 255, 0.6);
-                left: calc(100% - 14%);
-            }
-
-            /* Tambahan efek hover agar terasa interaktif */
-            .toggle-knob:hover {
-                transform: scale(1.05);
-                box-shadow:
-                    0 4px 10px rgba(0, 0, 0, 0.25),
-                    inset 0 2px 3px rgba(255, 255, 255, 0.8);
-            }
-
-            .toggle-container.active .toggle-knob {
-                left: calc(100% - 11%);
-                /* 100% - lebar knob (12%) - margin kecil (2%) */
-            }
-
-            .toggle-label {
-                font-weight: 600;
-                font-size: 14px;
-                color: #333;
-                pointer-events: none;
-                z-index: 2;
-            }
-
-            .toggle-container.active .toggle-label {
-                color: #fff;
-            }
-
-            /*end slide*/
+        </style>
+        <style>
             .attendance-container {
                 border-radius: 12px;
                 overflow: hidden;
@@ -227,8 +153,7 @@
 
                                             <!-- Work Description -->
                                             <div class="mb-3">
-                                                <input type="hidden" id="id"
-                                                    value="{{ optional($absen_today)->id }}" />
+
                                                 <textarea class="form-control" id="work_description" name="work_description" rows="3"
                                                     placeholder="Work Description....">{{ optional($absen_today)->work_description }}</textarea>
                                             </div>
@@ -242,7 +167,7 @@
                                                         {{ optional($absen_today)->check_in ? \Carbon\Carbon::parse($absen_today->check_in)->format('H:i') : '00:00' }}
                                                     </div>
                                                     <button class="btn btn-success w-100 py-3 fw-bold" id="btn-in"
-                                                        onclick="openCamera('IN')">
+                                                        onClick="getLocation('IN')">
                                                         Clock In
                                                     </button>
                                                 </div>
@@ -254,21 +179,11 @@
                                                         {{ optional($absen_today)->check_out ? \Carbon\Carbon::parse($absen_today->check_out)->format('H:i') : '00:00' }}
                                                     </div>
                                                     <button class="btn btn-danger w-100 py-3 fw-bold" id="btn-out"
-                                                        onclick="openCamera('OUT')">
+                                                        onClick="getLocation('OUT')">
                                                         Clock Out
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="p-3">
-                                                <div class="toggle-container" id="toggleBtn">
-                                                    <div class="toggle-knob"></div>
-                                                    <div class="toggle-label text-white" id="toggleLabel">Slide to start
-                                                        break </div>
-                                                </div>
-                                                {{-- <div class="status-text" id="statusText">Status: Working </div> --}}
-
-                                            </div>
-
 
                                             <!-- Location Info -->
                                             <p id="location_check"></p>
@@ -300,7 +215,6 @@
                                         <th class="bg-th">Clock Out Address</th>
                                         <th class="bg-th">Lat, Long</th>
                                         <th class="bg-th">Work Desciption</th>
-                                        <th class="bg-th">Detail</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -308,28 +222,6 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal Camera -->
-    <div class="modal fade" id="cameraModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cameraTitle">Capture</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <video id="cameraStream" width="100%" autoplay playsinline style="border:1px solid #ccc"></video>
-                    <canvas id="cameraCanvas" class="d-none"></canvas>
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="captureBtn">Ambil Foto</button>
-                    <button class="btn btn-success d-none" id="confirmBtn">Simpan</button>
                 </div>
             </div>
         </div>
@@ -351,7 +243,7 @@
         </div>
     </div>
     <div class="modal fade" id="modal-large" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm"> <!-- Tambahkan modal-lg di sini -->
+        <div class="modal-dialog modal-xl"> <!-- Tambahkan modal-lg di sini -->
             <div class="modal-content">
 
             </div>
@@ -374,86 +266,6 @@
     <script src="https://cdn.datatables.net/buttons/3.2.1/js/buttons.print.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        const toggle = document.getElementById("toggleBtn");
-
-        const toggleLabel = document.getElementById("toggleLabel");
-        const id = document.getElementById("id");
-        const presensiBreakCount = document.getElementById("presensi_break_count");
-
-        let isOn = false; // default
-
-        // 🔹 Fungsi untuk update tampilan berdasarkan status
-        function updateToggleUI() {
-            toggle.classList.toggle("active", isOn);
-
-            if (isOn) {
-                toggleLabel.innerHTML = "On Break";
-
-            } else {
-                toggleLabel.innerHTML = "Slide to start break";
-
-            }
-        }
-
-        // 🔹 Ambil status awal dari backend
-        $.ajax({
-            url: "{{ route('presensi-status-break') }}",
-            method: "GET",
-            success: function(res) {
-                console.log("Status awal:", res);
-                // Jika API balikin status "onbreak", aktifkan toggle
-                isOn = (res.status === "onbreak");
-                updateToggleUI();
-            },
-            error: function(err) {
-                console.error("Gagal ambil status awal:", err);
-            },
-        });
-
-        // 🔹 Saat tombol diklik
-        toggle.addEventListener("click", () => {
-            if ($("#id").val() === "") {
-                alert("Please clock in first to start break.");
-                return;
-            }
-
-            // Ubah status
-            isOn = !isOn;
-            updateToggleUI();
-
-            // 🔹 Kirim ke backend untuk simpan status terbaru
-            const now = new Date();
-
-            // 1. Tanggal lengkap beserta jam, menit, detik (lokal)
-            const tanggalLengkap =
-                now.getFullYear() + "-" +
-                String(now.getMonth() + 1).padStart(2, "0") + "-" +
-                String(now.getDate()).padStart(2, "0") + " " +
-                String(now.getHours()).padStart(2, "0") + ":" +
-                String(now.getMinutes()).padStart(2, "0") + ":" +
-                String(now.getSeconds()).padStart(2, "0");
-
-            $.ajax({
-                url: "{{ route('presensi-update-break') }}", // ganti ke route update kamu
-                method: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    status: isOn ? "insert" : "update",
-                    id: $("#id").val(),
-                    break_time: tanggalLengkap
-                },
-                success: function(res) {
-                    console.log("Status berhasil diubah:", res);
-                },
-                error: function(err) {
-                    alert("Gagal update status: " + err.responseText);
-                },
-            });
-
-        });
-    </script>
-
-    <script>
         // Autosize textarea
         const textarea = document.getElementById('work_description');
         textarea.addEventListener('input', function() {
@@ -462,65 +274,17 @@
         });
     </script>
     <script>
-        let cameraStream, currentType;
+        // Inisialisasi map dengan posisi default (Jakarta)
+        // const map = L.map("map").setView([-6.2, 106.816666], 10);
 
-        function openCamera(type) {
-            currentType = type; // IN / OUT
-            const modal = new bootstrap.Modal(document.getElementById('cameraModal'));
-            modal.show();
+        // // Tambahkan tile layer dari OSM
+        // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        //     attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> contributors'
+        // }).addTo(map);
 
-            // Start camera
-            navigator.mediaDevices.getUserMedia({
-                    video: {
-                        width: {
-                            ideal: 320
-                        }, // target lebar 320px
-                        height: {
-                            ideal: 240
-                        }, // target tinggi 240px
-                        facingMode: "user" // atau "environment" untuk kamera belakang
-                    }
-                })
-                .then(stream => {
-                    cameraStream = stream;
-                    document.getElementById('cameraStream').srcObject = stream;
-                })
-                .catch(err => {
-                    alert("Tidak bisa akses kamera: " + err);
-                });
+        // let marker;
 
-            document.getElementById("captureBtn").classList.remove("d-none");
-            document.getElementById("confirmBtn").classList.add("d-none");
-
-        }
-
-        document.getElementById("captureBtn").addEventListener("click", function() {
-            const video = document.getElementById("cameraStream");
-            const canvas = document.getElementById("cameraCanvas");
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext("2d").drawImage(video, 0, 0);
-
-            const dataUrl = canvas.toDataURL("image/png");
-
-
-            this.classList.add("d-none");
-            document.getElementById("confirmBtn").classList.remove("d-none");
-
-            // stop camera stream setelah capture
-            cameraStream.getTracks().forEach(track => track.stop());
-        });
-
-        document.getElementById("confirmBtn").addEventListener("click", function() {
-            const canvas = document.getElementById("cameraCanvas");
-            const dataUrl = canvas.toDataURL("image/png");
-
-            // kirim data + foto ke server
-            sendAttendance(currentType, dataUrl);
-
-            const modal = bootstrap.Modal.getInstance(document.getElementById('cameraModal'));
-            modal.hide();
-        });
+        // Fungsi untuk ambil alamat dari lat-lng (reverse geocoding)
         async function getAddress(lat, lon) {
             const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
             const response = await fetch(url, {
@@ -532,72 +296,114 @@
             return data.display_name || "Alamat tidak ditemukan";
         }
 
+        // Fungsi tombol
+        function getLocation(param) {
 
-        function sendAttendance(type, imageBase64) {
-            let $btn = (type === 'IN') ? $("#btn-in") : $("#btn-out");
+            const work_description = document.getElementById("work_description").value;
+            if (!work_description || work_description.trim() === "") {
+                alert("Please enter your work description before checking in/out.");
+                return;
+            }
 
-            // set loading
-            $btn.prop("disabled", true).text("Processing...");
+            if (navigator.geolocation) {
 
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                const lat = pos.coords.latitude;
-                const lon = pos.coords.longitude;
-                const address = await getAddress(lat, lon);
+                if (param == 'IN') {
+                    document.getElementById("btn-in").disabled = true;
+                    document.getElementById("btn-in").innerText = "Loading...";
+                } else {
+                    document.getElementById("btn-out").disabled = true;
+                    document.getElementById("btn-out").innerText = "Loading...";
+                }
+                navigator.geolocation.getCurrentPosition(async (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    const address = await getAddress(lat, lon);
 
-                const now = new Date();
+                    const now = new Date();
 
-                // 1. Tanggal lengkap beserta jam, menit, detik (lokal)
-                const tanggalLengkap =
-                    now.getFullYear() + "-" +
-                    String(now.getMonth() + 1).padStart(2, "0") + "-" +
-                    String(now.getDate()).padStart(2, "0") + " " +
-                    String(now.getHours()).padStart(2, "0") + ":" +
-                    String(now.getMinutes()).padStart(2, "0") + ":" +
-                    String(now.getSeconds()).padStart(2, "0");
+                    // 1. Tanggal lengkap beserta jam, menit, detik (lokal)
+                    const tanggalLengkap =
+                        now.getFullYear() + "-" +
+                        String(now.getMonth() + 1).padStart(2, "0") + "-" +
+                        String(now.getDate()).padStart(2, "0") + " " +
+                        String(now.getHours()).padStart(2, "0") + ":" +
+                        String(now.getMinutes()).padStart(2, "0") + ":" +
+                        String(now.getSeconds()).padStart(2, "0");
 
-                // 2. Hanya jam dan menit (lokal)
-                const jamMenit =
-                    String(now.getHours()).padStart(2, "0") + ":" +
-                    String(now.getMinutes()).padStart(2, "0");
+                    // 2. Hanya jam dan menit (lokal)
+                    const jamMenit =
+                        String(now.getHours()).padStart(2, "0") + ":" +
+                        String(now.getMinutes()).padStart(2, "0");
 
 
-                $.ajax({
-                    url: "{{ route('presensi-add') }}",
-                    method: "POST",
-                    data: {
+
+
+                    const payload = {
                         _token: "{{ csrf_token() }}",
-                        type: type,
                         latitude: lat,
                         longitude: lon,
+                        type: param,
                         address: address,
                         check_time: tanggalLengkap,
-                        work_description: $("#work_description").val(),
-                        image: imageBase64 // base64 string
-                    },
-                    success: function(res) {
-                        swal(res.message, {
-                            buttons: {
-                                confirm: {
-                                    className: "btn btn-success"
-                                }
-                            }
-                        });
-                        // kembalikan tombol
-                        $btn.prop("disabled", false)
-                            .text(type === 'IN' ? "Clock In" : "Clock Out");
-
-
-                        location.reload();
-                    },
-                    error: function(err) {
-                        alert("Gagal: " + err.responseText);
-
-                        $btn.prop("disabled", false)
-                            .text(type === 'IN' ? "Clock In" : "Clock Out");
+                        work_description: $("#work_description").val()
                     }
-                });
-            });
 
+
+
+                    $.ajax({
+                        url: "{{ route('presensi-add') }}",
+                        type: "POST",
+                        data: payload,
+                        success: function(response) {
+                            console.log(response);
+                            if (response.status == 'success') {
+                                msg_swal = response.message;
+                                color = "btn btn-success";
+
+                                if (param == 'IN') {
+                                    document.getElementById("check_in_time").innerText = jamMenit;
+                                } else {
+                                    document.getElementById("check_out_time").innerText = jamMenit;
+                                }
+
+
+
+
+                            } else {
+                                msg_swal = response.message;
+                                color = "btn btn-danger";
+                            }
+                            swal(msg_swal, {
+                                buttons: {
+                                    confirm: {
+                                        className: color,
+                                    },
+                                },
+                            });
+                            // sendEmail(email, status, description)
+
+                            location.reload();
+
+                            if (param == 'IN') {
+                                document.getElementById("btn-in").disabled = false;
+                                document.getElementById("btn-in").innerText = "Check In";
+                            } else {
+                                document.getElementById("btn-out").disabled = false;
+                                document.getElementById("btn-out").innerText = "Check Out";
+                            }
+                        },
+                        error: function(xhr) {
+                            alert('An error occurred: ' + xhr.responseText);
+                        }
+                    });
+
+
+                }, (err) => {
+                    alert("Gagal mendapatkan lokasi: " + err.message);
+                });
+            } else {
+                alert("Browser tidak mendukung Geolocation API");
+            }
         }
     </script>
     <script>
@@ -644,8 +450,7 @@
         function viewPdf(param) {
             $(".modal-content").html("");
             $.ajax({
-                url: "{{ route('presensi-detail', ':id') }}".replace(':id',
-                    param), // Ganti dengan route yang sesuai
+                url: "{{ route('mrr-pdf', ':id') }}".replace(':id', param), // Ganti dengan route yang sesuai
                 type: "GET",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -735,10 +540,6 @@
                     {
                         data: 'work_description',
                         name: 'work_description'
-                    },
-                    {
-                        data: 'detail',
-                        name: 'detail'
                     },
 
 
