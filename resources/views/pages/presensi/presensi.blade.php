@@ -508,7 +508,7 @@
             document.getElementById("confirmBtn").classList.remove("d-none");
 
             // stop camera stream setelah capture
-            cameraStream.getTracks().forEach(track => track.stop());
+            // cameraStream.getTracks().forEach(track => track.stop());
         });
 
         document.getElementById("confirmBtn").addEventListener("click", function() {
