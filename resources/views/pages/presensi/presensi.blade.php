@@ -497,18 +497,29 @@
         document.getElementById("captureBtn").addEventListener("click", function() {
             const video = document.getElementById("cameraStream");
             const canvas = document.getElementById("cameraCanvas");
+            const ctx = canvas.getContext("2d"); // <- definisikan dulu
+
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            canvas.getContext("2d").drawImage(video, 0, 0);
 
+            // ambil frame dari video ke canvas
+            ctx.drawImage(video, 0, 0);
+
+            // tampilkan hasil di canvas (preview)
+            canvas.classList.remove("d-none");
+            video.classList.add("d-none"); // opsional: sembunyikan video
+
+            // ambil data base64
             const dataUrl = canvas.toDataURL("image/png");
 
-
+            // ubah tombol
             this.classList.add("d-none");
             document.getElementById("confirmBtn").classList.remove("d-none");
 
+            // ❌ jangan stop kamera dulu, biar tetap hidup sampai konfirmasi
+
             // stop camera stream setelah capture
-            cameraStream.getTracks().forEach(track => track.stop());
+            // cameraStream.getTracks().forEach(track => track.stop());
         });
 
         document.getElementById("confirmBtn").addEventListener("click", function() {
@@ -517,6 +528,9 @@
 
             // kirim data + foto ke server
             sendAttendance(currentType, dataUrl);
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+            }
 
             const modal = bootstrap.Modal.getInstance(document.getElementById('cameraModal'));
             modal.hide();
