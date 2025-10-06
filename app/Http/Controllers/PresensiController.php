@@ -138,7 +138,7 @@ class PresensiController extends Controller
                 $hasPhoto = !empty($row->photo_in) || !empty($row->photo_out);
 
                 if ($hasBreak || $hasPhoto) {
-                    return '<a href="" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer text-primary">View</a>';
+                    return '<a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer text-primary">View</a>';
                 }
 
                 return '';
