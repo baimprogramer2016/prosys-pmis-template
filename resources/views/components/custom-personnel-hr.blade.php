@@ -31,7 +31,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('view_cv')
+                {{-- @can('view_cv')
                     <li class="nav-item-custom {{ Request::is('cv-list*') ? 'active' : '' }}">
                         <a href="{{ route('cv-list') }}">
                             <span class="sub-item">Curriculum Vitae</span>
@@ -55,9 +55,9 @@
 
                         </a>
                     </li>
-                @endcan
+                @endcan --}}
 
-                @can('view_personnel_hr')
+                {{-- @can('view_personnel_hr')
                     @foreach ($item_sidebar->r_child as $item_sub_sidebar)
                         <li class="nav-item-custom {{ request('tab') == $item_sub_sidebar->tab ? 'active' : '' }}">
                             <a
@@ -67,7 +67,7 @@
                             </a>
                         </li>
                     @endforeach
-                @endcan
+                @endcan --}}
             </ul>
         </div>
     </li>
