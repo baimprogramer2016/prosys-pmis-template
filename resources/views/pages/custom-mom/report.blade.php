@@ -77,7 +77,7 @@
             </div>
 
             <div class="ms-md-auto py-2 py-md-0">
-                @can('add_minutes_of_meeting')
+                @can($permission_add)
                     <a href="{{ route('custom-mom-tambah', ['tab' => request('tab')]) }}"
                         class="btn btn-primary btn-round">Tambah</a>
                 @endcan

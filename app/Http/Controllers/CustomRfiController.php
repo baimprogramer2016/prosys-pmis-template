@@ -30,7 +30,8 @@ class CustomRfiController extends Controller
             $title = MasterCustom::where('tab', $request->tab)->first();
 
             return view('pages.custom-rfi.report', [
-                'title' => $title->name ?? 'Untitled'
+                'title' => $title->name ?? 'Untitled',
+                "permission_add" => "add_" . $title->permission
             ]);
         } catch (\Throwable $e) {
             return response()->json([
@@ -58,22 +59,22 @@ class CustomRfiController extends Controller
                     'ext',
                     'size',
                 ]);
-
+            $permission = MasterCustom::where('tab', $request->tab)->first();
             return DataTables::of($data)
-                ->addColumn('action', function ($row) use ($request) {
+                ->addColumn('action', function ($row) use ($request, $permission) {
                     $fileUrl = asset('storage/' . $row->path);
                     $addDropdown = "";
                     if (in_array($row->ext, ['pdf', 'jpg', 'png', 'jpeg', 'docx', 'doc', 'xls', 'xlsx', 'ppt', 'pptx'])) {
                         $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                     }
                     $editBtn = '';
-                    if (Gate::allows('edit_rfi_in_quality_management')) {
+                    if (Gate::allows('edit_' . $permission->permission)) {
                         $editBtn = ' <a class="dropdown-item" href="' . route('custom-rfi-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
                     }
 
                     // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
                     $deleteBtn = '';
-                    if (Gate::allows('delete_rfi_in_quality_management')) {
+                    if (Gate::allows('delete_' . $permission->permission)) {
                         $deleteBtn = ' <a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
                     }
                     $btn = '<div class="dropdown">

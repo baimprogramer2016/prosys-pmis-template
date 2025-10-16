@@ -23,15 +23,15 @@ class CustomProcurementLogistic extends Component
      */
     public function render(): View|Closure|string
     {
-        $sidebar_procurement_logistic = MasterCustom::where("template",'procurement_logistic')->where('type','parent')->get();
+        $sidebar_procurement_logistic = MasterCustom::where("template", 'procurement_logistic')->where('type', 'parent')->get();
 
-        foreach($sidebar_procurement_logistic as $item_parent){
-        
-            foreach($item_parent->r_child as $item_child){
-                $item_child->jml_doc = (new DynamicCustom())->setTableName('custom_'.$item_child->tab)->count();
+        foreach ($sidebar_procurement_logistic as $item_parent) {
+
+            foreach ($item_parent->r_child as $item_child) {
+                $item_child->jml_doc = (new DynamicCustom())->setTableName('custom_' . $item_child->tab)->count();
             }
         }
-        return view('components.custom-procurement-logistic',[
+        return view('components.custom-procurement-logistic', [
             "sidebar_procurement_logistic" => $sidebar_procurement_logistic
         ]);
     }

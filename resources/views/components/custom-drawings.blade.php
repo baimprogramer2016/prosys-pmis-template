@@ -1,5 +1,5 @@
-@can('view_drawings')
-    @foreach ($sidebar_drawings as $item_sidebar)
+@foreach ($sidebar_drawings as $item_sidebar)
+    @can('view_' . $item_sidebar->permission)
         <li class="nav-item">
             <a data-bs-toggle="collapse" href="#{{ $item_sidebar->id }}">
                 <i class="{{ $item_sidebar->icon }}"></i>
@@ -14,21 +14,23 @@
                 });
             @endphp
 
-            <div class="collapse {{ Request::is('*custom-piling*') || $isActiveParent ? 'show' : '' }}"
+            <div class="collapse {{ Request::is('*custom-draw*') || $isActiveParent ? 'show' : '' }}"
                 id="{{ $item_sidebar->id }}">
                 <ul class="nav nav-collapse">
                     @foreach ($item_sidebar->r_child as $item_sub_sidebar)
-                        <li class="nav-item-custom  {{ request('tab') == $item_sub_sidebar->tab ? 'active' : '' }}">
-                            <a
-                                href="{{ route('custom-drawing', ['tab' => $item_sub_sidebar->tab, 'icon' => $item_sidebar->icon]) }}">
-                                <span class="sub-item">{{ $item_sub_sidebar->name }}</span>
-                                <span class="badge badge-success">{{ $item_sub_sidebar->jml_doc }}</span>
-                            </a>
-                        </li>
+                        @can('view_' . $item_sub_sidebar->permission)
+                            <li class="nav-item-custom  {{ request('tab') == $item_sub_sidebar->tab ? 'active' : '' }}">
+                                <a
+                                    href="{{ route('custom-drawing', ['tab' => $item_sub_sidebar->tab, 'icon' => $item_sidebar->icon]) }}">
+                                    <span class="sub-item">{{ $item_sub_sidebar->name }}</span>
+                                    <span class="badge badge-success">{{ $item_sub_sidebar->jml_doc }}</span>
+                                </a>
+                            </li>
+                        @endcan
                     @endforeach
-                    <x-custom-piling />
+
                 </ul>
             </div>
         </li>
-    @endforeach
-@endcan
+    @endcan
+@endforeach

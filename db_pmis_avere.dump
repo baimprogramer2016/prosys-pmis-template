@@ -1,0 +1,1304 @@
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+--
+-- Host: localhost    Database: pmis_avere
+-- ------------------------------------------------------
+-- Server version	8.0.41
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `cor_surat_keluar`
+--
+
+DROP TABLE IF EXISTS `cor_surat_keluar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cor_surat_keluar` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `recipient` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `attn` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hardcopy` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `category` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `version` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cor_surat_keluar`
+--
+
+LOCK TABLES `cor_surat_keluar` WRITE;
+/*!40000 ALTER TABLE `cor_surat_keluar` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cor_surat_keluar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cor_surat_keluar_history`
+--
+
+DROP TABLE IF EXISTS `cor_surat_keluar_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cor_surat_keluar_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cor_surat_keluar_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `recipient` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `attn` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hardcopy` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `category` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `version` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cor_surat_keluar_history`
+--
+
+LOCK TABLES `cor_surat_keluar_history` WRITE;
+/*!40000 ALTER TABLE `cor_surat_keluar_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cor_surat_keluar_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cor_surat_masuk`
+--
+
+DROP TABLE IF EXISTS `cor_surat_masuk`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cor_surat_masuk` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofincomingdocument` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `from_` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `category` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `version` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hardcopy` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cor_surat_masuk`
+--
+
+LOCK TABLES `cor_surat_masuk` WRITE;
+/*!40000 ALTER TABLE `cor_surat_masuk` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cor_surat_masuk` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cor_surat_masuk_history`
+--
+
+DROP TABLE IF EXISTS `cor_surat_masuk_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cor_surat_masuk_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cor_surat_masuk_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofincomingdocument` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `from_` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `category` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `version` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hardcopy` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cor_surat_masuk_history`
+--
+
+LOCK TABLES `cor_surat_masuk_history` WRITE;
+/*!40000 ALTER TABLE `cor_surat_masuk_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cor_surat_masuk_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cv`
+--
+
+DROP TABLE IF EXISTS `cv`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cv` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `academy` text,
+  `major` text,
+  `degree` text,
+  `position` text,
+  `path` text,
+  `photo` text,
+  `ext` varchar(20) DEFAULT NULL,
+  `author` varchar(200) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cv`
+--
+
+LOCK TABLES `cv` WRITE;
+/*!40000 ALTER TABLE `cv` DISABLE KEYS */;
+INSERT INTO `cv` VALUES (4,'RIFAI BIN SAYUTI','Institut Teknologi Bandung','Mechanical Engineering','Bachelor Degree','Senior Piping Engineer','cv/Ukc4jUsD8m8OpLfhLVBCcSDD8oZHyHet5DbXLENt.pdf','cv_images/ENdUDO8Ps4X2euNmqajcTjSMdCHNhaiwJuLfEZ7R.jpg','PDF','Super','2025-10-02 02:04:20','2025-10-02 02:04:20'),(5,'SEPTA REZA','Institute Saints And Technology National Jakarta','Civil Engineering','Bachelor Degree','Senior Civil/Structural Engineer (QA/QC)','cv/cQAvt0iyi9rklytsEeIX2OZ8y6xpPPvbmKFu8LZl.pdf','cv_images/1XD8ZagCDsoarCTtw0CNwBIKssC06FOZfpX89rYS.jpg','pdf','Super','2025-10-02 02:10:11','2025-10-02 02:10:11');
+/*!40000 ALTER TABLE `cv` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cv_group`
+--
+
+DROP TABLE IF EXISTS `cv_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cv_group` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` varchar(200) DEFAULT NULL,
+  `status` text,
+  `created_by_id` int DEFAULT NULL,
+  `created_by` varchar(200) DEFAULT NULL,
+  `reviewer_id` int DEFAULT NULL,
+  `reviewer_name` varchar(200) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cv_group`
+--
+
+LOCK TABLES `cv_group` WRITE;
+/*!40000 ALTER TABLE `cv_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cv_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cv_group_detail`
+--
+
+DROP TABLE IF EXISTS `cv_group_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cv_group_detail` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `cv_id` int DEFAULT NULL,
+  `cv_group_id` int DEFAULT NULL,
+  `status` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cv_group_detail`
+--
+
+LOCK TABLES `cv_group_detail` WRITE;
+/*!40000 ALTER TABLE `cv_group_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cv_group_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `document_engineer`
+--
+
+DROP TABLE IF EXISTS `document_engineer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `document_engineer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `discipline` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `size` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `checker` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `reviewer` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `approver` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `uploader` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email_check` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email_review` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email_approve` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `document_engineer`
+--
+
+LOCK TABLES `document_engineer` WRITE;
+/*!40000 ALTER TABLE `document_engineer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `document_engineer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `document_engineer_history`
+--
+
+DROP TABLE IF EXISTS `document_engineer_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `document_engineer_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_engineer_id` int DEFAULT NULL,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `extension` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `discipline` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `size` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `approver` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `reviewer` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `checker` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `uploader` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `document_engineer_history`
+--
+
+LOCK TABLES `document_engineer_history` WRITE;
+/*!40000 ALTER TABLE `document_engineer_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `document_engineer_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `failed_jobs`
+--
+
+DROP TABLE IF EXISTS `failed_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `failed_jobs` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `failed_jobs`
+--
+
+LOCK TABLES `failed_jobs` WRITE;
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issue_log`
+--
+
+DROP TABLE IF EXISTS `issue_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `issue_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `raised_on` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `report_by` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `priority` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `closure_date` datetime DEFAULT NULL,
+  `path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `issue_log`
+--
+
+LOCK TABLES `issue_log` WRITE;
+/*!40000 ALTER TABLE `issue_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `issue_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `links`
+--
+
+DROP TABLE IF EXISTS `links`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `links` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `source` int NOT NULL,
+  `target` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `links`
+--
+
+LOCK TABLES `links` WRITE;
+/*!40000 ALTER TABLE `links` DISABLE KEYS */;
+/*!40000 ALTER TABLE `links` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `master_category`
+--
+
+DROP TABLE IF EXISTS `master_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `master_category` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `category` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `route` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `weight` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `master_category`
+--
+
+LOCK TABLES `master_category` WRITE;
+/*!40000 ALTER TABLE `master_category` DISABLE KEYS */;
+INSERT INTO `master_category` VALUES (1,'Basic Design','engineering','',NULL),(2,'Detail Engineering Design','engineering','',NULL),(3,'Site Instruction','surat','',NULL),(4,'Daily Report\n','surat','',NULL),(5,'Weekly Report\n','surat','',NULL),(6,'Monthly Report','surat','',NULL),(7,'Planned','schedule_management','',NULL),(8,'Actual','schedule_management','',NULL),(9,'Engineering','s_curve','',10),(10,'Procurement','s_curve','',50),(11,'Construction','s_curve','',38.59),(12,'Commissioning','s_curve','',1.41),(13,'parent','custom_menu','',NULL),(14,'child','custom_menu','',NULL),(15,'personnel_hr','template','custom-personnel-hr',NULL),(16,'drawings','template','custom-drawing',NULL),(17,'photographic','template','custom-photographic',NULL),(18,'procurement_logistic','template','custom-procurement-logistic',NULL),(19,'report','template','custom-report',NULL),(20,'invoice_record','template','custom-invoice-record',NULL),(21,'contract_management','template','custom-contract-management',NULL),(22,'document_management','template','custom-document-management',NULL),(23,'quality_management','template','custom-quality-management',NULL),(25,'rfi_in_quality_management','template','custom-rfi',NULL),(26,'mom','template','custom-mom',NULL);
+/*!40000 ALTER TABLE `master_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `master_custom`
+--
+
+DROP TABLE IF EXISTS `master_custom`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `master_custom` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `icon` varchar(50) DEFAULT NULL,
+  `tab` varchar(50) DEFAULT NULL,
+  `tab_history` varchar(50) DEFAULT NULL,
+  `parent` varchar(10) DEFAULT NULL,
+  `template` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `permission` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `master_custom`
+--
+
+LOCK TABLES `master_custom` WRITE;
+/*!40000 ALTER TABLE `master_custom` DISABLE KEYS */;
+INSERT INTO `master_custom` VALUES (21,'HR-Resources Management','parent','fas fa-users-cog',NULL,NULL,NULL,'personnel_hr','2025-02-25 12:18:07','2025-02-25 12:18:07','human_resource');
+/*!40000 ALTER TABLE `master_custom` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `master_discipline`
+--
+
+DROP TABLE IF EXISTS `master_discipline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `master_discipline` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `category` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `master_discipline`
+--
+
+LOCK TABLES `master_discipline` WRITE;
+/*!40000 ALTER TABLE `master_discipline` DISABLE KEYS */;
+INSERT INTO `master_discipline` VALUES (1,'Discipline 1',NULL),(2,'Discipline 2',NULL),(3,'Discipline 3',NULL);
+/*!40000 ALTER TABLE `master_discipline` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `master_status`
+--
+
+DROP TABLE IF EXISTS `master_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `master_status` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `master_status`
+--
+
+LOCK TABLES `master_status` WRITE;
+/*!40000 ALTER TABLE `master_status` DISABLE KEYS */;
+INSERT INTO `master_status` VALUES (1,'new','New'),(2,'check','Check'),(3,'review','Review'),(4,'approve','Approve'),(5,'notapprove','Not Approve');
+/*!40000 ALTER TABLE `master_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `migrations` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_reset_tokens_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2019_12_14_000001_create_personal_access_tokens_table',1),(5,'2025_02_09_100502_create_tasks_table',2),(6,'2025_02_09_100504_create_links_table',2),(7,'2025_02_11_075016_create_permission_tables',3);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+DROP TABLE IF EXISTS `model_has_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint unsigned NOT NULL,
+  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `model_has_permissions`
+--
+
+LOCK TABLES `model_has_permissions` WRITE;
+/*!40000 ALTER TABLE `model_has_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `model_has_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+DROP TABLE IF EXISTS `model_has_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint unsigned NOT NULL,
+  `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint unsigned NOT NULL,
+  PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`),
+  CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `model_has_roles`
+--
+
+LOCK TABLES `model_has_roles` WRITE;
+/*!40000 ALTER TABLE `model_has_roles` DISABLE KEYS */;
+INSERT INTO `model_has_roles` VALUES (1,'App\\Models\\User',1),(10,'App\\Models\\User',13),(10,'App\\Models\\User',14),(12,'App\\Models\\User',15),(6,'App\\Models\\User',16),(11,'App\\Models\\User',17),(6,'App\\Models\\User',18),(6,'App\\Models\\User',19),(6,'App\\Models\\User',20),(6,'App\\Models\\User',21),(2,'App\\Models\\User',22),(10,'App\\Models\\User',23);
+/*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_reset_tokens`
+--
+
+DROP TABLE IF EXISTS `password_reset_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reset_tokens`
+--
+
+LOCK TABLES `password_reset_tokens` WRITE;
+/*!40000 ALTER TABLE `password_reset_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reset_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permissions`
+--
+
+DROP TABLE IF EXISTS `permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `permissions` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permissions`
+--
+
+LOCK TABLES `permissions` WRITE;
+/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
+INSERT INTO `permissions` VALUES (1,'view_doc_engineering_upload','web',NULL,NULL),(2,'view_doc_engineering_check','web',NULL,NULL),(3,'view_doc_engineering_review','web',NULL,NULL),(4,'view_doc_engineering_approve','web',NULL,NULL),(5,'view_dashboard','web',NULL,NULL),(6,'view_letter','web',NULL,NULL),(7,'view_doc_schedule','web',NULL,NULL),(8,'view_input_s_curve','web',NULL,NULL),(9,'view_s_curve','web',NULL,NULL),(10,'view_progress','web',NULL,NULL),(11,'view_sop','web',NULL,NULL),(12,'view_doc_engineering_mdr','web',NULL,NULL),(13,'view_doc_engineering_basic_design','web',NULL,NULL),(14,'view_doc_engineering_ded','web',NULL,NULL),(24,'view_correspondence_surat_masuk','web',NULL,NULL),(25,'view_correspondence_surat_keluar','web',NULL,NULL),(26,'view_daily_report','web',NULL,NULL),(27,'view_weekly_report','web',NULL,NULL),(28,'view_monthly_report','web',NULL,NULL),(29,'view_minutes_of_meeting','web',NULL,NULL),(43,'view_file_manager','web',NULL,NULL),(44,'view_custom','web',NULL,NULL),(45,'view_ncr','web',NULL,NULL),(48,'add_doc_schedule','web',NULL,NULL),(49,'edit_doc_schedule','web',NULL,NULL),(50,'delete_doc_schedule','web',NULL,NULL),(51,'add_input_s_curve','web',NULL,NULL),(52,'edit_input_s_curve','web',NULL,NULL),(53,'delete_input_s_curve','web',NULL,NULL),(54,'add_sop','web',NULL,NULL),(55,'edit_sop','web',NULL,NULL),(56,'delete_sop','web',NULL,NULL),(57,'add_doc_engineering','web',NULL,NULL),(58,'edit_doc_engineering','web',NULL,NULL),(59,'delete_doc_engineering','web',NULL,NULL),(66,'add_correspondence_surat_masuk','web',NULL,NULL),(67,'edit_correspondence_surat_masuk','web',NULL,NULL),(68,'delete_correspondence_surat_masuk','web',NULL,NULL),(69,'add_correspondence_surat_keluar','web',NULL,NULL),(70,'edit_correspondence_surat_keluar','web',NULL,NULL),(71,'delete_correspondence_surat_keluar','web',NULL,NULL),(72,'view_personnel_hr','web',NULL,NULL),(73,'add_personnel_hr','web',NULL,NULL),(74,'edit_personnel_hr','web',NULL,NULL),(75,'delete_personnel_hr','web',NULL,NULL),(84,'view_procurement_logistic','web',NULL,NULL),(85,'add_procurement_logistic','web',NULL,NULL),(86,'edit_procurement_logistic','web',NULL,NULL),(87,'delete_procurement_logistic','web',NULL,NULL),(88,'add_daily_report','web',NULL,NULL),(89,'edit_daily_report','web',NULL,NULL),(90,'delete_daily_report','web',NULL,NULL),(91,'add_weekly_report','web',NULL,NULL),(92,'edit_weekly_report','web',NULL,NULL),(93,'delete_weekly_report','web',NULL,NULL),(94,'add_monthly_report','web',NULL,NULL),(95,'edit_monthly_report','web',NULL,NULL),(96,'delete_monthly_report','web',NULL,NULL),(97,'add_minutes_of_meeting','web',NULL,NULL),(98,'edit_minutes_of_meeting','web',NULL,NULL),(99,'delete_minutes_of_meeting','web',NULL,NULL),(175,'checker_doc_engineer','web',NULL,NULL),(176,'reviewer_doc_engineer','web',NULL,NULL),(177,'approver_doc_engineer','web',NULL,NULL),(197,'add_ncr','web',NULL,NULL),(198,'edit_ncr','web',NULL,NULL),(199,'delete_ncr','web',NULL,NULL),(208,'add_quality_management','web',NULL,NULL),(209,'edit_quality_management','web',NULL,NULL),(210,'delete_quality_management','web',NULL,NULL),(212,'view_custom_quality_management','web',NULL,NULL),(213,'add_weight','web',NULL,NULL),(214,'add_piling','web',NULL,NULL),(215,'edit_piling','web',NULL,NULL),(216,'delete_piling','web',NULL,NULL),(217,'view_piling','web',NULL,NULL),(218,'view_rfi_in_quality_management','web',NULL,NULL),(219,'add_rfi_in_quality_management','web',NULL,NULL),(220,'edit_rfi_in_quality_management','web',NULL,NULL),(221,'delete_rfi_in_quality_management','web',NULL,NULL),(222,'view_presensi','web',NULL,NULL),(223,'view_cv','web',NULL,NULL),(224,'add_cv','web',NULL,NULL),(225,'edit_cv','web',NULL,NULL),(226,'delete_cv','web',NULL,NULL),(227,'view_cv_group','web',NULL,NULL),(228,'add_cv_group','web',NULL,NULL),(229,'edit_cv_group','web',NULL,NULL),(230,'delete_cv_group','web',NULL,NULL),(231,'send_cv_group','web',NULL,NULL),(232,'review_cv_group','web',NULL,NULL),(233,'approve_cv_group','web',NULL,NULL),(234,'view_time_sheet','web',NULL,NULL),(236,'view_human_resource','web',NULL,NULL);
+/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `personal_access_tokens`
+--
+
+DROP TABLE IF EXISTS `personal_access_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint unsigned NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `personal_access_tokens`
+--
+
+LOCK TABLES `personal_access_tokens` WRITE;
+/*!40000 ALTER TABLE `personal_access_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `presensi`
+--
+
+DROP TABLE IF EXISTS `presensi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `presensi` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `nik` varchar(100) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `latitude_in` float DEFAULT NULL,
+  `longitude_in` float DEFAULT NULL,
+  `check_in` datetime DEFAULT NULL,
+  `check_in_address` text,
+  `latitude_out` float DEFAULT NULL,
+  `longitude_out` float DEFAULT NULL,
+  `check_out` datetime DEFAULT NULL,
+  `check_out_address` text,
+  `status` varchar(30) DEFAULT NULL,
+  `approval_by` varchar(200) DEFAULT NULL,
+  `position` varchar(200) DEFAULT NULL,
+  `departement` varchar(200) DEFAULT NULL,
+  `work_description` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `photo_in` text,
+  `photo_out` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `presensi`
+--
+
+LOCK TABLES `presensi` WRITE;
+/*!40000 ALTER TABLE `presensi` DISABLE KEYS */;
+INSERT INTO `presensi` VALUES (1,1,'1111111','Super',-6.21084,106.86,'2025-10-03 13:58:28','Jalan Slamet Riyadi, RW 04, Kebon Manggis, Matraman, East Jakarta, Special capital Region of Jakarta, Java, 13110, Indonesia',-6.21085,106.86,'2025-10-03 14:02:24','Jalan Slamet Riyadi, RW 04, Kebon Manggis, Matraman, East Jakarta, Special capital Region of Jakarta, Java, 13110, Indonesia','OPEN',NULL,NULL,NULL,'1. Witness pre pouring inspection for pouring concrete slab new wash tank foundation at PH GS by PT. WKS. 2. Monitoring excavation for entry boring injection header 12 inch at kota batak by PT. EFK','2025-10-03 06:58:29','2025-10-03 07:02:24','attendance/attendance_1759474709.png','attendance/attendance_1759474944.png'),(2,1,'1111111','Super',-6.22321,106.882,'2025-10-04 06:17:38','RW 08, Cipinang Besar Selatan, Jatinegara, East Jakarta, Special capital Region of Jakarta, Java, 13410, Indonesia',-6.22321,106.882,'2025-10-04 06:18:35','RW 08, Cipinang Besar Selatan, Jatinegara, East Jakarta, Special capital Region of Jakarta, Java, 13410, Indonesia','OPEN',NULL,NULL,NULL,'1. Witness pre pouring inspection for pouring concrete slab new wash tank foundation at PH GS by PT. WKS. 2. Monitoring excavation for entry boring injection header 12 inch at kota batak by PT. EFK','2025-10-03 23:17:40','2025-10-03 23:18:36','attendance/attendance_1759533459.png','attendance/attendance_1759533516.png'),(3,1,'1111111','Super',-6.22321,106.882,'2025-10-05 05:37:50','RW 08, Cipinang Besar Selatan, Jatinegara, East Jakarta, Special capital Region of Jakarta, Java, 13410, Indonesia',-6.22321,106.882,'2025-10-05 06:45:41','RW 08, Cipinang Besar Selatan, Jatinegara, East Jakarta, Special capital Region of Jakarta, Java, 13410, Indonesia','OPEN',NULL,NULL,NULL,NULL,'2025-10-04 22:37:51','2025-10-04 23:45:45','attendance/attendance_1759617470.png','attendance/attendance_1759621543.png'),(4,1,'1111111','Super',-6.25571,106.901,'2025-10-06 08:55:19','Marsma Hardidi, RW 12, Halim Perdana Kusuma, Makasar, East Jakarta, Special capital Region of Jakarta, Java, 13620, Indonesia',-6.25571,106.901,'2025-10-06 09:56:29','Marsma Hardidi, RW 12, Halim Perdana Kusuma, Makasar, East Jakarta, Special capital Region of Jakarta, Java, 13620, Indonesia','OPEN',NULL,NULL,NULL,NULL,'2025-10-06 01:55:21','2025-10-06 02:56:29','attendance/attendance_1759715720.png','attendance/attendance_1759719389.png');
+/*!40000 ALTER TABLE `presensi` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `presensi_break`
+--
+
+DROP TABLE IF EXISTS `presensi_break`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `presensi_break` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) DEFAULT '0',
+  `presensi_id` int DEFAULT NULL,
+  `break_time` datetime DEFAULT NULL,
+  `work_time` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `presensi_break`
+--
+
+LOCK TABLES `presensi_break` WRITE;
+/*!40000 ALTER TABLE `presensi_break` DISABLE KEYS */;
+INSERT INTO `presensi_break` VALUES (1,0,3,'2025-10-05 06:27:58','2025-10-05 06:28:03','2025-10-04 23:27:59','2025-10-04 23:28:04'),(2,0,3,'2025-10-05 06:46:01','2025-10-05 06:46:16','2025-10-04 23:46:03','2025-10-04 23:46:17');
+/*!40000 ALTER TABLE `presensi_break` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_daily`
+--
+
+DROP TABLE IF EXISTS `report_daily`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_daily` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofreport` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_daily`
+--
+
+LOCK TABLES `report_daily` WRITE;
+/*!40000 ALTER TABLE `report_daily` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report_daily` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_daily_history`
+--
+
+DROP TABLE IF EXISTS `report_daily_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_daily_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `report_daily_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofreport` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_daily_history`
+--
+
+LOCK TABLES `report_daily_history` WRITE;
+/*!40000 ALTER TABLE `report_daily_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report_daily_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_monthly`
+--
+
+DROP TABLE IF EXISTS `report_monthly`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_monthly` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofreport` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_monthly`
+--
+
+LOCK TABLES `report_monthly` WRITE;
+/*!40000 ALTER TABLE `report_monthly` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report_monthly` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_monthly_history`
+--
+
+DROP TABLE IF EXISTS `report_monthly_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_monthly_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `report_monthly_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofreport` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_monthly_history`
+--
+
+LOCK TABLES `report_monthly_history` WRITE;
+/*!40000 ALTER TABLE `report_monthly_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report_monthly_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_weekly`
+--
+
+DROP TABLE IF EXISTS `report_weekly`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_weekly` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofreport` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_weekly`
+--
+
+LOCK TABLES `report_weekly` WRITE;
+/*!40000 ALTER TABLE `report_weekly` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report_weekly` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_weekly_history`
+--
+
+DROP TABLE IF EXISTS `report_weekly_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `report_weekly_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `report_weekly_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `typeofreport` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_weekly_history`
+--
+
+LOCK TABLES `report_weekly_history` WRITE;
+/*!40000 ALTER TABLE `report_weekly_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `report_weekly_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+DROP TABLE IF EXISTS `role_has_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint unsigned NOT NULL,
+  `role_id` bigint unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`role_id`),
+  KEY `role_has_permissions_role_id_foreign` (`role_id`),
+  CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+LOCK TABLES `role_has_permissions` WRITE;
+/*!40000 ALTER TABLE `role_has_permissions` DISABLE KEYS */;
+INSERT INTO `role_has_permissions` VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(7,1),(8,1),(9,1),(10,1),(11,1),(12,1),(13,1),(14,1),(24,1),(25,1),(26,1),(27,1),(28,1),(29,1),(44,1),(45,1),(48,1),(49,1),(50,1),(51,1),(52,1),(53,1),(54,1),(55,1),(56,1),(57,1),(58,1),(59,1),(66,1),(67,1),(68,1),(69,1),(70,1),(71,1),(72,1),(73,1),(74,1),(75,1),(84,1),(85,1),(86,1),(87,1),(88,1),(89,1),(90,1),(91,1),(92,1),(93,1),(94,1),(95,1),(96,1),(97,1),(98,1),(99,1),(197,1),(198,1),(199,1),(213,1),(214,1),(215,1),(216,1),(217,1),(222,1),(223,1),(224,1),(225,1),(226,1),(227,1),(228,1),(229,1),(231,1),(232,1),(233,1),(234,1),(236,1),(1,2),(2,2),(3,2),(4,2),(5,2),(7,2),(8,2),(9,2),(10,2),(11,2),(12,2),(13,2),(14,2),(24,2),(25,2),(26,2),(27,2),(28,2),(29,2),(45,2),(48,2),(49,2),(50,2),(51,2),(52,2),(53,2),(54,2),(55,2),(56,2),(57,2),(58,2),(59,2),(66,2),(67,2),(68,2),(69,2),(70,2),(71,2),(72,2),(73,2),(74,2),(75,2),(84,2),(85,2),(86,2),(87,2),(88,2),(89,2),(90,2),(91,2),(92,2),(93,2),(94,2),(95,2),(96,2),(97,2),(98,2),(99,2),(197,2),(198,2),(199,2),(2,4),(1,6),(2,6),(3,6),(4,6),(5,6),(7,6),(8,6),(9,6),(10,6),(11,6),(12,6),(13,6),(14,6),(24,6),(25,6),(26,6),(27,6),(28,6),(29,6),(45,6),(51,6),(52,6),(53,6),(54,6),(55,6),(57,6),(58,6),(66,6),(67,6),(69,6),(70,6),(72,6),(73,6),(74,6),(84,6),(85,6),(86,6),(88,6),(89,6),(91,6),(92,6),(94,6),(95,6),(97,6),(98,6),(197,6),(198,6),(222,6),(1,10),(2,10),(3,10),(4,10),(5,10),(7,10),(8,10),(9,10),(10,10),(11,10),(12,10),(13,10),(14,10),(24,10),(25,10),(26,10),(27,10),(28,10),(29,10),(45,10),(72,10),(84,10),(1,11),(2,11),(3,11),(4,11),(5,11),(7,11),(8,11),(9,11),(10,11),(11,11),(12,11),(13,11),(14,11),(24,11),(25,11),(26,11),(27,11),(28,11),(29,11),(45,11),(48,11),(49,11),(50,11),(51,11),(52,11),(53,11),(54,11),(55,11),(57,11),(58,11),(66,11),(67,11),(69,11),(70,11),(72,11),(73,11),(74,11),(84,11),(85,11),(86,11),(88,11),(89,11),(91,11),(92,11),(94,11),(95,11),(97,11),(98,11),(197,11),(198,11),(1,12),(2,12),(3,12),(4,12),(5,12),(7,12),(8,12),(9,12),(10,12),(11,12),(12,12),(13,12),(14,12),(24,12),(25,12),(26,12),(27,12),(28,12),(29,12),(45,12),(51,12),(52,12),(53,12),(54,12),(55,12),(56,12),(57,12),(58,12),(59,12),(66,12),(67,12),(68,12),(69,12),(70,12),(71,12),(72,12),(73,12),(74,12),(75,12),(84,12),(85,12),(86,12),(87,12),(88,12),(89,12),(90,12),(91,12),(92,12),(93,12),(94,12),(95,12),(96,12),(97,12),(98,12),(99,12),(197,12),(198,12),(199,12);
+/*!40000 ALTER TABLE `role_has_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `roles` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'superadmin','web',NULL,NULL),(2,'admin','web',NULL,NULL),(3,'approver','web',NULL,NULL),(4,'checker','web',NULL,NULL),(5,'reviewer','web',NULL,NULL),(6,'view + upload','web',NULL,'2025-03-07 02:51:19'),(10,'view','web','2025-03-05 01:03:33','2025-03-07 02:51:45'),(11,'view + upload + add schedule','web','2025-03-07 03:06:19','2025-03-07 03:06:19'),(12,'View + upload + delete','web','2025-03-18 23:14:28','2025-03-18 23:14:28');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_curve`
+--
+
+DROP TABLE IF EXISTS `s_curve`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `s_curve` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `percent` float DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `category` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=580 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_curve`
+--
+
+LOCK TABLES `s_curve` WRITE;
+/*!40000 ALTER TABLE `s_curve` DISABLE KEYS */;
+INSERT INTO `s_curve` VALUES (41,'Planned','2024-08-01 00:00:00',5,'2025-04-15 00:36:37','2025-04-21 23:17:19',NULL,'Engineering'),(42,'Planned','2024-08-01 00:00:00',32,'2025-04-15 00:37:10','2025-04-21 22:52:15',NULL,'Procurement'),(43,'Planned','2024-08-01 00:00:00',0,'2025-04-15 00:37:28','2025-04-15 00:37:28',NULL,'Construction'),(44,'Planned','2024-08-01 00:00:00',0,'2025-04-15 00:38:52','2025-04-15 00:38:52',NULL,'Commissioning'),(45,'Planned','2024-08-08 00:00:00',0,'2025-04-15 00:40:56','2025-04-15 00:40:56',NULL,'Engineering'),(46,'Planned','2024-08-08 00:00:00',0,'2025-04-15 00:42:12','2025-04-15 00:42:12',NULL,'Procurement'),(47,'Planned','2024-08-08 00:00:00',0,'2025-04-15 00:58:49','2025-04-15 00:58:49',NULL,'Construction'),(48,'Planned','2024-08-08 00:00:00',0,'2025-04-15 00:59:12','2025-04-15 00:59:12',NULL,'Commissioning'),(49,'Planned','2024-08-15 00:00:00',0,'2025-04-15 00:59:56','2025-04-15 00:59:56',NULL,'Engineering'),(50,'Planned','2024-08-15 00:00:00',0,'2025-04-15 01:00:14','2025-04-15 01:00:14',NULL,'Procurement'),(51,'Planned','2024-08-15 00:00:00',0.19,'2025-04-15 01:01:00','2025-04-15 01:01:00',NULL,'Construction'),(52,'Planned','2024-08-15 00:00:00',0,'2025-04-15 01:01:31','2025-04-15 01:01:31',NULL,'Commissioning'),(53,'Planned','2024-08-22 00:00:00',0,'2025-04-15 01:02:01','2025-04-15 01:02:01',NULL,'Engineering'),(54,'Planned','2024-08-22 00:00:00',0,'2025-04-15 01:03:17','2025-04-15 01:03:17',NULL,'Procurement'),(55,'Planned','2024-08-22 00:00:00',0.38,'2025-04-15 01:03:43','2025-04-15 01:03:43',NULL,'Construction'),(56,'Planned','2024-08-22 00:00:00',0,'2025-04-15 01:04:02','2025-04-15 01:04:02',NULL,'Commissioning'),(57,'Planned','2024-08-29 00:00:00',0,'2025-04-15 01:04:34','2025-04-15 01:04:34',NULL,'Engineering'),(58,'Planned','2024-08-29 00:00:00',0,'2025-04-15 01:04:55','2025-04-15 01:04:55',NULL,'Procurement'),(59,'Planned','2024-08-29 00:00:00',0.57,'2025-04-15 01:05:17','2025-04-15 01:05:17',NULL,'Construction'),(60,'Planned','2024-08-29 00:00:00',0,'2025-04-15 01:05:42','2025-04-15 01:05:42',NULL,'Commissioning'),(61,'Planned','2024-09-05 00:00:00',0,'2025-04-15 01:07:31','2025-04-15 01:07:31',NULL,'Engineering'),(62,'Planned','2024-09-05 00:00:00',0,'2025-04-15 01:08:21','2025-04-15 01:08:21',NULL,'Procurement'),(63,'Planned','2024-09-05 00:00:00',0.76,'2025-04-15 01:09:14','2025-04-15 01:09:14',NULL,'Construction'),(64,'Planned','2024-09-05 00:00:00',0,'2025-04-15 01:09:59','2025-04-15 01:09:59',NULL,'Commissioning'),(65,'Planned','2024-09-12 00:00:00',0,'2025-04-15 01:10:37','2025-04-15 01:10:37',NULL,'Engineering'),(66,'Planned','2024-09-12 00:00:00',0.04,'2025-04-15 01:10:58','2025-04-15 01:10:58',NULL,'Procurement'),(67,'Planned','2024-09-12 00:00:00',0.95,'2025-04-15 01:11:43','2025-04-15 01:11:43',NULL,'Construction'),(68,'Planned','2024-09-12 00:00:00',0,'2025-04-15 01:12:28','2025-04-15 01:12:28',NULL,'Commissioning'),(69,'Planned','2024-09-19 00:00:00',0,'2025-04-15 01:13:34','2025-04-15 01:13:34',NULL,'Engineering'),(70,'Planned','2024-09-19 00:00:00',0.12,'2025-04-15 01:14:17','2025-04-15 01:14:17',NULL,'Procurement'),(71,'Planned','2024-09-19 00:00:00',1.12,'2025-04-15 01:14:40','2025-04-15 01:14:40',NULL,'Construction'),(72,'Planned','2024-09-19 00:00:00',0,'2025-04-15 01:15:04','2025-04-15 01:15:04',NULL,'Commissioning'),(73,'Planned','2024-09-26 00:00:00',0,'2025-04-15 01:16:54','2025-04-15 01:16:54',NULL,'Engineering'),(74,'Planned','2024-09-26 00:00:00',0.25,'2025-04-15 01:17:31','2025-04-15 01:17:31',NULL,'Procurement'),(75,'Planned','2024-09-26 00:00:00',1.36,'2025-04-15 01:18:23','2025-04-15 01:18:23',NULL,'Construction'),(76,'Planned','2024-09-26 00:00:00',0,'2025-04-15 01:18:53','2025-04-15 01:18:53',NULL,'Commissioning'),(77,'Planned','2024-10-03 00:00:00',0,'2025-04-15 01:19:25','2025-04-15 01:19:25',NULL,'Engineering'),(78,'Planned','2024-10-03 00:00:00',0.53,'2025-04-15 01:19:53','2025-04-15 01:19:53',NULL,'Procurement'),(79,'Planned','2024-10-03 00:00:00',1.61,'2025-04-15 01:20:49','2025-04-15 01:20:49',NULL,'Construction'),(80,'Planned','2024-10-03 00:00:00',0,'2025-04-15 01:21:20','2025-04-15 01:21:20',NULL,'Commissioning'),(81,'Planned','2024-10-10 00:00:00',0,'2025-04-15 01:29:38','2025-04-15 01:29:38',NULL,'Engineering'),(82,'Planned','2024-10-10 00:00:00',0.81,'2025-04-15 01:29:57','2025-04-15 01:29:57',NULL,'Procurement'),(83,'Planned','2024-10-10 00:00:00',1.85,'2025-04-15 01:30:19','2025-04-15 01:30:19',NULL,'Construction'),(84,'Planned','2024-10-10 00:00:00',0,'2025-04-15 01:30:40','2025-04-15 01:30:40',NULL,'Commissioning'),(85,'Planned','2024-10-17 00:00:00',0,'2025-04-15 01:31:24','2025-04-15 01:31:24',NULL,'Engineering'),(86,'Planned','2024-10-17 00:00:00',1.09,'2025-04-15 01:31:45','2025-04-15 01:31:45',NULL,'Procurement'),(87,'Planned','2024-10-17 00:00:00',2.1,'2025-04-15 01:32:09','2025-04-15 01:32:09',NULL,'Construction'),(88,'Planned','2024-10-17 00:00:00',0,'2025-04-15 01:34:42','2025-04-15 01:34:42',NULL,'Commissioning'),(89,'Planned','2024-10-24 00:00:00',0,'2025-04-15 01:35:13','2025-04-15 01:35:13',NULL,'Engineering'),(90,'Planned','2024-10-24 00:00:00',1.38,'2025-04-15 01:36:05','2025-04-15 01:36:05',NULL,'Procurement'),(91,'Planned','2024-10-24 00:00:00',2.34,'2025-04-15 01:36:22','2025-04-15 01:36:22',NULL,'Construction'),(92,'Planned','2024-10-24 00:00:00',0,'2025-04-15 01:38:03','2025-04-15 01:38:03',NULL,'Commissioning'),(93,'Planned','2024-10-31 00:00:00',0,'2025-04-15 01:38:24','2025-04-15 01:38:24',NULL,'Engineering'),(94,'Planned','2024-10-31 00:00:00',1.66,'2025-04-15 01:39:12','2025-04-15 01:39:12',NULL,'Procurement'),(95,'Planned','2024-10-31 00:00:00',2.59,'2025-04-15 01:39:47','2025-04-15 01:39:47',NULL,'Construction'),(96,'Planned','2024-10-31 00:00:00',0,'2025-04-15 01:40:06','2025-04-15 01:40:06',NULL,'Commissioning'),(97,'Planned','2024-11-07 00:00:00',0,'2025-04-15 01:41:08','2025-04-15 01:41:08',NULL,'Engineering'),(98,'Planned','2024-11-07 00:00:00',1.94,'2025-04-15 01:42:00','2025-04-15 01:42:00',NULL,'Procurement'),(99,'Planned','2024-11-07 00:00:00',2.83,'2025-04-15 01:42:17','2025-04-15 01:42:17',NULL,'Construction'),(100,'Planned','2024-11-07 00:00:00',0,'2025-04-15 01:43:03','2025-04-15 01:43:03',NULL,'Commissioning'),(101,'Planned','2024-11-14 00:00:00',0.005,'2025-04-15 01:43:20','2025-04-15 01:43:20',NULL,'Engineering'),(102,'Planned','2024-11-14 00:00:00',2.22,'2025-04-15 01:44:15','2025-04-15 01:44:15',NULL,'Procurement'),(103,'Planned','2024-11-14 00:00:00',3.08,'2025-04-15 01:44:56','2025-04-15 01:44:56',NULL,'Construction'),(104,'Planned','2024-11-14 00:00:00',0,'2025-04-15 01:45:17','2025-04-15 01:45:17',NULL,'Commissioning'),(105,'Planned','2024-11-21 00:00:00',0.009,'2025-04-15 01:49:43','2025-04-15 01:49:43',NULL,'Engineering'),(106,'Planned','2024-11-21 00:00:00',2.5,'2025-04-15 01:50:00','2025-04-15 01:50:00',NULL,'Procurement'),(107,'Planned','2024-11-21 00:00:00',3.33,'2025-04-15 01:50:18','2025-04-15 01:50:18',NULL,'Construction'),(108,'Planned','2024-11-21 00:00:00',0,'2025-04-15 01:50:48','2025-04-15 01:50:48',NULL,'Commissioning'),(109,'Planned','2024-11-28 00:00:00',0.014,'2025-04-15 01:51:17','2025-04-15 01:51:17',NULL,'Engineering'),(110,'Planned','2024-11-28 00:00:00',2.78,'2025-04-15 01:52:02','2025-04-15 01:52:02',NULL,'Procurement'),(111,'Planned','2024-11-28 00:00:00',3.57,'2025-04-15 01:52:22','2025-04-15 01:52:22',NULL,'Construction'),(112,'Planned','2024-11-28 00:00:00',0,'2025-04-15 01:52:39','2025-04-15 01:52:39',NULL,'Commissioning'),(113,'Planned','2024-12-05 00:00:00',0.019,'2025-04-15 01:53:47','2025-04-15 01:53:47',NULL,'Engineering'),(114,'Planned','2024-12-05 00:00:00',3.52,'2025-04-15 01:54:05','2025-04-15 01:54:05',NULL,'Procurement'),(115,'Planned','2024-12-05 00:00:00',3.82,'2025-04-15 01:54:27','2025-04-15 01:54:27',NULL,'Construction'),(116,'Planned','2024-12-05 00:00:00',0,'2025-04-15 01:55:05','2025-04-15 01:55:05',NULL,'Commissioning'),(117,'Planned','2024-12-12 00:00:00',0.023,'2025-04-15 01:55:26','2025-04-15 01:55:26',NULL,'Engineering'),(118,'Planned','2024-12-12 00:00:00',4.34,'2025-04-15 01:56:09','2025-04-15 01:56:09',NULL,'Procurement'),(119,'Planned','2024-12-12 00:00:00',3.97,'2025-04-15 01:56:23','2025-04-15 01:56:23',NULL,'Construction'),(120,'Planned','2024-12-12 00:00:00',0,'2025-04-15 01:56:36','2025-04-15 01:56:36',NULL,'Commissioning'),(121,'Planned','2024-12-19 00:00:00',0.028,'2025-04-15 02:08:13','2025-04-15 02:08:13',NULL,'Engineering'),(122,'Planned','2024-12-19 00:00:00',5.15,'2025-04-15 02:08:39','2025-04-15 02:08:39',NULL,'Procurement'),(123,'Planned','2024-12-19 00:00:00',4,'2025-04-15 02:08:58','2025-04-15 02:08:58',NULL,'Construction'),(124,'Planned','2024-12-19 00:00:00',0,'2025-04-15 02:09:12','2025-04-15 02:09:12',NULL,'Commissioning'),(125,'Planned','2024-12-26 00:00:00',0.035,'2025-04-15 02:11:39','2025-04-15 02:11:39',NULL,'Engineering'),(126,'Planned','2024-12-26 00:00:00',6.41,'2025-04-15 02:12:00','2025-04-15 02:12:00',NULL,'Procurement'),(127,'Planned','2024-12-26 00:00:00',4,'2025-04-15 02:12:26','2025-04-15 02:12:26',NULL,'Construction'),(128,'Planned','2024-12-26 00:00:00',0,'2025-04-15 02:12:46','2025-04-15 02:12:46',NULL,'Commissioning'),(130,'Planned','2025-01-02 00:00:00',9.34,'2025-04-15 02:14:15','2025-04-15 02:14:15',NULL,'Procurement'),(133,'Planned','2025-01-02 00:00:00',0.048,'2025-04-15 02:17:51','2025-04-15 02:17:51',NULL,'Engineering'),(134,'Planned','2025-01-09 00:00:00',0.06,'2025-04-15 02:18:23','2025-04-15 02:18:23',NULL,'Engineering'),(135,'Planned','2025-01-09 00:00:00',12.36,'2025-04-15 02:18:58','2025-04-15 02:18:58',NULL,'Procurement'),(136,'Planned','2025-01-09 00:00:00',4,'2025-04-15 02:19:18','2025-04-15 02:19:18',NULL,'Construction'),(137,'Planned','2025-01-09 00:00:00',0,'2025-04-15 02:19:32','2025-04-15 02:19:32',NULL,'Commissioning'),(138,'Planned','2025-01-16 00:00:00',0.079,'2025-04-15 02:20:40','2025-04-15 02:20:40',NULL,'Engineering'),(139,'Planned','2025-01-16 00:00:00',14.05,'2025-04-15 02:21:04','2025-04-15 02:21:04',NULL,'Procurement'),(140,'Planned','2025-01-16 00:00:00',4.42,'2025-04-15 02:21:24','2025-04-15 02:21:24',NULL,'Construction'),(141,'Planned','2025-01-16 00:00:00',0,'2025-04-15 02:21:59','2025-04-15 02:21:59',NULL,'Commissioning'),(142,'Planned','2025-01-23 00:00:00',0.101,'2025-04-15 02:22:22','2025-04-15 02:22:22',NULL,'Engineering'),(143,'Planned','2025-01-23 00:00:00',15.02,'2025-04-15 02:22:55','2025-04-15 02:22:55',NULL,'Procurement'),(144,'Planned','2025-01-23 00:00:00',4.83,'2025-04-15 02:23:17','2025-04-15 02:23:17',NULL,'Construction'),(145,'Planned','2025-01-23 00:00:00',0,'2025-04-15 02:23:33','2025-04-15 02:23:33',NULL,'Commissioning'),(146,'Planned','2025-01-30 00:00:00',0.218,'2025-04-15 02:24:08','2025-04-15 02:24:08',NULL,'Engineering'),(147,'Planned','2025-01-30 00:00:00',15.93,'2025-04-15 02:24:35','2025-04-15 02:24:35',NULL,'Procurement'),(148,'Planned','2025-01-30 00:00:00',4.89,'2025-04-15 02:25:04','2025-04-15 02:25:04',NULL,'Construction'),(149,'Planned','2025-01-30 00:00:00',0,'2025-04-15 02:25:46','2025-04-15 02:25:46',NULL,'Commissioning'),(150,'Planned','2025-02-06 00:00:00',0.331,'2025-04-15 02:26:34','2025-04-15 02:26:34',NULL,'Engineering'),(151,'Planned','2025-02-06 00:00:00',16.82,'2025-04-15 02:27:36','2025-04-15 02:27:36',NULL,'Procurement'),(152,'Planned','2025-02-06 00:00:00',4.89,'2025-04-15 02:28:04','2025-04-15 02:28:04',NULL,'Construction'),(153,'Planned','2025-02-06 00:00:00',0,'2025-04-15 02:28:31','2025-04-15 02:28:31',NULL,'Commissioning'),(154,'Planned','2025-02-13 00:00:00',0.404,'2025-04-15 02:29:04','2025-04-15 02:29:04',NULL,'Engineering'),(155,'Planned','2025-02-13 00:00:00',17.71,'2025-04-15 02:29:28','2025-04-15 02:29:28',NULL,'Procurement'),(156,'Planned','2025-02-13 00:00:00',4.89,'2025-04-15 02:29:50','2025-04-15 02:29:50',NULL,'Construction'),(157,'Planned','2025-02-13 00:00:00',0,'2025-04-15 02:30:11','2025-04-15 02:30:11',NULL,'Commissioning'),(158,'Planned','2025-02-20 00:00:00',0.477,'2025-04-15 02:30:47','2025-04-15 02:30:47',NULL,'Engineering'),(159,'Planned','2025-02-20 00:00:00',18.81,'2025-04-15 02:31:16','2025-04-15 02:31:16',NULL,'Procurement'),(160,'Planned','2025-02-20 00:00:00',4.89,'2025-04-15 02:31:37','2025-04-15 02:31:37',NULL,'Construction'),(161,'Planned','2025-02-20 00:00:00',0,'2025-04-15 02:31:51','2025-04-15 02:31:51',NULL,'Commissioning'),(162,'Planned','2025-02-27 00:00:00',0.55,'2025-04-15 02:32:42','2025-04-15 02:32:42',NULL,'Engineering'),(163,'Planned','2025-02-27 00:00:00',20.3,'2025-04-15 02:33:03','2025-04-15 02:33:03',NULL,'Procurement'),(164,'Planned','2025-02-27 00:00:00',4.91,'2025-04-15 02:33:28','2025-04-15 02:33:28',NULL,'Construction'),(165,'Planned','2025-02-27 00:00:00',0,'2025-04-15 02:33:54','2025-04-15 02:33:54',NULL,'Commissioning'),(166,'Planned','2025-03-06 00:00:00',0.651,'2025-04-15 02:42:53','2025-04-15 02:42:53',NULL,'Engineering'),(167,'Planned','2025-03-06 00:00:00',22.15,'2025-04-15 02:43:15','2025-04-15 02:43:15',NULL,'Procurement'),(168,'Planned','2025-03-06 00:00:00',4.93,'2025-04-15 02:43:40','2025-04-15 02:43:40',NULL,'Construction'),(169,'Planned','2025-03-06 00:00:00',0,'2025-04-15 02:43:56','2025-04-15 02:43:56',NULL,'Commissioning'),(170,'Planned','2025-03-13 00:00:00',0.746,'2025-04-15 02:45:16','2025-04-15 02:45:16',NULL,'Engineering'),(171,'Planned','2025-03-13 00:00:00',24.3,'2025-04-15 02:45:35','2025-04-15 02:45:35',NULL,'Procurement'),(172,'Planned','2025-03-13 00:00:00',4.95,'2025-04-15 02:45:54','2025-04-15 02:45:54',NULL,'Construction'),(173,'Planned','2025-03-13 00:00:00',0,'2025-04-15 02:46:08','2025-04-15 02:46:08',NULL,'Commissioning'),(174,'Planned','2025-03-20 00:00:00',0.871,'2025-04-15 02:46:53','2025-04-15 02:46:53',NULL,'Engineering'),(175,'Planned','2025-03-20 00:00:00',26.14,'2025-04-15 02:47:13','2025-04-15 02:47:13',NULL,'Procurement'),(176,'Planned','2025-03-20 00:00:00',4.97,'2025-04-15 02:47:37','2025-04-15 02:47:37',NULL,'Construction'),(177,'Planned','2025-03-20 00:00:00',0,'2025-04-15 02:48:23','2025-04-15 02:48:23',NULL,'Commissioning'),(178,'Planned','2025-03-27 00:00:00',1.012,'2025-04-15 02:49:03','2025-04-15 02:49:03',NULL,'Engineering'),(179,'Planned','2025-03-27 00:00:00',27.98,'2025-04-15 02:51:04','2025-04-15 02:51:04',NULL,'Procurement'),(180,'Planned','2025-03-27 00:00:00',4.99,'2025-04-15 02:51:22','2025-04-15 02:51:22',NULL,'Construction'),(181,'Planned','2025-03-27 00:00:00',0,'2025-04-15 02:51:43','2025-04-15 02:51:43',NULL,'Commissioning'),(182,'Planned','2025-04-03 00:00:00',1.129,'2025-04-15 02:52:07','2025-04-15 02:52:07',NULL,'Engineering'),(184,'Planned','2025-04-03 00:00:00',5.01,'2025-04-15 02:53:23','2025-04-15 02:53:23',NULL,'Construction'),(185,'Planned','2025-04-03 00:00:00',0,'2025-04-15 02:54:05','2025-04-15 02:54:05',NULL,'Commissioning'),(186,'Planned','2025-04-10 00:00:00',1.228,'2025-04-15 02:55:32','2025-04-15 02:55:32',NULL,'Engineering'),(187,'Planned','2025-04-10 00:00:00',31.56,'2025-04-15 02:57:19','2025-04-15 02:57:19',NULL,'Procurement'),(188,'Planned','2025-04-10 00:00:00',5.03,'2025-04-15 02:57:35','2025-04-15 02:57:35',NULL,'Construction'),(189,'Planned','2025-04-10 00:00:00',0,'2025-04-15 02:58:23','2025-04-15 02:58:23',NULL,'Commissioning'),(190,'Planned','2025-04-17 00:00:00',1.317,'2025-04-15 02:58:47','2025-04-15 02:58:47',NULL,'Engineering'),(191,'Planned','2025-04-17 00:00:00',33.35,'2025-04-16 00:20:35','2025-04-16 00:20:35',NULL,'Procurement'),(192,'Planned','2025-04-17 00:00:00',5.07,'2025-04-16 00:21:06','2025-04-16 00:21:06',NULL,'Construction'),(193,'Planned','2025-04-17 00:00:00',0,'2025-04-16 00:21:27','2025-04-16 00:21:27',NULL,'Commissioning'),(194,'Planned','2025-04-24 00:00:00',1.391,'2025-04-16 00:22:11','2025-04-16 00:22:11',NULL,'Engineering'),(195,'Planned','2025-04-24 00:00:00',35.14,'2025-04-16 00:22:43','2025-04-16 00:22:43',NULL,'Procurement'),(196,'Planned','2025-04-24 00:00:00',5.1,'2025-04-16 00:23:04','2025-04-16 00:23:04',NULL,'Construction'),(197,'Planned','2025-04-24 00:00:00',0,'2025-04-16 00:23:25','2025-04-16 00:23:25',NULL,'Commissioning'),(198,'Planned','2025-05-01 00:00:00',1.453,'2025-04-16 00:24:28','2025-04-16 00:24:28',NULL,'Engineering'),(199,'Planned','2025-05-01 00:00:00',36.94,'2025-04-16 00:24:52','2025-04-16 00:24:52',NULL,'Procurement'),(200,'Planned','2025-05-01 00:00:00',5.18,'2025-04-16 00:25:11','2025-04-16 00:25:11',NULL,'Construction'),(201,'Planned','2025-05-01 00:00:00',0,'2025-04-16 00:25:25','2025-04-16 00:25:25',NULL,'Commissioning'),(202,'Planned','2025-05-08 00:00:00',1.506,'2025-04-16 00:26:04','2025-04-16 00:26:04',NULL,'Engineering'),(203,'Planned','2025-05-08 00:00:00',38.7,'2025-04-16 00:26:29','2025-04-16 00:26:29',NULL,'Procurement'),(204,'Planned','2025-05-08 00:00:00',5.29,'2025-04-16 00:27:08','2025-04-16 00:27:08',NULL,'Construction'),(205,'Planned','2025-05-08 00:00:00',0,'2025-04-16 00:27:29','2025-04-16 00:27:29',NULL,'Commissioning'),(206,'Planned','2025-05-15 00:00:00',1.547,'2025-04-16 00:28:09','2025-04-16 00:28:09',NULL,'Engineering'),(207,'Planned','2025-05-15 00:00:00',40.37,'2025-04-16 00:28:41','2025-04-16 00:28:41',NULL,'Procurement'),(208,'Planned','2025-05-15 00:00:00',5.5,'2025-04-16 00:29:10','2025-04-16 00:29:10',NULL,'Construction'),(209,'Planned','2025-05-15 00:00:00',0,'2025-04-16 00:29:28','2025-04-16 00:29:28',NULL,'Commissioning'),(210,'Planned','2025-05-22 00:00:00',1.582,'2025-04-16 00:31:11','2025-04-16 00:31:11',NULL,'Engineering'),(211,'Planned','2025-05-22 00:00:00',41.97,'2025-04-16 00:31:29','2025-04-16 00:31:29',NULL,'Procurement'),(212,'Planned','2025-05-22 00:00:00',5.78,'2025-04-16 00:31:50','2025-04-16 00:31:50',NULL,'Construction'),(213,'Planned','2025-05-22 00:00:00',0,'2025-04-16 00:32:11','2025-04-16 00:32:11',NULL,'Commissioning'),(214,'Planned','2025-05-29 00:00:00',1.614,'2025-04-16 00:32:55','2025-04-16 00:32:55',NULL,'Engineering'),(215,'Planned','2025-05-29 00:00:00',43.46,'2025-04-16 00:34:22','2025-04-16 00:34:22',NULL,'Procurement'),(216,'Planned','2025-05-29 00:00:00',6.19,'2025-04-16 00:34:44','2025-04-16 00:34:44',NULL,'Construction'),(217,'Planned','2025-05-29 00:00:00',0,'2025-04-16 01:12:18','2025-04-16 01:12:18',NULL,'Commissioning'),(218,'Planned','2025-06-05 00:00:00',1.629,'2025-04-16 01:12:45','2025-04-16 01:12:45',NULL,'Engineering'),(219,'Planned','2025-06-05 00:00:00',44.95,'2025-04-16 01:13:14','2025-04-16 01:13:14',NULL,'Procurement'),(220,'Planned','2025-06-05 00:00:00',6.68,'2025-04-16 01:13:44','2025-04-16 01:13:44',NULL,'Construction'),(221,'Planned','2025-06-05 00:00:00',0,'2025-04-16 01:14:13','2025-04-16 01:14:13',NULL,'Commissioning'),(222,'Planned','2025-06-12 00:00:00',1.638,'2025-04-16 01:18:08','2025-04-16 01:18:08',NULL,'Engineering'),(223,'Planned','2025-06-12 00:00:00',46.33,'2025-04-16 01:18:30','2025-04-16 01:18:30',NULL,'Procurement'),(224,'Planned','2025-06-12 00:00:00',7.2,'2025-04-16 01:19:01','2025-04-16 01:19:01',NULL,'Construction'),(225,'Planned','2025-06-12 00:00:00',0,'2025-04-16 01:19:21','2025-04-16 01:19:21',NULL,'Commissioning'),(226,'Planned','2025-06-19 00:00:00',1.644,'2025-04-16 01:21:19','2025-04-16 01:21:19',NULL,'Engineering'),(227,'Planned','2025-06-19 00:00:00',47.59,'2025-04-16 01:21:55','2025-04-16 01:21:55',NULL,'Procurement'),(228,'Planned','2025-06-19 00:00:00',7.74,'2025-04-16 01:22:20','2025-04-16 01:22:20',NULL,'Construction'),(229,'Planned','2025-06-19 00:00:00',0,'2025-04-16 01:22:38','2025-04-16 01:22:38',NULL,'Commissioning'),(230,'Planned','2025-06-26 00:00:00',1.645,'2025-04-16 01:23:39','2025-04-16 01:23:39',NULL,'Engineering'),(231,'Planned','2025-06-26 00:00:00',48.55,'2025-04-16 01:24:14','2025-04-16 01:24:14',NULL,'Procurement'),(232,'Planned','2025-06-26 00:00:00',8.32,'2025-04-16 01:24:44','2025-04-16 01:24:44',NULL,'Construction'),(233,'Planned','2025-06-26 00:00:00',0,'2025-04-16 01:25:13','2025-04-16 01:25:13',NULL,'Commissioning'),(234,'Planned','2025-07-03 00:00:00',1.645,'2025-04-16 01:25:47','2025-04-16 01:25:47',NULL,'Engineering'),(235,'Planned','2025-07-03 00:00:00',49.49,'2025-04-16 01:27:04','2025-04-16 01:27:04',NULL,'Procurement'),(236,'Planned','2025-07-03 00:00:00',8.89,'2025-04-16 01:27:25','2025-04-16 01:27:25',NULL,'Construction'),(237,'Planned','2025-07-03 00:00:00',0,'2025-04-16 01:27:48','2025-04-16 01:27:48',NULL,'Commissioning'),(239,'Planned','2025-07-10 00:00:00',1.645,'2025-04-16 01:29:46','2025-04-16 01:29:46',NULL,'Engineering'),(240,'Planned','2025-07-10 00:00:00',50.45,'2025-04-16 01:30:25','2025-04-16 01:30:25',NULL,'Procurement'),(241,'Planned','2025-07-10 00:00:00',9.5,'2025-04-16 01:31:37','2025-04-16 01:31:37',NULL,'Construction'),(242,'Planned','2025-07-10 00:00:00',0,'2025-04-16 01:31:55','2025-04-16 01:31:55',NULL,'Commissioning'),(243,'Planned','2025-07-17 00:00:00',1.645,'2025-04-16 01:32:20','2025-04-16 01:32:20',NULL,'Engineering'),(244,'Planned','2025-07-17 00:00:00',51.08,'2025-04-16 01:32:50','2025-04-16 01:32:50',NULL,'Procurement'),(245,'Planned','2025-10-10 00:00:00',10.1,'2025-04-16 01:33:14','2025-04-16 01:33:14',NULL,'Construction'),(246,'Planned','2025-07-17 00:00:00',10.1,'2025-04-16 01:35:21','2025-04-16 01:35:21',NULL,'Construction'),(247,'Planned','2025-07-17 00:00:00',0,'2025-04-16 01:35:36','2025-04-16 01:35:36',NULL,'Commissioning'),(248,'Planned','2025-07-24 00:00:00',1.645,'2025-04-16 01:38:22','2025-04-16 01:38:22',NULL,'Engineering'),(249,'Planned','2025-07-24 00:00:00',51.59,'2025-04-16 01:38:46','2025-04-16 01:38:46',NULL,'Procurement'),(250,'Planned','2025-07-24 00:00:00',10.67,'2025-04-16 01:39:46','2025-04-16 01:39:46',NULL,'Construction'),(251,'Planned','2025-07-24 00:00:00',0,'2025-04-16 01:40:36','2025-04-16 01:40:36',NULL,'Commissioning'),(252,'Planned','2025-07-31 00:00:00',1.645,'2025-04-16 06:05:22','2025-04-16 06:05:22',NULL,'Engineering'),(253,'Planned','2025-07-31 00:00:00',52.05,'2025-04-16 06:06:12','2025-04-16 06:06:12',NULL,'Procurement'),(254,'Planned','2025-07-31 00:00:00',11.26,'2025-04-16 06:06:44','2025-04-16 06:06:44',NULL,'Construction'),(255,'Planned','2025-07-31 00:00:00',0,'2025-04-16 06:07:02','2025-04-16 06:07:02',NULL,'Commissioning'),(256,'Planned','2025-08-07 00:00:00',1.645,'2025-04-16 06:07:33','2025-04-16 06:07:33',NULL,'Engineering'),(257,'Planned','2025-08-07 00:00:00',52.55,'2025-04-16 06:07:51','2025-04-16 06:07:51',NULL,'Procurement'),(258,'Planned','2025-08-07 00:00:00',11.85,'2025-04-16 06:08:26','2025-04-16 06:08:26',NULL,'Construction'),(259,'Planned','2025-08-07 00:00:00',0,'2025-04-16 06:08:37','2025-04-16 06:08:37',NULL,'Commissioning'),(260,'Planned','2025-08-14 00:00:00',1.645,'2025-04-16 06:08:59','2025-04-16 06:08:59',NULL,'Engineering'),(261,'Planned','2025-08-14 00:00:00',53.62,'2025-04-16 06:09:27','2025-04-16 06:09:27',NULL,'Procurement'),(262,'Planned','2025-08-14 00:00:00',12.45,'2025-04-16 06:09:48','2025-04-16 06:09:48',NULL,'Construction'),(263,'Planned','2025-08-14 00:00:00',0,'2025-04-16 06:10:05','2025-04-16 06:10:05',NULL,'Commissioning'),(264,'Planned','2025-08-21 00:00:00',1.645,'2025-04-16 06:12:01','2025-04-16 06:12:01',NULL,'Engineering'),(265,'Planned','2025-08-21 00:00:00',55.16,'2025-04-16 06:13:12','2025-04-16 06:13:12',NULL,'Procurement'),(266,'Planned','2025-08-21 00:00:00',12.98,'2025-04-16 06:13:34','2025-04-16 06:13:34',NULL,'Construction'),(267,'Planned','2025-08-21 00:00:00',0,'2025-04-16 06:13:48','2025-04-16 06:13:48',NULL,'Commissioning'),(268,'Planned','2025-08-28 00:00:00',1.645,'2025-04-16 06:17:28','2025-04-16 06:17:28',NULL,'Engineering'),(269,'Planned','2025-08-28 00:00:00',56.33,'2025-04-16 06:21:05','2025-04-16 06:21:05',NULL,'Procurement'),(270,'Planned','2025-08-28 00:00:00',13.47,'2025-04-16 06:21:41','2025-04-16 06:21:41',NULL,'Construction'),(271,'Planned','2025-08-28 00:00:00',0,'2025-04-16 06:22:00','2025-04-16 06:22:00',NULL,'Commissioning'),(272,'Planned','2025-09-04 00:00:00',1.645,'2025-04-16 06:22:33','2025-04-16 06:22:33',NULL,'Engineering'),(273,'Planned','2025-09-04 00:00:00',56.88,'2025-04-16 06:23:06','2025-04-16 06:23:06',NULL,'Procurement'),(274,'Planned','2025-09-04 00:00:00',14.06,'2025-04-16 06:23:51','2025-04-16 06:23:51',NULL,'Construction'),(275,'Planned','2025-09-04 00:00:00',0,'2025-04-16 06:24:11','2025-04-16 06:24:11',NULL,'Commissioning'),(276,'Planned','2025-09-11 00:00:00',1.645,'2025-04-16 06:24:36','2025-04-16 06:24:36',NULL,'Engineering'),(277,'Planned','2025-09-11 00:00:00',57.32,'2025-04-16 06:27:05','2025-04-16 06:27:05',NULL,'Procurement'),(278,'Planned','2025-09-11 00:00:00',14.76,'2025-04-16 06:27:28','2025-04-16 06:27:28',NULL,'Construction'),(279,'Planned','2025-09-11 00:00:00',0,'2025-04-16 06:27:42','2025-04-16 06:27:42',NULL,'Commissioning'),(280,'Planned','2025-09-18 00:00:00',1.645,'2025-04-16 06:28:44','2025-04-16 06:28:44',NULL,'Engineering'),(281,'Planned','2025-09-18 00:00:00',58.02,'2025-04-16 06:29:10','2025-04-16 06:29:10',NULL,'Procurement'),(282,'Planned','2025-09-18 00:00:00',15.46,'2025-04-16 06:29:25','2025-04-16 06:29:25',NULL,'Construction'),(283,'Planned','2025-09-18 00:00:00',0,'2025-04-16 06:29:58','2025-04-16 06:29:58',NULL,'Commissioning'),(284,'Planned','2025-09-25 00:00:00',1.645,'2025-04-16 06:30:44','2025-04-16 06:30:44',NULL,'Engineering'),(285,'Planned','2025-09-25 00:00:00',58.39,'2025-04-16 06:31:12','2025-04-16 06:31:12',NULL,'Procurement'),(286,'Planned','2025-09-25 00:00:00',16.1,'2025-04-16 06:31:30','2025-04-16 06:31:30',NULL,'Construction'),(287,'Planned','2025-09-25 00:00:00',0,'2025-04-16 06:32:29','2025-04-16 06:32:29',NULL,'Commissioning'),(288,'Planned','2025-10-02 00:00:00',1.645,'2025-04-16 06:33:29','2025-04-16 06:33:29',NULL,'Engineering'),(289,'Planned','2025-10-02 00:00:00',58.56,'2025-04-16 06:33:50','2025-04-16 06:33:50',NULL,'Procurement'),(290,'Planned','2025-10-02 00:00:00',16.69,'2025-04-16 06:34:08','2025-04-16 06:34:08',NULL,'Construction'),(291,'Planned','2025-10-02 00:00:00',0,'2025-04-16 06:34:23','2025-04-16 06:34:23',NULL,'Commissioning'),(292,'Planned','2025-10-09 00:00:00',1.645,'2025-04-16 06:35:14','2025-04-16 06:35:14',NULL,'Engineering'),(293,'Planned','2025-10-09 00:00:00',58.64,'2025-04-16 06:35:40','2025-04-16 06:35:40',NULL,'Procurement'),(294,'Planned','2025-10-09 00:00:00',17.26,'2025-04-16 06:36:05','2025-04-16 06:36:05',NULL,'Construction'),(295,'Planned','2025-10-09 00:00:00',0,'2025-04-16 06:36:27','2025-04-16 06:36:27',NULL,'Commissioning'),(296,'Planned','2025-10-16 00:00:00',1.645,'2025-04-16 06:36:50','2025-04-16 06:36:50',NULL,'Engineering'),(297,'Planned','2025-10-16 00:00:00',58.92,'2025-04-16 06:37:07','2025-04-16 06:37:07',NULL,'Procurement'),(298,'Planned','2025-10-16 00:00:00',17.79,'2025-04-16 06:37:26','2025-04-16 06:37:26',NULL,'Construction'),(299,'Planned','2025-10-16 00:00:00',0,'2025-04-16 06:37:53','2025-04-16 06:37:53',NULL,'Commissioning'),(300,'Planned','2025-10-23 00:00:00',1.645,'2025-04-16 06:38:42','2025-04-16 06:38:42',NULL,'Engineering'),(301,'Planned','2025-10-23 00:00:00',59.09,'2025-04-16 06:39:05','2025-04-16 06:39:05',NULL,'Procurement'),(302,'Planned','2025-10-23 00:00:00',18.3,'2025-04-16 06:39:22','2025-04-16 06:39:22',NULL,'Construction'),(303,'Planned','2025-10-23 00:00:00',0,'2025-04-16 06:39:37','2025-04-16 06:39:37',NULL,'Commissioning'),(304,'Planned','2025-10-30 00:00:00',1.645,'2025-04-16 06:40:03','2025-04-16 06:40:03',NULL,'Engineering'),(305,'Planned','2025-10-30 00:00:00',59.27,'2025-04-16 06:40:35','2025-04-16 06:40:35',NULL,'Procurement'),(306,'Planned','2025-10-30 00:00:00',18.88,'2025-04-16 06:40:50','2025-04-16 06:40:50',NULL,'Construction'),(307,'Planned','2025-10-30 00:00:00',0,'2025-04-16 06:41:29','2025-04-16 06:41:29',NULL,'Commissioning'),(308,'Planned','2025-11-06 00:00:00',1.645,'2025-04-16 06:42:01','2025-04-16 06:42:01',NULL,'Engineering'),(309,'Planned','2025-11-06 00:00:00',59.35,'2025-04-16 06:42:51','2025-04-16 06:42:51',NULL,'Procurement'),(310,'Planned','2025-11-06 00:00:00',19.5,'2025-04-16 06:43:08','2025-04-16 06:43:08',NULL,'Construction'),(311,'Planned','2025-11-06 00:00:00',0,'2025-04-16 06:43:43','2025-04-16 06:43:43',NULL,'Commissioning'),(312,'Planned','2025-11-13 00:00:00',1.645,'2025-04-16 06:44:05','2025-04-16 06:44:05',NULL,'Engineering'),(313,'Planned','2025-11-13 00:00:00',59.83,'2025-04-16 06:47:06','2025-04-16 06:47:06',NULL,'Procurement'),(314,'Planned','2025-11-13 00:00:00',20.11,'2025-04-16 06:47:40','2025-04-16 06:47:40',NULL,'Construction'),(315,'Planned','2025-11-13 00:00:00',0,'2025-04-16 06:48:13','2025-04-16 06:48:13',NULL,'Commissioning'),(316,'Planned','2025-11-20 00:00:00',1.645,'2025-04-16 06:49:18','2025-04-16 06:49:18',NULL,'Engineering'),(317,'Planned','2025-11-20 00:00:00',61.29,'2025-04-16 06:49:44','2025-04-16 06:50:47',NULL,'Procurement'),(318,'Planned','2025-11-20 00:00:00',20.75,'2025-04-16 06:50:01','2025-04-16 06:50:01',NULL,'Construction'),(319,'Planned','2025-11-20 00:00:00',0,'2025-04-16 06:50:15','2025-04-16 06:50:15',NULL,'Commissioning'),(320,'Planned','2025-11-27 00:00:00',21.78,'2025-04-16 06:51:42','2025-04-16 06:51:42',NULL,'Construction'),(321,'Planned','2025-11-27 00:00:00',0,'2025-04-16 06:51:58','2025-04-16 06:51:58',NULL,'Commissioning'),(322,'Planned','2025-12-04 00:00:00',1.645,'2025-04-16 06:52:23','2025-04-16 06:52:23',NULL,'Engineering'),(323,'Planned','2025-12-04 00:00:00',61.62,'2025-04-16 06:52:44','2025-04-16 06:52:44',NULL,'Procurement'),(324,'Planned','2025-12-04 00:00:00',23.14,'2025-04-16 06:53:02','2025-04-16 06:53:02',NULL,'Construction'),(325,'Planned','2025-12-04 00:00:00',0,'2025-04-16 06:53:16','2025-04-16 06:53:16',NULL,'Commissioning'),(326,'Planned','2025-12-11 00:00:00',1.645,'2025-04-16 06:53:36','2025-04-16 06:53:36',NULL,'Engineering'),(327,'Planned','2025-12-11 00:00:00',61.62,'2025-04-16 06:53:53','2025-04-16 06:53:53',NULL,'Procurement'),(328,'Planned','2025-12-11 00:00:00',24.57,'2025-04-16 06:54:13','2025-04-16 06:54:13',NULL,'Construction'),(329,'Planned','2025-12-11 00:00:00',0,'2025-04-16 06:54:47','2025-04-16 06:54:47',NULL,'Commissioning'),(330,'Planned','2025-12-18 00:00:00',1.645,'2025-04-16 06:55:09','2025-04-16 06:55:09',NULL,'Engineering'),(331,'Planned','2025-12-18 00:00:00',61.62,'2025-04-16 06:55:33','2025-04-16 06:55:33',NULL,'Procurement'),(332,'Planned','2025-12-18 00:00:00',26.04,'2025-04-16 06:55:52','2025-04-16 06:55:52',NULL,'Construction'),(333,'Planned','2025-12-18 00:00:00',0,'2025-04-16 06:56:52','2025-04-16 06:56:52',NULL,'Commissioning'),(334,'Planned','2025-12-25 00:00:00',1.645,'2025-04-16 06:57:11','2025-04-16 06:57:11',NULL,'Engineering'),(335,'Planned','2025-12-25 00:00:00',61.62,'2025-04-16 06:57:28','2025-04-16 06:57:28',NULL,'Procurement'),(336,'Planned','2025-12-25 00:00:00',27.5,'2025-04-16 06:57:55','2025-04-16 06:57:55',NULL,'Construction'),(337,'Planned','2025-12-25 00:00:00',0,'2025-04-16 06:58:11','2025-04-16 06:58:11',NULL,'Commissioning'),(338,'Planned','2026-01-01 00:00:00',1.645,'2025-04-16 06:58:36','2025-04-16 06:58:36',NULL,'Engineering'),(339,'Planned','2025-01-01 00:00:00',61.62,'2025-04-16 06:59:01','2025-04-16 06:59:01',NULL,'Procurement'),(340,'Planned','2026-01-01 00:00:00',28.7,'2025-04-16 06:59:40','2025-04-16 06:59:40',NULL,'Construction'),(341,'Planned','2026-01-01 00:00:00',0,'2025-04-16 07:00:20','2025-04-16 07:00:20',NULL,'Commissioning'),(343,'Planned','2025-01-08 00:00:00',61.62,'2025-04-16 07:05:40','2025-04-16 07:05:40',NULL,'Procurement'),(344,'Planned','2025-01-08 00:00:00',29.75,'2025-04-16 07:06:59','2025-04-16 07:06:59',NULL,'Construction'),(345,'Planned','2026-01-08 00:00:00',0,'2025-04-16 07:07:19','2025-04-16 07:07:19',NULL,'Commissioning'),(346,'Planned','2026-01-08 00:00:00',1.645,'2025-04-16 07:08:49','2025-04-16 07:08:49',NULL,'Engineering'),(347,'Planned','2026-01-15 00:00:00',1.645,'2025-04-16 07:09:16','2025-04-16 07:09:16',NULL,'Engineering'),(348,'Planned','2026-01-15 00:00:00',61.62,'2025-04-16 07:10:42','2025-04-16 07:10:42',NULL,'Procurement'),(349,'Planned','2026-01-15 00:00:00',30.7,'2025-04-16 07:11:02','2025-04-16 07:11:02',NULL,'Construction'),(350,'Planned','2026-01-15 00:00:00',0,'2025-04-16 07:11:19','2025-04-16 07:11:19',NULL,'Commissioning'),(351,'Planned','2026-01-22 00:00:00',1.645,'2025-04-16 07:11:42','2025-04-16 07:11:42',NULL,'Engineering'),(352,'Planned','2026-01-22 00:00:00',61.62,'2025-04-16 07:12:32','2025-04-16 07:12:32',NULL,'Procurement'),(353,'Planned','2026-01-22 00:00:00',31.38,'2025-04-16 07:13:01','2025-04-16 07:13:01',NULL,'Construction'),(354,'Planned','2026-01-22 00:00:00',0,'2025-04-16 07:13:15','2025-04-16 07:13:15',NULL,'Commissioning'),(355,'Planned','2026-01-29 00:00:00',1.645,'2025-04-16 07:13:40','2025-04-16 07:13:40',NULL,'Engineering'),(356,'Planned','2026-01-29 00:00:00',61.62,'2025-04-16 07:14:08','2025-04-16 07:14:08',NULL,'Procurement'),(357,'Planned','2026-01-29 00:00:00',31.97,'2025-04-16 07:14:33','2025-04-16 07:14:33',NULL,'Construction'),(358,'Planned','2026-01-29 00:00:00',0,'2025-04-16 07:14:47','2025-04-16 07:14:47',NULL,'Commissioning'),(359,'Planned','2026-02-05 00:00:00',1.645,'2025-04-16 07:21:23','2025-04-16 07:21:23',NULL,'Engineering'),(360,'Planned','2026-02-05 00:00:00',61.62,'2025-04-16 07:21:44','2025-04-16 07:21:44',NULL,'Procurement'),(361,'Planned','2026-02-05 00:00:00',32.48,'2025-04-16 07:29:58','2025-04-16 07:29:58',NULL,'Construction'),(362,'Planned','2026-02-05 00:00:00',0,'2025-04-16 07:30:17','2025-04-16 07:30:17',NULL,'Commissioning'),(363,'Planned','2026-02-12 00:00:00',1.645,'2025-04-16 07:30:39','2025-04-16 07:30:39',NULL,'Engineering'),(364,'Planned','2026-02-12 00:00:00',61.62,'2025-04-16 07:31:01','2025-04-16 07:31:01',NULL,'Procurement'),(365,'Planned','2026-02-12 00:00:00',32.85,'2025-04-16 07:32:15','2025-04-16 07:32:15',NULL,'Construction'),(366,'Planned','2026-02-12 00:00:00',0,'2025-04-16 07:32:41','2025-04-16 07:32:41',NULL,'Commissioning'),(367,'Planned','2026-02-19 00:00:00',1.645,'2025-04-16 07:33:06','2025-04-16 07:33:06',NULL,'Engineering'),(368,'Planned','2026-02-19 00:00:00',61.62,'2025-04-16 07:33:30','2025-04-16 07:33:30',NULL,'Procurement'),(369,'Planned','2026-02-19 00:00:00',33.16,'2025-04-16 07:33:57','2025-04-16 07:33:57',NULL,'Construction'),(370,'Planned','2026-02-19 00:00:00',0,'2025-04-16 07:34:16','2025-04-16 07:34:16',NULL,'Commissioning'),(371,'Planned','2026-02-26 00:00:00',1.645,'2025-04-16 07:34:41','2025-04-16 07:34:41',NULL,'Engineering'),(372,'Planned','2026-02-26 00:00:00',61.62,'2025-04-16 07:35:21','2025-04-16 07:35:21',NULL,'Procurement'),(373,'Planned','2026-02-26 00:00:00',33.44,'2025-04-16 07:35:38','2025-04-16 07:35:38',NULL,'Construction'),(374,'Planned','2026-02-26 00:00:00',0,'2025-04-16 07:35:53','2025-04-16 07:35:53',NULL,'Commissioning'),(375,'Planned','2026-03-05 00:00:00',1.645,'2025-04-16 07:36:52','2025-04-16 07:36:52',NULL,'Engineering'),(376,'Planned','2026-03-05 00:00:00',61.62,'2025-04-16 07:37:18','2025-04-16 07:37:18',NULL,'Procurement'),(377,'Planned','2026-03-05 00:00:00',33.71,'2025-04-16 07:37:36','2025-04-16 07:37:36',NULL,'Construction'),(378,'Planned','2026-03-05 00:00:00',0,'2025-04-16 07:38:15','2025-04-16 07:38:15',NULL,'Commissioning'),(379,'Planned','2026-03-12 00:00:00',1.645,'2025-04-16 07:38:31','2025-04-16 07:38:31',NULL,'Engineering'),(380,'Planned','2026-03-12 00:00:00',61.62,'2025-04-16 07:38:57','2025-04-16 07:38:57',NULL,'Procurement'),(381,'Planned','2026-03-12 00:00:00',33.94,'2025-04-16 07:39:18','2025-04-16 07:39:18',NULL,'Construction'),(382,'Planned','2026-03-12 00:00:00',0,'2025-04-16 07:39:33','2025-04-16 07:39:33',NULL,'Commissioning'),(383,'Planned','2026-03-19 00:00:00',1.645,'2025-04-16 07:40:16','2025-04-16 07:40:16',NULL,'Engineering'),(384,'Planned','2026-03-19 00:00:00',61.62,'2025-04-16 07:40:36','2025-04-16 07:40:36',NULL,'Procurement'),(385,'Planned','2026-03-19 00:00:00',34.1,'2025-04-16 07:40:56','2025-04-16 07:40:56',NULL,'Construction'),(386,'Planned','2026-03-19 00:00:00',0,'2025-04-16 07:41:12','2025-04-16 07:41:12',NULL,'Commissioning'),(387,'Planned','2026-03-26 00:00:00',1.645,'2025-04-16 07:43:07','2025-04-16 07:43:07',NULL,'Engineering'),(388,'Planned','2026-03-26 00:00:00',61.62,'2025-04-16 07:43:24','2025-04-16 07:43:24',NULL,'Procurement'),(389,'Planned','2026-03-26 00:00:00',34.24,'2025-04-16 07:44:06','2025-04-16 07:44:06',NULL,'Construction'),(390,'Planned','2026-03-26 00:00:00',0.04,'2025-04-16 07:44:32','2025-04-16 07:44:32',NULL,'Commissioning'),(391,'Planned','2026-04-02 00:00:00',1.645,'2025-04-16 07:44:56','2025-04-16 07:44:56',NULL,'Engineering'),(392,'Planned','2026-04-02 00:00:00',61.62,'2025-04-16 07:45:40','2025-04-16 07:45:40',NULL,'Procurement'),(393,'Planned','2026-04-02 00:00:00',34.36,'2025-04-16 07:46:04','2025-04-16 07:46:04',NULL,'Construction'),(394,'Planned','2026-04-02 00:00:00',0.1,'2025-04-16 07:46:23','2025-04-16 07:46:23',NULL,'Commissioning'),(395,'Planned','2026-04-09 00:00:00',1.645,'2025-04-16 07:46:44','2025-04-16 07:46:44',NULL,'Engineering'),(396,'Planned','2026-04-09 00:00:00',61.62,'2025-04-16 07:47:02','2025-04-16 07:47:02',NULL,'Procurement'),(397,'Planned','2026-04-09 00:00:00',34.44,'2025-04-16 07:47:26','2025-04-16 07:47:26',NULL,'Construction'),(398,'Planned','2026-04-09 00:00:00',0.26,'2025-04-16 07:47:40','2025-04-16 07:47:40',NULL,'Commissioning'),(399,'Planned','2026-04-16 00:00:00',1.645,'2025-04-16 07:48:04','2025-04-16 07:48:04',NULL,'Engineering'),(400,'Planned','2026-04-16 00:00:00',61.62,'2025-04-16 07:48:44','2025-04-16 07:48:44',NULL,'Procurement'),(401,'Planned','2026-04-16 00:00:00',34.52,'2025-04-16 07:49:13','2025-04-16 07:49:13',NULL,'Construction'),(402,'Planned','2026-04-16 00:00:00',0.46,'2025-04-16 07:50:15','2025-04-16 07:50:15',NULL,'Commissioning'),(403,'Planned','2026-04-23 00:00:00',1.645,'2025-04-16 07:50:34','2025-04-16 07:50:34',NULL,'Engineering'),(404,'Planned','2026-04-23 00:00:00',61.62,'2025-04-16 07:50:57','2025-04-16 07:50:57',NULL,'Procurement'),(405,'Planned','2026-04-23 00:00:00',34.6,'2025-04-16 07:51:55','2025-04-16 07:51:55',NULL,'Construction'),(406,'Planned','2026-04-23 00:00:00',0.62,'2025-04-16 07:52:11','2025-04-16 07:52:11',NULL,'Commissioning'),(407,'Planned','2026-04-30 00:00:00',1.645,'2025-04-16 07:52:38','2025-04-16 07:52:38',NULL,'Engineering'),(408,'Planned','2026-04-30 00:00:00',61.62,'2025-04-16 07:53:00','2025-04-16 07:53:00',NULL,'Procurement'),(409,'Planned','2026-04-30 00:00:00',34.68,'2025-04-16 07:53:20','2025-04-16 07:53:20',NULL,'Construction'),(410,'Planned','2026-04-30 00:00:00',0.76,'2025-04-16 07:53:41','2025-04-16 07:53:41',NULL,'Commissioning'),(411,'Planned','2026-05-07 00:00:00',1.645,'2025-04-16 07:54:41','2025-04-16 07:54:41',NULL,'Engineering'),(412,'Planned','2026-05-07 00:00:00',61.62,'2025-04-16 07:54:59','2025-04-16 07:54:59',NULL,'Procurement'),(413,'Planned','2026-05-07 00:00:00',34.72,'2025-04-16 07:55:21','2025-04-16 07:55:21',NULL,'Construction'),(414,'Planned','2026-05-07 00:00:00',0.86,'2025-04-16 07:56:07','2025-04-16 07:56:07',NULL,'Commissioning'),(415,'Planned','2026-05-14 00:00:00',1.645,'2025-04-16 07:56:38','2025-04-16 07:56:38',NULL,'Engineering'),(416,'Planned','2026-05-14 00:00:00',61.62,'2025-04-16 07:57:03','2025-04-16 07:57:03',NULL,'Procurement'),(417,'Planned','2026-05-14 00:00:00',34.77,'2025-04-16 07:57:22','2025-04-16 07:57:22',NULL,'Construction'),(418,'Planned','2026-05-14 00:00:00',0.92,'2025-04-16 07:57:51','2025-04-16 07:57:51',NULL,'Commissioning'),(419,'Planned','2026-05-21 00:00:00',1.645,'2025-04-16 07:59:18','2025-04-16 07:59:18',NULL,'Engineering'),(420,'Planned','2026-05-21 00:00:00',61.62,'2025-04-16 07:59:33','2025-04-16 07:59:33',NULL,'Procurement'),(421,'Planned','2026-05-21 00:00:00',34.79,'2025-04-16 07:59:54','2025-04-16 07:59:54',NULL,'Construction'),(422,'Planned','2026-05-21 00:00:00',0.99,'2025-04-16 08:00:08','2025-04-16 08:00:08',NULL,'Commissioning'),(423,'Planned','2026-05-28 00:00:00',61.62,'2025-04-16 08:00:28','2025-04-16 08:00:43',NULL,'Engineering'),(424,'Planned','2026-05-28 00:00:00',34.8,'2025-04-16 08:01:08','2025-04-16 08:01:08',NULL,'Construction'),(425,'Planned','2026-05-28 00:00:00',1.05,'2025-04-16 08:01:37','2025-04-16 08:01:37',NULL,'Commissioning'),(426,'Planned','2026-06-04 00:00:00',1.645,'2025-04-16 08:02:02','2025-04-16 08:02:02',NULL,'Engineering'),(427,'Planned','2026-06-04 00:00:00',61.62,'2025-04-16 08:02:21','2025-04-16 08:02:21',NULL,'Procurement'),(428,'Planned','2026-06-04 00:00:00',34.8,'2025-04-16 08:02:38','2025-04-16 08:02:38',NULL,'Construction'),(429,'Planned','2026-06-04 00:00:00',1.12,'2025-04-16 08:03:15','2025-04-16 08:03:15',NULL,'Commissioning'),(430,'Planned','2026-06-11 00:00:00',1.645,'2025-04-16 08:03:34','2025-04-16 08:03:34',NULL,'Engineering'),(431,'Planned','2026-06-11 00:00:00',61.62,'2025-04-16 08:04:02','2025-04-16 08:04:02',NULL,'Procurement'),(432,'Planned','2026-06-11 00:00:00',34.8,'2025-04-16 08:05:06','2025-04-16 08:05:06',NULL,'Construction'),(433,'Planned','2026-06-11 00:00:00',1.19,'2025-04-16 08:05:26','2025-04-16 08:05:26',NULL,'Commissioning'),(434,'Planned','2026-06-18 00:00:00',1.645,'2025-04-16 08:05:58','2025-04-16 08:05:58',NULL,'Engineering'),(435,'Planned','2026-06-18 00:00:00',61.62,'2025-04-16 08:06:17','2025-04-16 08:06:17',NULL,'Procurement'),(436,'Planned','2026-06-18 00:00:00',34.8,'2025-04-16 08:06:44','2025-04-16 08:06:44',NULL,'Construction'),(437,'Planned','2026-06-18 00:00:00',1.3,'2025-04-16 08:07:03','2025-04-16 08:07:03',NULL,'Commissioning'),(438,'Planned','2026-06-25 00:00:00',1.645,'2025-04-16 08:07:56','2025-04-16 08:07:56',NULL,'Engineering'),(439,'Planned','2026-06-25 00:00:00',61.62,'2025-04-16 08:08:18','2025-04-16 08:08:18',NULL,'Procurement'),(440,'Planned','2026-06-25 00:00:00',34.81,'2025-04-16 08:08:40','2025-04-16 08:08:40',NULL,'Construction'),(441,'Planned','2026-06-25 00:00:00',1.43,'2025-04-16 08:08:56','2025-04-16 08:08:56',NULL,'Commissioning'),(442,'Planned','2026-07-02 00:00:00',1.645,'2025-04-16 08:09:33','2025-04-16 08:09:33',NULL,'Engineering'),(443,'Planned','2026-07-02 00:00:00',61.62,'2025-04-16 08:09:51','2025-04-16 08:09:51',NULL,'Procurement'),(444,'Planned','2026-07-02 00:00:00',34.83,'2025-04-16 08:10:11','2025-04-16 08:10:11',NULL,'Construction'),(445,'Planned','2026-07-02 00:00:00',1.54,'2025-04-16 08:10:29','2025-04-16 08:10:29',NULL,'Commissioning'),(446,'Planned','2026-07-09 00:00:00',1.645,'2025-04-16 08:10:59','2025-04-16 08:10:59',NULL,'Engineering'),(447,'Planned','2026-07-09 00:00:00',61.62,'2025-04-16 08:11:41','2025-04-16 08:11:41',NULL,'Procurement'),(448,'Planned','2026-07-09 00:00:00',34.85,'2025-04-16 08:12:03','2025-04-16 08:12:03',NULL,'Construction'),(449,'Planned','2026-07-09 00:00:00',1.6,'2025-04-16 08:12:21','2025-04-16 08:12:21',NULL,'Commissioning'),(450,'Planned','2026-07-16 00:00:00',1.645,'2025-04-16 08:13:03','2025-04-16 08:13:03',NULL,'Engineering'),(451,'Planned','2026-07-16 00:00:00',61.62,'2025-04-16 08:13:19','2025-04-16 08:13:19',NULL,'Procurement'),(452,'Planned','2026-07-16 00:00:00',34.87,'2025-04-16 08:13:40','2025-04-16 08:13:40',NULL,'Construction'),(453,'Planned','2026-07-16 00:00:00',1.67,'2025-04-16 08:14:00','2025-04-16 08:14:00',NULL,'Commissioning'),(454,'Planned','2026-07-23 00:00:00',1.645,'2025-04-16 08:14:29','2025-04-16 08:14:29',NULL,'Engineering'),(455,'Planned','2026-07-23 00:00:00',61.62,'2025-04-16 08:14:51','2025-04-16 08:14:51',NULL,'Procurement'),(456,'Planned','2026-07-23 00:00:00',34.89,'2025-04-16 08:15:21','2025-04-16 08:15:21',NULL,'Construction'),(457,'Planned','2026-07-23 00:00:00',1.69,'2025-04-16 08:15:52','2025-04-16 08:15:52',NULL,'Commissioning'),(458,'Planned','2026-07-30 00:00:00',1.645,'2025-04-16 08:16:09','2025-04-16 08:16:09',NULL,'Engineering'),(459,'Planned','2026-07-30 00:00:00',61.62,'2025-04-16 08:16:33','2025-04-16 08:16:33',NULL,'Procurement'),(460,'Planned','2026-07-30 00:00:00',34.9,'2025-04-16 08:17:22','2025-04-16 08:17:22',NULL,'Construction'),(461,'Planned','2026-07-30 00:00:00',1.69,'2025-04-16 08:17:59','2025-04-16 08:17:59',NULL,'Commissioning'),(462,'Planned','2026-08-06 00:00:00',1.645,'2025-04-16 08:18:47','2025-04-16 08:18:47',NULL,'Engineering'),(463,'Planned','2026-08-06 00:00:00',61.62,'2025-04-16 08:19:33','2025-04-16 08:19:33',NULL,'Procurement'),(464,'Planned','2026-08-06 00:00:00',34.9,'2025-04-16 08:19:51','2025-04-16 08:19:51',NULL,'Construction'),(465,'Planned','2026-08-06 00:00:00',1.69,'2025-04-16 08:20:40','2025-04-16 08:20:40',NULL,'Commissioning'),(466,'Planned','2026-08-13 00:00:00',1.645,'2025-04-16 08:21:09','2025-04-16 08:21:09',NULL,'Engineering'),(467,'Planned','2026-08-13 00:00:00',61.62,'2025-04-16 08:21:57','2025-04-16 08:21:57',NULL,'Procurement'),(468,'Planned','2026-08-13 00:00:00',34.9,'2025-04-16 08:22:12','2025-04-16 08:22:12',NULL,'Construction'),(469,'Planned','2026-08-13 00:00:00',1.69,'2025-04-16 08:22:33','2025-04-16 08:22:33',NULL,'Commissioning'),(470,'Planned','2026-08-20 00:00:00',1.645,'2025-04-16 08:23:06','2025-04-16 08:23:06',NULL,'Engineering'),(471,'Planned','2026-08-20 00:00:00',61.62,'2025-04-16 08:23:52','2025-04-16 08:23:52',NULL,'Procurement'),(472,'Planned','2026-08-20 00:00:00',34.9,'2025-04-16 08:24:07','2025-04-16 08:24:07',NULL,'Construction'),(473,'Planned','2026-08-20 00:00:00',1.75,'2025-04-16 08:24:36','2025-04-16 08:24:36',NULL,'Commissioning'),(474,'Planned','2026-08-27 00:00:00',1.645,'2025-04-16 08:26:50','2025-04-16 08:26:50',NULL,'Engineering'),(475,'Planned','2026-08-27 00:00:00',61.62,'2025-04-16 08:27:08','2025-04-16 08:27:08',NULL,'Procurement'),(476,'Planned','2026-08-27 00:00:00',34.9,'2025-04-16 08:27:25','2025-04-16 08:27:25',NULL,'Construction'),(477,'Planned','2026-08-27 00:00:00',1.82,'2025-04-16 08:27:40','2025-04-16 08:27:40',NULL,'Commissioning'),(478,'Planned','2026-09-03 00:00:00',1.645,'2025-04-16 08:28:07','2025-04-16 08:28:07',NULL,'Engineering'),(479,'Planned','2026-09-03 00:00:00',61.62,'2025-04-16 08:28:35','2025-04-16 08:28:35',NULL,'Procurement'),(480,'Planned','2026-09-03 00:00:00',34.9,'2025-04-16 08:28:56','2025-04-16 08:28:56',NULL,'Construction'),(481,'Planned','2026-09-03 00:00:00',1.84,'2025-04-16 08:29:09','2025-04-16 08:29:09',NULL,'Commissioning'),(482,'Planned','2026-09-10 00:00:00',1.645,'2025-04-16 08:29:28','2025-04-16 08:29:28',NULL,'Engineering'),(483,'Planned','2026-09-10 00:00:00',61.62,'2025-04-16 08:29:45','2025-04-16 08:29:45',NULL,'Procurement'),(484,'Planned','2026-09-10 00:00:00',34.9,'2025-04-16 08:30:21','2025-04-16 08:30:21',NULL,'Construction'),(485,'Planned','2026-09-10 00:00:00',1.84,'2025-04-16 08:30:37','2025-04-16 08:30:37',NULL,'Commissioning'),(486,'Planned','2026-09-17 00:00:00',1.645,'2025-04-16 08:31:02','2025-04-16 08:31:02',NULL,'Engineering'),(487,'Planned','2026-09-17 00:00:00',61.62,'2025-04-16 08:31:18','2025-04-16 08:31:18',NULL,'Procurement'),(488,'Planned','2026-09-17 00:00:00',34.9,'2025-04-16 08:31:33','2025-04-16 08:31:33',NULL,'Construction'),(489,'Planned','2026-09-17 00:00:00',1.84,'2025-04-16 08:31:50','2025-04-16 08:31:50',NULL,'Commissioning'),(490,'Planned','2026-09-24 00:00:00',1.645,'2025-04-16 08:32:07','2025-04-16 08:32:07',NULL,'Engineering'),(491,'Planned','2026-09-24 00:00:00',61.62,'2025-04-16 08:32:25','2025-04-16 08:32:25',NULL,'Procurement'),(492,'Planned','2026-09-24 00:00:00',34.9,'2025-04-16 08:32:43','2025-04-16 08:32:43',NULL,'Construction'),(493,'Planned','2026-09-24 00:00:00',1.84,'2025-04-16 08:33:00','2025-04-16 08:33:00',NULL,'Commissioning'),(494,'Planned','2026-09-28 00:00:00',1.645,'2025-04-16 08:33:17','2025-04-16 08:33:17',NULL,'Engineering'),(495,'Planned','2026-09-28 00:00:00',61.62,'2025-04-16 08:34:04','2025-04-16 08:34:04',NULL,'Procurement'),(496,'Planned','2026-09-28 00:00:00',34.9,'2025-04-16 08:34:24','2025-04-16 08:34:24',NULL,'Construction'),(497,'Planned','2026-09-28 00:00:00',1.84,'2025-04-16 08:34:46','2025-04-16 08:34:46',NULL,'Commissioning'),(498,'Actual','2024-08-01 00:00:00',7,'2025-04-17 08:17:31','2025-04-21 22:51:59',NULL,'Engineering'),(499,'Actual','2024-08-01 00:00:00',0,'2025-04-17 08:17:44','2025-04-17 08:17:44',NULL,'Procurement'),(500,'Actual','2024-08-01 00:00:00',0,'2025-04-17 08:18:00','2025-04-17 08:18:00',NULL,'Construction'),(501,'Actual','2024-08-01 00:00:00',0,'2025-04-17 08:19:13','2025-04-17 08:19:13',NULL,'Commissioning'),(502,'Actual','2024-08-08 00:00:00',0.5,'2025-04-17 08:19:55','2025-04-21 22:51:17',NULL,'Engineering'),(503,'Actual','2024-08-08 00:00:00',0.2,'2025-04-17 08:20:12','2025-04-17 08:20:12',NULL,'Procurement'),(504,'Actual','2024-08-08 00:00:00',0.12,'2025-04-17 08:20:38','2025-04-17 08:20:38',NULL,'Construction'),(505,'Actual','2024-08-08 00:00:00',0,'2025-04-17 08:21:05','2025-04-17 08:21:05',NULL,'Commissioning'),(506,'Actual','2024-08-15 00:00:00',0,'2025-04-17 08:21:43','2025-04-17 08:21:43',NULL,'Engineering'),(507,'Actual','2024-08-15 00:00:00',0.43,'2025-04-17 08:22:02','2025-04-17 08:22:02',NULL,'Procurement'),(508,'Actual','2024-08-15 00:00:00',0.35,'2025-04-17 08:22:30','2025-04-17 08:22:30',NULL,'Construction'),(509,'Actual','2024-08-15 00:00:00',0,'2025-04-17 08:26:10','2025-04-17 08:26:10',NULL,'Commissioning'),(510,'Actual','2024-08-22 00:00:00',0,'2025-04-17 08:27:43','2025-04-17 08:27:43',NULL,'Engineering'),(511,'Actual','2024-08-22 00:00:00',0.58,'2025-04-17 08:28:09','2025-04-17 08:28:09',NULL,'Procurement'),(512,'Actual','2024-08-22 00:00:00',0.78,'2025-04-17 08:28:32','2025-04-17 08:28:32',NULL,'Construction'),(513,'Actual','2024-08-22 00:00:00',0,'2025-04-17 08:28:49','2025-04-17 08:28:49',NULL,'Commissioning'),(514,'Actual','2024-08-29 00:00:00',0,'2025-04-17 08:29:23','2025-04-17 08:29:23',NULL,'Engineering'),(515,'Actual','2024-08-29 00:00:00',0.63,'2025-04-17 08:30:05','2025-04-17 08:30:05',NULL,'Procurement'),(516,'Actual','2024-08-29 00:00:00',1.21,'2025-04-17 08:30:26','2025-04-17 08:30:26',NULL,'Construction'),(517,'Actual','2024-08-29 00:00:00',0,'2025-04-17 08:32:37','2025-04-17 08:32:37',NULL,'Commissioning'),(518,'Actual','2024-09-05 00:00:00',0,'2025-04-17 08:35:23','2025-04-17 08:35:23',NULL,'Engineering'),(519,'Actual','2024-09-05 00:00:00',0.85,'2025-04-17 08:35:41','2025-04-17 08:35:41',NULL,'Procurement'),(520,'Actual','2024-09-05 00:00:00',1.32,'2025-04-17 08:40:13','2025-04-17 08:40:13',NULL,'Construction'),(521,'Actual','2024-09-05 00:00:00',0,'2025-04-17 08:40:31','2025-04-17 08:40:31',NULL,'Commissioning'),(522,'Actual','2024-09-12 00:00:00',0,'2025-04-17 08:42:42','2025-04-17 08:42:42',NULL,'Engineering'),(523,'Actual','2024-09-12 00:00:00',1.03,'2025-04-17 08:43:06','2025-04-17 08:43:06',NULL,'Procurement'),(524,'Actual','2024-09-12 00:00:00',1.48,'2025-04-17 08:43:32','2025-04-17 08:43:32',NULL,'Construction'),(525,'Actual','2024-09-12 00:00:00',0,'2025-04-17 08:43:54','2025-04-17 08:43:54',NULL,'Commissioning'),(526,'Actual','2024-09-19 00:00:00',0,'2025-04-17 08:44:12','2025-04-17 08:44:12',NULL,'Engineering'),(527,'Actual','2024-09-19 00:00:00',1.32,'2025-04-17 08:44:30','2025-04-17 08:44:30',NULL,'Procurement'),(528,'Actual','2024-09-19 00:00:00',1.53,'2025-04-17 08:44:50','2025-04-17 08:44:50',NULL,'Construction'),(529,'Actual','2024-09-19 00:00:00',0,'2025-04-17 08:45:07','2025-04-17 08:45:07',NULL,'Commissioning'),(530,'Actual','2024-09-26 00:00:00',0,'2025-04-17 08:45:59','2025-04-17 08:45:59',NULL,'Engineering'),(531,'Actual','2024-09-26 00:00:00',1.42,'2025-04-17 08:46:29','2025-04-17 08:46:29',NULL,'Procurement'),(532,'Actual','2024-09-26 00:00:00',1.66,'2025-04-17 08:46:51','2025-04-17 08:46:51',NULL,'Construction'),(533,'Actual','2024-09-26 00:00:00',0,'2025-04-17 08:47:09','2025-04-17 08:47:09',NULL,'Commissioning'),(534,'Actual','2024-10-03 00:00:00',0,'2025-04-17 08:47:48','2025-04-17 08:47:48',NULL,'Engineering'),(535,'Actual','2024-10-03 00:00:00',1.44,'2025-04-17 08:48:24','2025-04-17 08:48:24',NULL,'Procurement'),(536,'Actual','2024-10-03 00:00:00',1.74,'2025-04-17 08:48:53','2025-04-17 08:48:53',NULL,'Construction'),(537,'Actual','2024-10-03 00:00:00',0,'2025-04-17 08:49:26','2025-04-17 08:49:26',NULL,'Commissioning'),(538,'Actual','2024-10-10 00:00:00',0,'2025-04-17 08:49:51','2025-04-17 08:49:51',NULL,'Engineering'),(539,'Actual','2024-10-10 00:00:00',1.54,'2025-04-17 08:50:30','2025-04-17 08:50:30',NULL,'Procurement'),(540,'Actual','2024-10-10 00:00:00',1.8,'2025-04-17 08:51:04','2025-04-17 08:51:04',NULL,'Construction'),(541,'Actual','2024-10-10 00:00:00',0,'2025-04-17 08:51:19','2025-04-17 08:51:19',NULL,'Commissioning'),(542,'Actual','2024-10-17 00:00:00',0,'2025-04-17 08:51:57','2025-04-17 08:51:57',NULL,'Engineering'),(543,'Actual','2024-10-17 00:00:00',1.62,'2025-04-17 08:52:38','2025-04-17 08:52:38',NULL,'Procurement'),(544,'Actual','2024-10-17 00:00:00',1.92,'2025-04-17 08:53:27','2025-04-17 08:53:27',NULL,'Construction'),(545,'Actual','2024-10-17 00:00:00',0,'2025-04-17 08:53:52','2025-04-17 08:53:52',NULL,'Commissioning'),(546,'Actual','2024-10-24 00:00:00',0,'2025-04-17 08:54:46','2025-04-17 08:54:46',NULL,'Engineering'),(547,'Actual','2024-10-24 00:00:00',1.79,'2025-04-17 08:55:08','2025-04-17 08:55:08',NULL,'Procurement'),(548,'Actual','2024-10-24 00:00:00',1.98,'2025-04-17 08:56:14','2025-04-17 08:56:14',NULL,'Construction'),(549,'Actual','2024-10-24 00:00:00',0,'2025-04-17 08:57:22','2025-04-17 08:57:22',NULL,'Commissioning'),(550,'Actual','2024-10-31 00:00:00',0,'2025-04-17 08:57:44','2025-04-17 08:57:44',NULL,'Engineering'),(551,'Actual','2024-10-31 00:00:00',1.92,'2025-04-17 08:58:09','2025-04-17 08:58:09',NULL,'Procurement'),(552,'Actual','2024-10-31 00:00:00',2.02,'2025-04-17 08:58:39','2025-04-17 08:58:39',NULL,'Construction'),(553,'Actual','2024-10-31 00:00:00',0,'2025-04-17 08:59:50','2025-04-17 08:59:50',NULL,'Commissioning'),(554,'Actual','2024-11-07 00:00:00',0,'2025-04-17 09:00:08','2025-04-17 09:00:08',NULL,'Engineering'),(555,'Actual','2024-11-07 00:00:00',2.19,'2025-04-17 09:00:24','2025-04-17 09:00:24',NULL,'Procurement'),(556,'Actual','2024-11-07 00:00:00',2.08,'2025-04-17 09:00:43','2025-04-17 09:00:43',NULL,'Construction'),(557,'Actual','2024-11-07 00:00:00',0,'2025-04-17 09:00:59','2025-04-17 09:00:59',NULL,'Commissioning'),(558,'Actual','2024-11-14 00:00:00',0,'2025-04-17 09:02:07','2025-04-17 09:02:07',NULL,'Engineering'),(559,'Actual','2024-11-14 00:00:00',2.37,'2025-04-17 09:02:25','2025-04-17 09:02:25',NULL,'Procurement'),(560,'Actual','2024-11-14 00:00:00',2.21,'2025-04-17 09:02:51','2025-04-17 09:02:51',NULL,'Construction'),(561,'Actual','2024-11-14 00:00:00',0,'2025-04-17 09:03:12','2025-04-17 09:03:12',NULL,'Commissioning'),(562,'Actual','2024-11-21 00:00:00',0,'2025-04-17 09:03:32','2025-04-17 09:03:32',NULL,'Engineering'),(563,'Actual','2024-11-21 00:00:00',2.53,'2025-04-17 09:03:49','2025-04-17 09:03:49',NULL,'Procurement'),(564,'Actual','2024-11-21 00:00:00',2.43,'2025-04-17 09:04:03','2025-04-17 09:04:03',NULL,'Construction'),(565,'Actual','2024-11-21 00:00:00',0,'2025-04-17 09:04:22','2025-04-17 09:04:22',NULL,'Commissioning'),(566,'Actual','2024-11-28 00:00:00',0,'2025-04-17 09:05:42','2025-04-17 09:05:42',NULL,'Engineering'),(567,'Actual','2024-11-28 00:00:00',2.62,'2025-04-17 09:06:01','2025-04-17 09:06:01',NULL,'Procurement'),(568,'Actual','2024-11-28 00:00:00',2.66,'2025-04-17 09:06:18','2025-04-17 09:06:18',NULL,'Construction'),(569,'Actual','2024-11-28 00:00:00',0,'2025-04-17 09:06:41','2025-04-17 09:06:41',NULL,'Commissioning'),(570,'Actual','2024-12-05 00:00:00',0,'2025-04-17 09:08:02','2025-04-17 09:08:02',NULL,'Engineering'),(571,'Actual','2024-12-05 00:00:00',2.75,'2025-04-17 09:08:21','2025-04-17 09:08:21',NULL,'Procurement'),(572,'Actual','2024-12-05 00:00:00',2.72,'2025-04-17 09:08:42','2025-04-17 09:08:42',NULL,'Construction'),(573,'Actual','2024-12-05 00:00:00',0,'2025-04-17 09:08:57','2025-04-17 09:08:57',NULL,'Commissioning');
+/*!40000 ALTER TABLE `s_curve` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `s_curve_file`
+--
+
+DROP TABLE IF EXISTS `s_curve_file`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `s_curve_file` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` varchar(50) DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `path` varchar(255) DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `s_curve_file`
+--
+
+LOCK TABLES `s_curve_file` WRITE;
+/*!40000 ALTER TABLE `s_curve_file` DISABLE KEYS */;
+INSERT INTO `s_curve_file` VALUES (1,'Actual','2024-08-01','s-curve-files/j8zjJG9NM1Rxd4mTPZAHxfFzwR5MESdtXVBKgah4.xlsx','2025-05-07','2025-05-07'),(2,'Planned','2024-08-01','s-curve-files/ZjnFYh0PMHA6tkPLgCTz4exGwEnLIJWB1Qp2NRjv.pdf','2025-05-07','2025-05-07'),(3,'Actual','2024-08-08','s-curve-files/JQAKuZ1yjTAnjkY7Rk94oc11M4x9PREDUysL21HD.xls','2025-05-07','2025-05-07');
+/*!40000 ALTER TABLE `s_curve_file` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `schedule_management`
+--
+
+DROP TABLE IF EXISTS `schedule_management`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `schedule_management` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `schedule_management`
+--
+
+LOCK TABLES `schedule_management` WRITE;
+/*!40000 ALTER TABLE `schedule_management` DISABLE KEYS */;
+/*!40000 ALTER TABLE `schedule_management` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sop`
+--
+
+DROP TABLE IF EXISTS `sop`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sop` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sop`
+--
+
+LOCK TABLES `sop` WRITE;
+/*!40000 ALTER TABLE `sop` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sop` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sop_history`
+--
+
+DROP TABLE IF EXISTS `sop_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sop_history` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `document_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sop_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `author` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `version` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sop_history`
+--
+
+LOCK TABLES `sop_history` WRITE;
+/*!40000 ALTER TABLE `sop_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sop_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `surat`
+--
+
+DROP TABLE IF EXISTS `surat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `surat` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `perihal` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `jenis` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tanggal` datetime DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `nomor` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ext` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `surat`
+--
+
+LOCK TABLES `surat` WRITE;
+/*!40000 ALTER TABLE `surat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `surat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tasks`
+--
+
+DROP TABLE IF EXISTS `tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tasks` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `duration` int NOT NULL,
+  `progress` double(8,2) NOT NULL,
+  `start_date` datetime NOT NULL,
+  `parent` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `progress_target` double DEFAULT NULL,
+  `parent_top` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tasks`
+--
+
+LOCK TABLES `tasks` WRITE;
+/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tes_crud`
+--
+
+DROP TABLE IF EXISTS `tes_crud`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tes_crud` (
+  `name` varchar(50) DEFAULT NULL,
+  `age` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tes_crud`
+--
+
+LOCK TABLES `tes_crud` WRITE;
+/*!40000 ALTER TABLE `tes_crud` DISABLE KEYS */;
+INSERT INTO `tes_crud` VALUES ('anhari',34),('baim',9),('baim',9),('baim',9);
+/*!40000 ALTER TABLE `tes_crud` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nik` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `departement` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Super','superadmin@mail.com',NULL,'$2y$12$1fCiBtTIx0pnZrPpUjeML.scJwUMKVMR3IskqLfpfWaUk1jd4NJPu',NULL,'2025-02-09 00:27:53','2025-03-05 02:00:29','superadmin','1111111',NULL,NULL),(13,'Fredi Johni','fredijohni@prosys.co.id',NULL,'$2y$12$llSwnMFZ5MpLpPwkXloy5Oszf4GJh0I8vuEDokQxPwAcFdVkR/R6C',NULL,'2025-03-05 01:05:22','2025-10-02 06:33:03','fredijohni',NULL,NULL,NULL),(14,'Noverdy','noverdy@prosys.co.id',NULL,'$2y$12$Sp6gUN7MLWHOAm7Oz/kRauGqbpGwv8HFYRPUIYr9lMkhJj5puVkEW',NULL,'2025-03-05 01:06:45','2025-03-05 01:06:45','noverdy',NULL,NULL,NULL),(15,'Administrator','userprosys@prosys.co.id',NULL,'$2y$12$oJLyY23nmZQznXg0Gn59IOwH3xOXyVTqkZdBxn0vAXA79iPzvj7R2',NULL,'2025-03-05 01:10:56','2025-03-07 02:41:20','userprosys',NULL,NULL,NULL),(16,'Mr. Bambang Vita H','bambang.heriyanto.ext@prosys.com',NULL,'$2y$12$iq0sdiJPgOEoAxgSZe2HIOQ6TXrpqqhO6tLnADmKMKB0BquhFNWqO',NULL,'2025-03-07 02:42:48','2025-10-02 06:57:58','bambang','4375346','Quality Controller - Welding (V4)','QA/QC'),(17,'Mr. Muh. Prasma','muhammad.prasma.ext@prosys.coid',NULL,'$2y$12$uyfYDfvpkm8qvzCd/KYQFeTtonkc0.AsZlwVKxPbaCdskAU3ibpDy',NULL,'2025-03-07 02:43:27','2025-03-07 02:43:27','prasma',NULL,NULL,NULL),(18,'Mr. Melky','melky.tumigolung.ext@prosys.co.id',NULL,'$2y$12$fTqxcSgSRVWohGAcAnWcnOlGFjZAMFqQIWvq7eGDcVgXFt0cAd1Kq',NULL,'2025-03-07 02:44:00','2025-03-07 02:44:00','melky',NULL,NULL,NULL),(19,'Mr. Paulus','paulus.suyanta.ext@prosys.co.id',NULL,'$2y$12$gVY32tyP64UYYGdBdcWgwuQQo0klS6ULtYYpf9crkdPGD9Wxhw4Om',NULL,'2025-03-07 02:44:39','2025-03-07 02:44:39','paulus',NULL,NULL,NULL),(20,'Mr. Bonnico','bonnico.mangkudiharjo.ext@prosys.co.id',NULL,'$2y$12$fdsHAvd39TpYdBllI9gPWOt/Biy/34Ff0awhJvk/nAE/tBW.qM1UK',NULL,'2025-03-07 02:45:17','2025-03-07 02:45:17','bonnico',NULL,NULL,NULL),(21,'Mr. Jetro','jetro.napitu.ext@prosys.co.id',NULL,'$2y$12$6ZeK2SdHDeetkuSpSVrzIeic2VPC1NnZvs6EH0xNcAwboDT9w9BWm',NULL,'2025-03-07 02:45:56','2025-03-07 02:45:56','jetro',NULL,NULL,NULL),(22,'Meliyani','meliyani.meliyani2.ext@prosys.co.id',NULL,'$2y$12$QPDeW3/4MqGlYM4t2CLkmeTYPBBBCvetS.pbL/11cFxcifePjH2UG',NULL,'2025-03-07 02:46:32','2025-03-07 02:46:32','meliyani',NULL,NULL,NULL),(23,'Mr. Daniel Kong','daniel.kong@aspire.id',NULL,'$2y$12$EuO3YHgN.rS9aH5ykzciUeZc3Y.W/nQCcW3aBmX9.Gf4NJlOFFVt6',NULL,'2025-03-07 03:17:08','2025-03-07 03:17:08','danielkong',NULL,NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'pmis_avere'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-10-17  6:57:28

@@ -118,7 +118,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-1">
                                         <label for="dateInput"><u><a target="_blank"
                                                     href="https://themewagon.github.io/kaiadmin-lite/components/font-awesome-icons.html">Icon</a></u></label>
                                         <input type="text" class="form-control form-control-sm" id="icon"
@@ -129,7 +129,7 @@
                                         <input type="text" class="form-control form-control-sm" id="tab"
                                             name="tab" placeholder="Ex : construction_drawing">
                                     </div>
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-1">
                                         <label for="role">Parent</label>
                                         <select class="form-control form-control-sm" id="parent" name="parent">
                                             <option value="">Pilih Parent</option>
@@ -146,6 +146,11 @@
                           <option value="{{ $item_template->description}}">{{ ucwords($item_template->description)}}</option>
                         @endforeach --}}
                                         </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="dateInput">Permission</label>
+                                        <input type="text" class="form-control form-control-sm" id="permission"
+                                            name="permission" placeholder="exp : drawing">
                                     </div>
                                     <div class="col-md-3 d-flex align-items-end mb-2 justify-content-start">
                                         <button type="submit" id="save" name="save"
@@ -175,6 +180,7 @@
                                             <th class="bg-th">Table</th>
                                             <th class="bg-th">Table History</th>
                                             <th class="bg-th">Template</th>
+                                            <th class="bg-th">Permission</th>
                                             <th class="bg-th">Date</th>
                                             <th class="bg-th">Action</th>
                                         </tr>
@@ -307,6 +313,7 @@
                 let tab_history = ($("#tab").val() != "") ? $("#tab").val() + '_history' : '';
                 let parent = $("#parent").val()
                 let template = $("#template").val()
+                let permission = $("#permission").val()
 
                 // Validasi End Date
                 if (name === "") {
@@ -335,6 +342,10 @@
                     $("#icon").addClass("is-invalid");
                     valid = false;
                 }
+                if (permission === "") {
+                    $("#permission").addClass("is-invalid");
+                    valid = false;
+                }
 
                 if (valid == true) {
 
@@ -350,6 +361,7 @@
                             icon: icon,
                             parent: parent,
                             template: template,
+                            permission: permission.toLowerCase().replace(/\s+/g, "_"),
                         },
                         success: function(response, color) {
 
@@ -417,6 +429,7 @@
                 $("#tab").val(param["tab"])
                 $("#parent").val(param["parent"])
                 $("#template").val(param["template"])
+                $("#permission").val(param["permission"])
 
             }
 
@@ -481,6 +494,10 @@
                         {
                             data: 'template',
                             name: 'template'
+                        },
+                        {
+                            data: 'permission',
+                            name: 'permission'
                         },
                         {
                             data: 'created_at',

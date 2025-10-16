@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DynamicCustom;
 use App\Models\DynamicCustomHistory;
 use App\Models\MasterCategory;
+use App\Models\MasterCustom;
 use App\Models\MasterDiscipline;
 use App\Models\MasterStatus;
 use Illuminate\Http\Request;
@@ -20,7 +21,10 @@ class CustomDrawingController extends Controller
     public function index(Request $request)
     {
         try {
-            return view('pages.custom-drawing.report');
+            $permission = MasterCustom::where('tab', $request->tab)->first();
+            return view('pages.custom-drawing.report', [
+                "permission_add" => "add_" . $permission->permission
+            ]);
         } catch (Throwable $e) {
             // Tangani error
             return response()->json([
@@ -48,21 +52,22 @@ class CustomDrawingController extends Controller
                     'size',
                 ]);
 
+            $permission = MasterCustom::where('tab', $request->tab)->first();
             return DataTables::of($data)
-                ->addColumn('action', function ($row) use ($request) {
+                ->addColumn('action', function ($row) use ($request, $permission) {
                     $fileUrl = asset('storage/' . $row->path);
                     $addDropdown = "";
                     if (in_array($row->ext, ['pdf', 'jpg', 'png', 'jpeg', 'docx', 'doc', 'xls', 'xlsx', 'ppt', 'pptx'])) {
                         $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
                     }
                     $editBtn = '';
-                    if (Gate::allows('edit_drawings')) {
+                    if (Gate::allows('edit_' . $permission->permission)) {
                         $editBtn = ' <a class="dropdown-item" href="' . route('custom-drawing-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
                     }
 
                     // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
                     $deleteBtn = '';
-                    if (Gate::allows('delete_drawings')) {
+                    if (Gate::allows('delete_' . $permission->permission)) {
                         $deleteBtn = ' <a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
                     }
                     $btn = '<div class="dropdown">

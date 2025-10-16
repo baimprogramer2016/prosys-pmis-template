@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterCategory;
 use App\Models\MasterCustom;
+use App\Models\Permission;
+use App\Models\RolePermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -42,6 +44,7 @@ class CustomController extends Controller
                 'tab_history',
                 'parent',
                 'template',
+                'permission',
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as created_at"),
             ]);
 
@@ -100,6 +103,27 @@ class CustomController extends Controller
         MasterCustom::create(
             $request->all()
         );
+
+        Permission::create([
+            "name" => 'view_' . $request->permission,
+            "guard_name" => 'web'
+        ]);
+        Permission::create([
+            "name" => 'add_' . $request->permission,
+            "guard_name" => 'web'
+        ]);
+
+        Permission::create([
+            "name" => 'edit_' . $request->permission,
+            "guard_name" => 'web'
+        ]);
+
+        Permission::create([
+            "name" => 'delete_' . $request->permission,
+            "guard_name" => 'web'
+        ]);
+
+
         if ($request->tab) {
             $tableName = preg_replace('/[^a-zA-Z0-9_]/', '', "custom_" . $request->tab);
             $tableNameHistory = preg_replace('/[^a-zA-Z0-9_]/', '', "custom_" . $request->tab_history);
@@ -399,38 +423,6 @@ class CustomController extends Controller
                   PRIMARY KEY (`id`)
               )
               ");
-            } elseif ($request->template == 'piling') {
-                DB::statement("
-                  CREATE TABLE `$tableName` (
-                      `id` INT(11) NOT NULL AUTO_INCREMENT,
-                      `document_number` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `version` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `author` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `size` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `created_at` DATETIME NULL DEFAULT NULL,
-                      `updated_at` DATETIME NULL DEFAULT NULL,
-                      `ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      PRIMARY KEY (`id`)
-                  )
-                  ");
-                DB::statement("
-                  CREATE TABLE `$tableNameHistory` (
-                      `id` INT(11) NOT NULL AUTO_INCREMENT,
-                      `document_number` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `custom_id` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `description` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `version` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `author` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `size` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `path` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      `created_at` DATETIME NULL DEFAULT NULL,
-                      `updated_at` DATETIME NULL DEFAULT NULL,
-                      `ext` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-                      PRIMARY KEY (`id`)
-                  )
-                  ");
             } elseif ($request->template == 'rfi_in_quality_management') {
                 DB::statement("
                   CREATE TABLE `$tableName` (
@@ -501,6 +493,7 @@ class CustomController extends Controller
                   ");
             }
         }
+        app()['cache']->forget('spatie.permission.cache');
         return response()->json([
             'status' => 'ok',
 
@@ -527,7 +520,7 @@ class CustomController extends Controller
     public function deleted(Request $request, $id)
     {
 
-        $check = MasterCustom::where('parent', '=', $id)->first();
+        $check = MasterCustom::where('parent', $id)->first();
         if ($check) {
             return response()->json([
                 "action" => "failed",
@@ -535,14 +528,29 @@ class CustomController extends Controller
             ]);
         }
 
-        $task = MasterCustom::find($id);
+        $task = MasterCustom::findOrFail($id);
+
+        // Cari permission yang terkait
+        $permissions = Permission::whereIn('name', [
+            'view_' . $task->permission,
+            'add_' . $task->permission,
+            'edit_' . $task->permission,
+            'delete_' . $task->permission
+        ])->get();
+
+        foreach ($permissions as $permission) {
+            DB::table('role_has_permissions')->where('permission_id', $permission->id)->delete();
+            DB::table('model_has_permissions')->where('permission_id', $permission->id)->delete();
+            $permission->delete();
+        }
+        // Terakhir hapus master custom
         $task->delete();
 
         if ($request->tab != "") {
             DB::statement("DROP TABLE " . $request->tab);
             DB::statement("DROP TABLE " . $request->tab_history);
         }
-
+        app()['cache']->forget('spatie.permission.cache');
         return response()->json([
             "action" => "ok",
             "message" => "Deleted"

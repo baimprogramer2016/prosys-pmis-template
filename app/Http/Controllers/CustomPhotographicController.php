@@ -27,7 +27,8 @@ class CustomPhotographicController extends Controller
             // Sekarang $model sudah pakai table custom_xxx
             $title = MasterCustom::where('tab', $request->tab)->first();
             return view('pages.custom-photographic.report', [
-                'title' => $title->name ?? 'Untitled'
+                'title' => $title->name ?? 'Untitled',
+                "permission_add" => "add_" . $title->permission
             ]);
         } catch (Throwable $e) {
             // Tangani error
@@ -54,8 +55,9 @@ class CustomPhotographicController extends Controller
                     'size',
                 ]);
 
+            $permission = MasterCustom::where('tab', $request->tab)->first();
             return DataTables::of($data)
-                ->addColumn('action', function ($row) use ($request) {
+                ->addColumn('action', function ($row) use ($request, $permission) {
                     $fileUrl = asset('storage/' . $row->path);
                     $addDropdown = "";
                     if (in_array($row->ext, ['pdf', 'jpg', 'png', 'jpeg', 'docx', 'doc', 'xls', 'xlsx', 'ppt', 'pptx'])) {
@@ -63,13 +65,13 @@ class CustomPhotographicController extends Controller
                     }
                     // Tombol Edit (Hanya tampil jika user memiliki izin 'edit_schedule')
                     $editBtn = '';
-                    if (Gate::allows('edit_photographic')) {
+                    if (Gate::allows('edit_' . $permission->permission)) {
                         $editBtn = '<a class="dropdown-item" href="' . route('custom-photographic-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
                     }
 
                     // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
                     $deleteBtn = '';
-                    if (Gate::allows('delete_photographic')) {
+                    if (Gate::allows('delete_' . $permission->permission)) {
                         $deleteBtn = '<a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
                     }
                     $btn = '<div class="dropdown">

@@ -279,109 +279,6 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/surat-keluar-update-status/{id}', [CorSuratKeluarController::class, 'viewUpdateStatus'])->name('surat-keluar-update-status');
     Route::post('/surat-keluar-updated-status/{id}', [CorSuratKeluarController::class, 'updateStatus'])->name('surat-keluar-updated-status');
 
-
-    Route::get('/construction-document', [ConstructionDocumentController::class, 'cdr'])->name('construction-document');
-    Route::get('/get-construction-document/{field}/{status}', [ConstructionDocumentController::class, 'getConstructionDocument'])->name('get-construction-document');
-    Route::get('/construction-document-tambah', [ConstructionDocumentController::class, 'viewTambah'])->name('construction-document-tambah');
-    Route::post('/construction-document-upload-temp', [ConstructionDocumentController::class, 'uploadTemp'])->name('construction-document-upload-temp');
-    Route::post('/construction-document-save-uploads', [ConstructionDocumentController::class, 'saveUploads'])->name('construction-document-save-uploads');
-    Route::get('/construction-document-edit/{id}', [ConstructionDocumentController::class, 'viewEdit'])->name('construction-document-edit');
-    Route::post('/construction-document-update-uploads/{id}', [ConstructionDocumentController::class, 'updateUploads'])->name('construction-document-update-uploads');
-
-    Route::get('/construction-document-history/{id}', [ConstructionDocumentController::class, 'history'])->name('construction-document-history');
-    Route::get('/construction-document-share/{id}', [ConstructionDocumentController::class, 'share'])->name('construction-document-share');
-    Route::get('/construction-document-pdf/{id}', [ConstructionDocumentController::class, 'pdf'])->name('construction-document-pdf');
-    Route::get('/construction-document-delete/{id}', [ConstructionDocumentController::class, 'viewDelete'])->name('construction-document-delete');
-    Route::post('/construction-document-deleted/{id}', [ConstructionDocumentController::class, 'deleted'])->name('construction-document-deleted');
-
-    Route::get('/construction-document-check', [ConstructionDocumentController::class, 'check'])->name('construction-document-check');
-    Route::get('/construction-document-check-modal/{id}', [ConstructionDocumentController::class, 'viewCheckModal'])->name('construction-document-check-modal');
-    Route::post('/construction-document-check-update/{id}', [ConstructionDocumentController::class, 'updateCheck'])->name('construction-document-check-update');
-
-    Route::get('/construction-document-review', [ConstructionDocumentController::class, 'review'])->name('construction-document-review');
-    Route::get('/construction-document-review-modal/{id}', [ConstructionDocumentController::class, 'viewReviewModal'])->name('construction-document-review-modal');
-    Route::post('/construction-document-review-update/{id}', [ConstructionDocumentController::class, 'updateReview'])->name('construction-document-review-update');
-
-    Route::get('/construction-document-approve', [ConstructionDocumentController::class, 'approve'])->name('construction-document-approve');
-    Route::get('/construction-document-approve-modal/{id}', [ConstructionDocumentController::class, 'viewApproveModal'])->name('construction-document-approve-modal');
-    Route::post('/construction-document-approve-update/{id}', [ConstructionDocumentController::class, 'updateApprove'])->name('construction-document-approve-update');
-
-
-    Route::get('/field-instruction', [FieldInstructionController::class, 'cdr'])->name('field-instruction');
-    Route::get('/get-field-instruction/{field}/{status}', [FieldInstructionController::class, 'getFieldInstruction'])->name('get-field-instruction');
-    Route::get('/field-instruction-tambah', [FieldInstructionController::class, 'viewTambah'])->name('field-instruction-tambah');
-    Route::post('/field-instruction-upload-temp', [FieldInstructionController::class, 'uploadTemp'])->name('field-instruction-upload-temp');
-    Route::post('/field-instruction-save-uploads', [FieldInstructionController::class, 'saveUploads'])->name('field-instruction-save-uploads');
-    Route::get('/field-instruction-edit/{id}', [FieldInstructionController::class, 'viewEdit'])->name('field-instruction-edit');
-    Route::post('/field-instruction-update-uploads/{id}', [FieldInstructionController::class, 'updateUploads'])->name('field-instruction-update-uploads');
-
-    Route::get('/field-instruction-history/{id}', [FieldInstructionController::class, 'history'])->name('field-instruction-history');
-    Route::get('/field-instruction-share/{id}', [FieldInstructionController::class, 'share'])->name('field-instruction-share');
-    Route::get('/field-instruction-pdf/{id}', [FieldInstructionController::class, 'pdf'])->name('field-instruction-pdf');
-    Route::get('/field-instruction-delete/{id}', [FieldInstructionController::class, 'viewDelete'])->name('field-instruction-delete');
-    Route::post('/field-instruction-deleted/{id}', [FieldInstructionController::class, 'deleted'])->name('field-instruction-deleted');
-
-    Route::get('/field-instruction-check', [FieldInstructionController::class, 'check'])->name('field-instruction-check');
-    Route::get('/field-instruction-check-modal/{id}', [FieldInstructionController::class, 'viewCheckModal'])->name('field-instruction-check-modal');
-    Route::post('/field-instruction-check-update/{id}', [FieldInstructionController::class, 'updateCheck'])->name('field-instruction-check-update');
-
-    Route::get('/field-instruction-review', [FieldInstructionController::class, 'review'])->name('field-instruction-review');
-    Route::get('/field-instruction-review-modal/{id}', [FieldInstructionController::class, 'viewReviewModal'])->name('field-instruction-review-modal');
-    Route::post('/field-instruction-review-update/{id}', [FieldInstructionController::class, 'updateReview'])->name('field-instruction-review-update');
-
-    Route::get('/field-instruction-approve', [FieldInstructionController::class, 'approve'])->name('field-instruction-approve');
-    Route::get('/field-instruction-approve-modal/{id}', [FieldInstructionController::class, 'viewApproveModal'])->name('field-instruction-approve-modal');
-    Route::post('/field-instruction-approve-update/{id}', [FieldInstructionController::class, 'updateApprove'])->name('field-instruction-approve-update');
-
-
-    Route::get('/rfi', [RfiController::class, 'index'])->name('rfi');
-    Route::get('/get-rfi', [RfiController::class, 'getRfi'])->name('get-rfi');
-    Route::get('/rfi-tambah', [RfiController::class, 'tambah'])->name('rfi-tambah');
-    Route::post('/rfi-upload-temp', [RfiController::class, 'uploadTemp'])->name('rfi-upload-temp');
-    Route::post('/rfi-save-uploads', [RfiController::class, 'saveUploads'])->name('rfi-save-uploads');
-
-    Route::get('/rfi-edit/{id}', [RfiController::class, 'viewEdit'])->name('rfi-edit');
-    Route::post('/rfi-update/{id}', [RfiController::class, 'update'])->name('rfi-update');
-    Route::get('/rfi-share/{id}', [RfiController::class, 'share'])->name('rfi-share');
-    Route::get('/rfi-pdf/{id}', [RfiController::class, 'pdf'])->name('rfi-pdf');
-    Route::get('/rfi-delete/{id}', [RfiController::class, 'viewDelete'])->name('rfi-delete');
-    Route::post('/rfi-deleted/{id}', [RfiController::class, 'deleted'])->name('rfi-deleted');
-    Route::get('/rfi-history/{id}', [RfiController::class, 'history'])->name('rfi-history');
-
-
-    Route::get('/mvr', [MvrController::class, 'index'])->name('mvr');
-    Route::get('/get-mvr', [MvrController::class, 'getMvr'])->name('get-mvr');
-    Route::get('/mvr-tambah', [MvrController::class, 'tambah'])->name('mvr-tambah');
-    Route::post('/mvr-upload-temp', [MvrController::class, 'uploadTemp'])->name('mvr-upload-temp');
-    Route::post('/mvr-save-uploads', [MvrController::class, 'saveUploads'])->name('mvr-save-uploads');
-
-    Route::get('/mvr-edit/{id}', [MvrController::class, 'viewEdit'])->name('mvr-edit');
-    Route::post('/mvr-update/{id}', [MvrController::class, 'update'])->name('mvr-update');
-    Route::get('/mvr-share/{id}', [MvrController::class, 'share'])->name('mvr-share');
-    Route::get('/mvr-pdf/{id}', [MvrController::class, 'pdf'])->name('mvr-pdf');
-    Route::get('/mvr-delete/{id}', [MvrController::class, 'viewDelete'])->name('mvr-delete');
-    Route::post('/mvr-deleted/{id}', [MvrController::class, 'deleted'])->name('mvr-deleted');
-    Route::get('/mvr-history/{id}', [MvrController::class, 'history'])->name('mvr-history');
-
-
-    Route::get('/mrr', [MrrController::class, 'index'])->name('mrr');
-    Route::get('/get-mrr', [MrrController::class, 'getMrr'])->name('get-mrr');
-    Route::get('/mrr-tambah', [MrrController::class, 'tambah'])->name('mrr-tambah');
-    Route::post('/mrr-upload-temp', [MrrController::class, 'uploadTemp'])->name('mrr-upload-temp');
-    Route::post('/mrr-save-uploads', [MrrController::class, 'saveUploads'])->name('mrr-save-uploads');
-
-    Route::get('/mrr-edit/{id}', [MrrController::class, 'viewEdit'])->name('mrr-edit');
-    Route::post('/mrr-update/{id}', [MrrController::class, 'update'])->name('mrr-update');
-    Route::get('/mrr-share/{id}', [MrrController::class, 'share'])->name('mrr-share');
-    Route::get('/mrr-pdf/{id}', [MrrController::class, 'pdf'])->name('mrr-pdf');
-    Route::get('/mrr-delete/{id}', [MrrController::class, 'viewDelete'])->name('mrr-delete');
-    Route::post('/mrr-deleted/{id}', [MrrController::class, 'deleted'])->name('mrr-deleted');
-    Route::get('/mrr-history/{id}', [MrrController::class, 'history'])->name('mrr-history');
-
-
-
-
-
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::get('/get-user', [UserController::class, 'getUser'])->name('get-user');
     Route::post('/user-save', [UserController::class, 'save'])->name('user-save');
@@ -405,7 +302,6 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/role-permission-update', [RoleController::class, 'updatePermission'])->name('role-permission-update');
 
     Route::post('/assign', [AssignController::class, 'index'])->name('assign');
-
 
     Route::get('/master-custom', [CustomController::class, 'index'])->name('master-custom');
     Route::post('/master-custom-save', [CustomController::class, 'save'])->name('master-custom-save');

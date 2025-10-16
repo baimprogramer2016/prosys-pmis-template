@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DynamicCustom;
 use App\Models\DynamicCustomHistory;
 use App\Models\MasterCategory;
+use App\Models\MasterCustom;
 use App\Models\MasterDiscipline;
 use App\Models\MasterStatus;
 use Illuminate\Http\Request;
@@ -17,10 +18,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CustomProcurementLogisticController extends Controller
 {
-    public function index(Request $request){
-        try{
-            return view('pages.custom-procurement-logistic.report');
-        }catch (Throwable $e) {
+    public function index(Request $request)
+    {
+        try {
+            $permission = MasterCustom::where('tab', $request->tab)->first();
+            return view('pages.custom-procurement-logistic.report', [
+                "permission_add" => "add_" . $permission->permission
+            ]);
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
@@ -35,36 +40,37 @@ class CustomProcurementLogisticController extends Controller
         if ($request->ajax()) {
             $tableName = 'custom_' . $request->tab;
             $data = (new DynamicCustom())->setTableName($tableName)
-            ->select(['id',
-                'document_number',
-                'description', 
-                'discipline', 
-                'version',
-                'author',
-                DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"), 
-                'path',
-                'ext',
-                'size',
-            ]);
-            
+                ->select([
+                    'id',
+                    'document_number',
+                    'description',
+                    'discipline',
+                    'version',
+                    'author',
+                    DB::raw("DATE_FORMAT(tanggal, '%Y-%m-%d') as tanggal"),
+                    'path',
+                    'ext',
+                    'size',
+                ]);
+            $permission = MasterCustom::where('tab', $request->tab)->first();
             return DataTables::of($data)
-            ->addColumn('action', function($row) use($request){
-                $fileUrl = asset('storage/' . $row->path);
-                $addDropdown = "";
-                if(in_array($row->ext,['pdf','jpg','png','jpeg','docx','doc','xls','xlsx','ppt','pptx'])){
-                    $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
-                }
-                $editBtn = '';
-                if (Gate::allows('edit_procurement_logistic')) {
-                    $editBtn = ' <a class="dropdown-item" href="' . route('custom-procurement-logistic-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
-                }
-            
-                // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
-                $deleteBtn = '';
-                if (Gate::allows('delete_procurement_logistic')) {
-                    $deleteBtn = '<a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
-                }
-                $btn = '<div class="dropdown">
+                ->addColumn('action', function ($row) use ($request, $permission) {
+                    $fileUrl = asset('storage/' . $row->path);
+                    $addDropdown = "";
+                    if (in_array($row->ext, ['pdf', 'jpg', 'png', 'jpeg', 'docx', 'doc', 'xls', 'xlsx', 'ppt', 'pptx'])) {
+                        $addDropdown = ' <a href="" data-bs-toggle="modal" data-bs-target="#modal-pdf" onClick="return viewPdf(' . $row->id . ')" class="dropdown-item cursor-pointer">View</a>';
+                    }
+                    $editBtn = '';
+                    if (Gate::allows('edit_' . $permission->permission)) {
+                        $editBtn = ' <a class="dropdown-item" href="' . route('custom-procurement-logistic-edit', ['id' => $row->id, 'tab' => $request->tab]) . '">Edit</a>';
+                    }
+
+                    // Tombol Delete (Hanya tampil jika user memiliki izin 'delete_schedule')
+                    $deleteBtn = '';
+                    if (Gate::allows('delete_' . $permission->permission)) {
+                        $deleteBtn = '<a href="#" data-bs-toggle="modal" data-bs-target="#modal" onClick="return viewDelete(' . $row->id . ')" class="dropdown-item cursor-pointer">Delete</a>';
+                    }
+                    $btn = '<div class="dropdown">
                             <button
                                 class="btn btn-icon btn-clean me-0"
                                 type="button"
@@ -83,69 +89,69 @@ class CustomProcurementLogisticController extends Controller
                                 ' . $addDropdown . '                        
                             </div>
                         </div>';
-                return $btn;
-    
-            }) 
-        
-            ->addColumn('discipline_desc', function($row) {
-            
-                $discipline_desc = optional($row->r_discipline)->description;
-                            
-                return $discipline_desc;
-            })
-            ->addColumn('category_desc', function($row) {
-            
-                $category_desc = optional($row->r_category)->description;
-                            
-                return $category_desc;
-            })
-            ->addColumn('version_link', function($row) use($request) {
-                $tableNameHistory = 'custom_' . $request->tab . '_history';
-            
-                $historyCount = DB::table($tableNameHistory)
-                ->where('custom_id', $row->id)
-                ->count();
-            
-                if ($historyCount > 0) {
-                    $version_link = $row->version . 
-                        '<br> <a href="#" data-bs-toggle="modal" data-bs-target="#modal-large" 
+                    return $btn;
+                })
+
+                ->addColumn('discipline_desc', function ($row) {
+
+                    $discipline_desc = optional($row->r_discipline)->description;
+
+                    return $discipline_desc;
+                })
+                ->addColumn('category_desc', function ($row) {
+
+                    $category_desc = optional($row->r_category)->description;
+
+                    return $category_desc;
+                })
+                ->addColumn('version_link', function ($row) use ($request) {
+                    $tableNameHistory = 'custom_' . $request->tab . '_history';
+
+                    $historyCount = DB::table($tableNameHistory)
+                        ->where('custom_id', $row->id)
+                        ->count();
+
+                    if ($historyCount > 0) {
+                        $version_link = $row->version .
+                            '<br> <a href="#" data-bs-toggle="modal" data-bs-target="#modal-large" 
                         onClick="return viewHistory(' . $row->id . ')" class="text-center">(Check History)</a>';
-                } else {
-                    $version_link = $row->version;
-                }
-            
-                return $version_link;
-            })
-            
-                ->rawColumns(['action','status_badge','discipline_desc','category_desc','version_link' ]) // Agar HTML di kolom 'action' dirender
+                    } else {
+                        $version_link = $row->version;
+                    }
+
+                    return $version_link;
+                })
+
+                ->rawColumns(['action', 'status_badge', 'discipline_desc', 'category_desc', 'version_link']) // Agar HTML di kolom 'action' dirender
                 ->make(true);
         }
     }
 
-    public function viewTambah(Request $request){
-        try{
+    public function viewTambah(Request $request)
+    {
+        try {
             $data_status = MasterStatus::get();
-            $data_category = MasterCategory::where('category','engineering')->get();
+            $data_category = MasterCategory::where('category', 'engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-procurement-logistic.report-tambah',[
+            return view('pages.custom-procurement-logistic.report-tambah', [
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline
             ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
-    } 
+    }
 
     public function uploadTemp(Request $request)
     {
         $file = $request->file('file');
         $path = $file->store('temp');  // Simpan sementara di folder 'temp'
-        
+
         return response()->json([
             'path' => $path,
             'name' => $file->getClientOriginalName(),
@@ -161,7 +167,7 @@ class CustomProcurementLogisticController extends Controller
         $tanggal = $request->input('tanggal');
         $discipline = $request->input('discipline');
         $tab = $request->input('tab');
-        $tableName = 'custom_'.$request->input('tab');
+        $tableName = 'custom_' . $request->input('tab');
         // $category = $request->input('category');
         // $status = $request->input('status');
         // $email = $request->input('email');
@@ -171,10 +177,10 @@ class CustomProcurementLogisticController extends Controller
             // Split nama file berdasarkan "~"
             $fileName = $file['fileName'];
             $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileSize =0; // dalam byte
-           
+            $fileSize = 0; // dalam byte
+
             // Pindahkan file dari 'temp' ke 'public/engineer'
-            $newPath = str_replace('temp', 'public/'.$tab, $file['path']);
+            $newPath = str_replace('temp', 'public/' . $tab, $file['path']);
             Storage::move($file['path'], $newPath);
 
             // Simpan ke database atau proses lainnya
@@ -182,7 +188,7 @@ class CustomProcurementLogisticController extends Controller
             $doc->document_number = trim($document_number);
             $doc->description = trim($description);
             $doc->version = $version;
-            $doc->author =Auth::User()->name;;
+            $doc->author = Auth::User()->name;;
             $doc->tanggal = $tanggal;
             $doc->discipline = $discipline;
             // $doc->category = $category;
@@ -195,38 +201,38 @@ class CustomProcurementLogisticController extends Controller
             $savedFiles[] = $doc;
         }
 
-    return response()->json([
-        'status' =>'ok',
-        'data' => $savedFiles
-    ]);
+        return response()->json([
+            'status' => 'ok',
+            'data' => $savedFiles
+        ]);
     }
 
-    public function viewEdit(Request $request, $id){
-        
-        try{
+    public function viewEdit(Request $request, $id)
+    {
+
+        try {
             $tab = $request->tab;
-            $tableName = 'custom_'.$tab;
+            $tableName = 'custom_' . $tab;
             $doc = (new DynamicCustom())->setTableName($tableName);
-            $document =$doc->find($id);
-          
+            $document = $doc->find($id);
+
             $data_status = MasterStatus::get();
-            $data_category = MasterCategory::where('category','engineering')->get();
+            $data_category = MasterCategory::where('category', 'engineering')->get();
             $data_discipline = MasterDiscipline::get();
-            return view('pages.custom-procurement-logistic.report-edit',[
+            return view('pages.custom-procurement-logistic.report-edit', [
                 "data_status" => $data_status,
                 "data_category" => $data_category,
                 "data_discipline" => $data_discipline,
                 "document" => $document,
             ]);
-           
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
-    } 
+    }
 
     public function updateUploads(Request $request, $id)
     {
@@ -240,30 +246,30 @@ class CustomProcurementLogisticController extends Controller
         // $status = $request->input('status');
 
         $tab = $request->input('tab');
-        $tableName = 'custom_'.$tab;
-        $tableNameHistory = 'custom_'.$tab.'_history';
+        $tableName = 'custom_' . $tab;
+        $tableNameHistory = 'custom_' . $tab . '_history';
 
         $tableCustom = (new DynamicCustom())->setTableName($tableName);
         $doc = $tableCustom->find($id);
 
         //masukan ke history dlu
 
-            //insert ke history
-            $docHistory = (new DynamicCustomHistory())->setTableName($tableNameHistory);
-            $docHistory->custom_id = $doc->id;
-            $docHistory->document_number = $doc->document_number;
-            $docHistory->description = $doc->description;
-            $docHistory->version = $doc->version;
-            $docHistory->author = $doc->author;
-            $docHistory->tanggal = $doc->tanggal;
-            $docHistory->discipline = $doc->discipline;
-            // $docHistory->category = $doc->category;
-            // $docHistory->status = $doc->status;
-            $docHistory->path = $doc->path;
-            $docHistory->ext = $doc->ext;
-            $docHistory->size = $doc->size;
+        //insert ke history
+        $docHistory = (new DynamicCustomHistory())->setTableName($tableNameHistory);
+        $docHistory->custom_id = $doc->id;
+        $docHistory->document_number = $doc->document_number;
+        $docHistory->description = $doc->description;
+        $docHistory->version = $doc->version;
+        $docHistory->author = $doc->author;
+        $docHistory->tanggal = $doc->tanggal;
+        $docHistory->discipline = $doc->discipline;
+        // $docHistory->category = $doc->category;
+        // $docHistory->status = $doc->status;
+        $docHistory->path = $doc->path;
+        $docHistory->ext = $doc->ext;
+        $docHistory->size = $doc->size;
 
-            $docHistory->save();        
+        $docHistory->save();
 
 
         $path = $doc->path;
@@ -273,67 +279,47 @@ class CustomProcurementLogisticController extends Controller
             // Split nama file berdasarkan "~"
             $fileName = $uploadedFiles[0]['fileName'];
             $file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileSize =0; // dalam byte
+            $fileSize = 0; // dalam byte
 
             // Pindahkan file dari 'temp' ke 'public/engineer'
-            $newPath = str_replace('temp', 'public/'.$tab, $uploadedFiles[0]['path']);
+            $newPath = str_replace('temp', 'public/' . $tab, $uploadedFiles[0]['path']);
             Storage::move($uploadedFiles[0]['path'], $newPath);
             $path = str_replace('public/', '', $newPath);
         }
-            // Simpan ke database atau proses lainnya
-            $doc->document_number = trim($document_number);
-            $doc->description = trim($description);
-            $doc->version = $version;
-            $doc->author = Auth::User()->name;
-            $doc->tanggal = $tanggal;
-            $doc->discipline = $discipline;
-            // $doc->category = $category;
-            // $doc->status = $status;
-            $doc->path = $path;
-            $doc->ext = $file_ext;
-            $doc->size = $fileSize;
-            $doc->save();
+        // Simpan ke database atau proses lainnya
+        $doc->document_number = trim($document_number);
+        $doc->description = trim($description);
+        $doc->version = $version;
+        $doc->author = Auth::User()->name;
+        $doc->tanggal = $tanggal;
+        $doc->discipline = $discipline;
+        // $doc->category = $category;
+        // $doc->status = $status;
+        $doc->path = $path;
+        $doc->ext = $file_ext;
+        $doc->size = $fileSize;
+        $doc->save();
 
-    return response()->json([
-        'status' =>'ok',
-    ]);
+        return response()->json([
+            'status' => 'ok',
+        ]);
     }
 
-    
-    public function pdf(Request $request, $id){ 
-        try{
 
-        $tab = $request->input('tab');
-        $tableName = 'custom_'.$tab;
-           
-        $tableCustom = (new DynamicCustom())->setTableName($tableName);
+    public function pdf(Request $request, $id)
+    {
+        try {
 
-            $document =$tableCustom->find($id);
+            $tab = $request->input('tab');
+            $tableName = 'custom_' . $tab;
+
+            $tableCustom = (new DynamicCustom())->setTableName($tableName);
+
+            $document = $tableCustom->find($id);
             return view('pages.custom-procurement-logistic.report-pdf', [
                 "document" => $document,
             ]);
-        }catch (Throwable $e) {
-            // Tangani error
-            return response()->json([
-                'message' => 'Terjadi kesalahan saat menyimpan data.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    } 
-
-    public function share(Request $request, $id){
-      
-        try{
-            $tab = $request->input('tab');
-            $tableName = 'custom_'.$tab;
-            
-            $tableCustom = (new DynamicCustom())->setTableName($tableName);
-
-            $document =$tableCustom->find($id);
-            return view('pages.custom-procurement-logistic.report-share', [
-                "document" => $document,
-            ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
@@ -341,69 +327,92 @@ class CustomProcurementLogisticController extends Controller
             ], 500);
         }
     }
-    
-    
-    public function viewDelete(Request $request, $id){
-      
-        try{
+
+    public function share(Request $request, $id)
+    {
+
+        try {
             $tab = $request->input('tab');
-            $tableName = 'custom_'.$tab;
-            
+            $tableName = 'custom_' . $tab;
+
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
-            $document =$tableCustom->find($id);
-      
+            $document = $tableCustom->find($id);
+            return view('pages.custom-procurement-logistic.report-share', [
+                "document" => $document,
+            ]);
+        } catch (Throwable $e) {
+            // Tangani error
+            return response()->json([
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    public function viewDelete(Request $request, $id)
+    {
+
+        try {
+            $tab = $request->input('tab');
+            $tableName = 'custom_' . $tab;
+
+            $tableCustom = (new DynamicCustom())->setTableName($tableName);
+
+            $document = $tableCustom->find($id);
+
             return view('pages.custom-procurement-logistic.report-delete', [
                 "document" => $document,
                 "tab" => $tab
             ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
-    } 
-    
-    public function deleted(Request $request,$id){
+    }
+
+    public function deleted(Request $request, $id)
+    {
         $tab = $request->input('tab');
-        $tableName = 'custom_'.$tab;
-        $tableNameHistory = 'custom_'.$tab.'_history';
-        
+        $tableName = 'custom_' . $tab;
+        $tableNameHistory = 'custom_' . $tab . '_history';
+
         $tableCustom = (new DynamicCustom())->setTableName($tableName);
 
-        $task =$tableCustom->find($id);
+        $task = $tableCustom->find($id);
         $task->delete();
 
-                
+
         $tableCustomHistory = (new DynamicCustomHistory())->setTableName($tableNameHistory);
 
-        $taskHistory =$tableCustomHistory->where('custom_id',($id));
+        $taskHistory = $tableCustomHistory->where('custom_id', ($id));
         $taskHistory->delete();
- 
+
         return response()->json([
-            "action"=> "deleted"
+            "action" => "deleted"
         ]);
-    } 
-    public function history(Request $request, $id){ 
-        try{
+    }
+    public function history(Request $request, $id)
+    {
+        try {
             $tab = $request->input('tab');
-            $tableName = 'custom_'.$tab.'_history';
-         
+            $tableName = 'custom_' . $tab . '_history';
+
             $tableCustom = (new DynamicCustom())->setTableName($tableName);
-            $document =$tableCustom->where('custom_id', $id)->get();
+            $document = $tableCustom->where('custom_id', $id)->get();
             return view('pages.custom-procurement-logistic.report-history', [
                 "documents" => $document,
             ]);
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             // Tangani error
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan data.',
                 'error' => $e->getMessage()
             ], 500);
         }
-    } 
-
-    
+    }
 }

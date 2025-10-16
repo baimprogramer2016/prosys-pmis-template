@@ -77,7 +77,7 @@
             </div>
 
             <div class="ms-md-auto py-2 py-md-0">
-                @can('add_procurement_logistic')
+                @can($permission_add)
                     <a href="{{ route('custom-procurement-logistic-tambah', ['tab' => request('tab')]) }}"
                         class="btn btn-primary btn-round">Tambah</a>
                 @endcan
@@ -97,7 +97,8 @@
                                     </div>
                                     <div class="col col-stats ms-3 ms-sm-0 d-flex">
                                         <div class="numbers">
-                                            <h4 class="card-title"> {{ Ucwords(str_replace('_', ' ', request('tab'))) }}</h4>
+                                            <h4 class="card-title"> {{ Ucwords(str_replace('_', ' ', request('tab'))) }}
+                                            </h4>
                                         </div>
 
                                     </div>
@@ -181,7 +182,7 @@
             $(".modal-content").html("");
             $.ajax({
                 url: "{{ route('custom-procurement-logistic-delete', ':id') }}".replace(':id',
-                param), // Ganti dengan route yang sesuai
+                    param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {
                     tab: tab
@@ -207,7 +208,7 @@
             $(".modal-content").html("");
             $.ajax({
                 url: "{{ route('custom-procurement-logistic-share', ':id') }}".replace(':id',
-                param), // Ganti dengan route yang sesuai
+                    param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {
                     tab: tab
@@ -233,7 +234,7 @@
             $(".modal-content").html("");
             $.ajax({
                 url: "{{ route('custom-procurement-logistic-pdf', ':id') }}".replace(':id',
-                param), // Ganti dengan route yang sesuai
+                    param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {
                     tab: tab
@@ -318,7 +319,7 @@
                             const date = new Date(data);
                             const day = String(date.getDate()).padStart(2, '0');
                             const month = String(date.getMonth() + 1).padStart(2,
-                            '0'); // Januari = 0
+                                '0'); // Januari = 0
                             const year = date.getFullYear();
                             return `${year}-${month}-${day}`;
                         }
@@ -346,7 +347,7 @@
             $(".modal-content").html("");
             $.ajax({
                 url: "{{ route('custom-procurement-logistic-history', ':id') }}".replace(':id',
-                param), // Ganti dengan route yang sesuai
+                    param), // Ganti dengan route yang sesuai
                 type: "GET",
                 data: {
                     tab: tab

@@ -11,7 +11,7 @@ class MasterCustom extends Model
 
     protected $table = 'master_custom';
 
-    protected $fillable = ['name', 'type', 'icon', 'tab', 'tab_history', 'parent', 'template'];
+    protected $fillable = ['name', 'type', 'icon', 'tab', 'tab_history', 'parent', 'template', 'permission'];
 
 
     public function r_parent()
